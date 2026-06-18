@@ -193,6 +193,12 @@ const FOUNDATIONS = [
       { q: "150 - 45 = ?", a: 105, hint: "Subtract the numbers." },
       { q: "Round 3.6 to nearest integer.", a: 4, hint: "0.6 >= 0.5 so round up." },
       { q: "12 x 15 = ?", a: 180, hint: "12 x 10 = 120, 12 x 5 = 60, sum = 180." },
+      { q: "144 / 12 = ?", a: 12, hint: "144 divided by 12." },
+      { q: "1/4 of 100 = ?", a: 25, hint: "Quarter of 100." },
+      { q: "8 + 4 x 2 = ?", a: 16, hint: "Multiply first: 4x2=8, then 8+8." },
+      { q: "-5 + 12 = ?", a: 7, hint: "Add a positive to a negative." },
+      { q: "2^3 = ?", a: 8, hint: "2 x 2 x 2." },
+      { q: "Average of 4, 8, 12 = ?", a: 8, hint: "(4+8+12)/3 = 24/3." },
     ],
     resources: [
       { name: "The Organic Chemistry Tutor: Arithmetic", url: "https://youtube.com/playlist?list=PL0o_zxa4K1BUVfD9iHltDeFYrHwIqbyM7", subtitle: "Concise 1-2 hour playlist covering whole numbers, fractions, decimals, percentages, and order of operations." },
@@ -221,6 +227,12 @@ const FOUNDATIONS = [
       { q: "2x + 5 = 15, x = ?", a: 5, hint: "Subtract 5, then divide by 2." },
       { q: "If y = 4x and x = 6, y = ?", a: 24, hint: "Substitute: y = 4 x 6." },
       { q: "x/2 + 3 = 7, x = ?", a: 8, hint: "Subtract 3, then multiply by 2." },
+      { q: "6x = 42, x = ?", a: 7, hint: "Divide both sides by 6." },
+      { q: "x/3 - 1 = 2, x = ?", a: 9, hint: "Add 1, then multiply by 3." },
+      { q: "If V = IR, I=2, R=5, V = ?", a: 10, hint: "Ohm's Law: V = 2 x 5." },
+      { q: "P = IV, I=3, V=4, P = ?", a: 12, hint: "P = 3 x 4." },
+      { q: "2(x - 1) = 8, x = ?", a: 5, hint: "Divide by 2, then add 1." },
+      { q: "If y = 2x + 3 and x = 0, y = ?", a: 3, hint: "y = 2(0) + 3." },
     ],
     resources: [
       { name: "The Organic Chemistry Tutor: Pre-Algebra", url: "https://www.youtube.com/playlist?list=PL0o_zxa4K1BVoTlaXWFcFZ7fU3RvmFMMG", subtitle: "85-video playlist covering variables, expressions, equations, inequalities, and all pre-algebra essentials in ~1 day." },
@@ -249,6 +261,12 @@ const FOUNDATIONS = [
       { q: "x^2 = 144, x = ? (positive)", a: 12, hint: "12 x 12." },
       { q: "3x - 7 = 14, x = ?", a: 7, hint: "Add 7, then divide by 3." },
       { q: "Line through (0,3) with slope 2: y = 2x + ?", a: 3, hint: "y-intercept is 3." },
+      { q: "f(x) = 5x - 2, f(2) = ?", a: 8, hint: "5(2) - 2 = 10 - 2." },
+      { q: "x/2 + 5 = 10, x = ?", a: 10, hint: "Subtract 5, multiply by 2." },
+      { q: "Slope of horizontal line y = 4 = ?", a: 0, hint: "Horizontal line has zero slope." },
+      { q: "x + y = 10, x - y = 2. y = ?", a: 4, hint: "Subtract equations: 2y = 8." },
+      { q: "x^2 = 81, positive x = ?", a: 9, hint: "9 x 9." },
+      { q: "f(x) = 3x, f(1) + f(2) = ?", a: 9, hint: "f(1)+f(2)=3+6." },
     ],
     resources: [
       { name: "The Organic Chemistry Tutor: Algebra Playlist", url: "https://www.youtube.com/playlist?list=PL0o_zxa4K1BUeF2o-MlNpbRiS-oE2Kn6J", subtitle: "264-video playlist covering linear equations, functions, quadratics, systems, and graphing — ~2 days total." },
@@ -277,6 +295,12 @@ const FOUNDATIONS = [
       { q: "1 kg = ? grams", a: 1000, hint: "Kilo means thousand." },
       { q: "Surface area of 3x3x3 cube = ?", a: 54, hint: "6 faces x 9 each." },
       { q: "Pythagorean: legs 6 and 8, hypotenuse = ?", a: 10, hint: "36 + 64 = 100, sqrt = 10." },
+      { q: "Volume of cylinder radius 2 height 5, pi=3: ?", a: 60, hint: "V = pi x r^2 x h = 3 x 4 x 5." },
+      { q: "2.5 km = ? m", a: 2500, hint: "2.5 x 1000." },
+      { q: "Area of circle radius 4, pi=3 = ?", a: 48, hint: "A = pi x r^2 = 3 x 16." },
+      { q: "Perimeter of triangle sides 3,4,5 = ?", a: 12, hint: "3 + 4 + 5." },
+      { q: "Pythagorean: legs 5 and 12, hypotenuse = ?", a: 13, hint: "25 + 144 = 169." },
+      { q: "Area of trapezoid bases 4,6 height 3 = ?", a: 15, hint: "(4+6)x3/2 = 30/2." },
     ],
     resources: [
       { name: "The Organic Chemistry Tutor: Geometry Playlist", url: "https://www.youtube.com/playlist?list=PL0o_zxa4K1BVkRxCZubMPcCJ5Q5QwZdEM", subtitle: "142-video playlist covering area, volume, angles, triangles, circles, and coordinate geometry — ~1.5 days." },
@@ -305,6 +329,12 @@ const FOUNDATIONS = [
       { q: "180 degrees = ? radians (enter integer pi multiplier)", a: 0, hint: "pi radians = 180 degrees." },
       { q: "An acute angle is less than ? degrees", a: 90, hint: "Acute < 90 degrees." },
       { q: "An obtuse angle is greater than ? degrees", a: 90, hint: "Obtuse > 90 degrees." },
+      { q: "sin(30) = ? (type 0.5)", a: 0.5, hint: "1/2." },
+      { q: "cos(60) = ? (type 0.5)", a: 0.5, hint: "1/2." },
+      { q: "tan(45) = ?", a: 1, hint: "sin(45)/cos(45) = 1." },
+      { q: "sin(180) = ?", a: 0, hint: "Sine zero crossing." },
+      { q: "cos(180) = ?", a: -1, hint: "Cosine minimum." },
+      { q: "sin(45) approx? (type 0.71)", a: 0.71, hint: "sqrt(2)/2 approx 0.71." },
     ],
     resources: [
       { name: "The Organic Chemistry Tutor: Trigonometry Playlist", url: "https://www.youtube.com/playlist?list=PL0o_zxa4K1BVCB8iCVCGOES9pEF6byTMT", subtitle: "84-video playlist covering sine, cosine, tangent, the unit circle, identities, and polar coordinates — ~1 day." },
@@ -333,6 +363,12 @@ const FOUNDATIONS = [
       { q: "2^5 = ?", a: 32, hint: "2 x 2 x 2 x 2 x 2." },
       { q: "2^10 / 2^3 = 2^?", a: 7, hint: "Subtract exponents: 10-3." },
       { q: "(2^3)^2 = 2^?", a: 6, hint: "Multiply exponents: 3x2." },
+      { q: "3^3 = ?", a: 27, hint: "3 x 3 x 3." },
+      { q: "log2(32) = ?", a: 5, hint: "2^5 = 32." },
+      { q: "2^0 = ?", a: 1, hint: "Anything to power 0 is 1." },
+      { q: "Next: 1, 1, 2, 3, 5, 8, ?", a: 13, hint: "Fibonacci: add previous two." },
+      { q: "10^3 / 10^1 = 10^?", a: 2, hint: "3 - 1 = 2." },
+      { q: "Sum 1 to 10 = ?", a: 55, hint: "n(n+1)/2 with n=10." },
     ],
     resources: [
       { name: "The Organic Chemistry Tutor: Precalculus Playlist", url: "https://www.youtube.com/playlist?list=PL0o_zxa4K1BU5sTWZ2YxFhpXwsnMfMke7", subtitle: "273-video playlist covering exponents, logarithms, functions, sequences, and matrices — the bridge to calculus." },
@@ -361,6 +397,12 @@ const FOUNDATIONS = [
       { q: "A 50 Hz signal period in ms = ?", a: 20, hint: "1000/50." },
       { q: "Acceleration: speed goes 0 to 20 in 4s. Avg accel = ?", a: 5, hint: "(20-0)/4." },
       { q: "f(x) = 4x + 1, f(3) - f(1) = ?", a: 8, hint: "(13) - (5) = 8." },
+      { q: "Derivative of 5x + 2 = ?", a: 5, hint: "Slope of linear function." },
+      { q: "Rate: distance 100m in 10s = ? m/s", a: 10, hint: "100/10." },
+      { q: "Integral of 3 from 0 to 5 = ?", a: 15, hint: "3 x 5 rectangle." },
+      { q: "If f(x) = 2x, f(5) - f(3) = ?", a: 4, hint: "10 - 6 = 4." },
+      { q: "Speed doubles from 10 to 20 in 2s. Accel = ?", a: 5, hint: "(20-10)/2." },
+      { q: "Average of 6 readings: 10,12,14,16,18,20 = ?", a: 15, hint: "Sum 90 / 6." },
     ],
     resources: [
       { name: "3Blue1Brown: Essence of Calculus", url: "https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr", subtitle: "12 beautifully animated videos (~3 hours total) building deep intuition for derivatives, integrals, and the Fundamental Theorem." },
@@ -486,6 +528,11 @@ const CS50_QUIZZES = {
     { q: "Convert decimal 7 to 3-bit binary (enter decimal).", a: 7, hint: "111 in binary." },
     { q: "ASCII stands for American Standard Code for Information ?", a: 0, hint: "Not a math question; skip if needed." },
     { q: "What is 0x10 in decimal?", a: 16, hint: "1*16 + 0." },
+    { q: "Hex 0x1A in decimal = ?", a: 26, hint: "1x16 + 10." },
+    { q: "Binary 1111 to hex? (enter decimal)", a: 15, hint: "0xF = 15." },
+    { q: "How many bits in 4 bytes?", a: 32, hint: "4 x 8." },
+    { q: "Unicode vs ASCII: which has more? (0=Unicode,1=ASCII)", a: 0, hint: "Unicode has far more characters." },
+    { q: "What is 0b1000 in decimal?", a: 8, hint: "1x8." },
   ],
   week1: [
     { q: "In C, what is the integer result of 5 / 2?", a: 2, hint: "Integer division truncates the decimal part." },
@@ -498,6 +545,11 @@ const CS50_QUIZZES = {
     { q: "A while loop runs as long as condition is ? (1=true,0=false)", a: 1, hint: "Loop continues while true." },
     { q: "If int x = 7; x += 3; x = ?", a: 10, hint: "x = 7 + 3." },
     { q: "What is the value of 1/2 in C (integer division)?", a: 0, hint: "Integer division truncates." },
+    { q: "int x = 3.9; x = ? (C truncation)", a: 3, hint: "Truncates toward zero." },
+    { q: "sizeof(float) on 32-bit = ?", a: 4, hint: "float is 4 bytes." },
+    { q: "int a = 5; a *= 2; a = ?", a: 10, hint: "a = 5 x 2." },
+    { q: "int x = 7 / 3; x = ?", a: 2, hint: "Integer division." },
+    { q: "char c = 'A'; printf('%c', c+1) prints? (0=B)", a: 0, hint: "B — enter 0." },
   ],
   week2: [
     { q: "What is the index of the first element in a C array?", a: 0, hint: "C arrays are zero-indexed." },
@@ -510,6 +562,11 @@ const CS50_QUIZZES = {
     { q: "What is the ASCII code for newline?", a: 10, hint: "Line feed = 10." },
     { q: "If char s[] = \"ab\"; s[2] = ? (ASCII code)", a: 0, hint: "Null terminator." },
     { q: "What is 'a' - 'A' in ASCII? (difference)", a: 32, hint: "Lowercase - uppercase = 32." },
+    { q: "int arr[3] = {1}; arr[2] = ?", a: 0, hint: "Uninitialized = 0." },
+    { q: "char s[] = 'A'; s[1] = ? (ASCII)", a: 0, hint: "Null terminator." },
+    { q: "strcmp('cat', 'dog') returns? (neg= -1)", a: -1, hint: "'cat' < 'dog' alphabetically." },
+    { q: "int a[3][4]; total bytes on 32-bit = ?", a: 48, hint: "12 x 4." },
+    { q: "argv[0] is always the? (1=program name,2=first arg)", a: 1, hint: "Program name." },
   ],
   week3: [
     { q: "Linear search worst-case comparisons for n = 1000 items = ?", a: 1000, hint: "You might check every single item." },
@@ -522,6 +579,11 @@ const CS50_QUIZZES = {
     { q: "What big-O describes binary search?", a: 0, hint: "O(log n) — enter 0 for log n." },
     { q: "Merge sort time complexity: O(n log n). For n=8, approx operations? (n*log2(n))", a: 24, hint: "8 * 3." },
     { q: "Omega notation describes best-case or worst-case? (1=best,2=worst)", a: 1, hint: "Omega is best-case lower bound." },
+    { q: "log2(16) = ?", a: 4, hint: "2^4 = 16." },
+    { q: "Bubble sort n*(n-1)/2 for n=5: ?", a: 10, hint: "5 x 4 / 2." },
+    { q: "Binary search only works on ? data (1=sorted,2=unsorted)", a: 1, hint: "Must be sorted." },
+    { q: "O(n^2) worse than O(n log n)? (1=yes,0=no)", a: 1, hint: "Quadratic grows faster." },
+    { q: "Merge sort divides array into ? halves", a: 2, hint: "Divide and conquer." },
   ],
   week4: [
     { q: "malloc(8) allocates how many bytes on the heap?", a: 8, hint: "malloc takes the number of bytes requested." },
@@ -534,6 +596,11 @@ const CS50_QUIZZES = {
     { q: "If malloc fails, what does it return?", a: 0, hint: "NULL (0)." },
     { q: "sizeof(struct { int x; char c; }) on 32-bit? (packed, no padding)", a: 5, hint: "4 + 1." },
     { q: "What function deallocates heap memory?", a: 0, hint: "free() — enter 0." },
+    { q: "int* p = NULL; *p causes? (1=segfault,2=normal)", a: 1, hint: "Dereferencing NULL crashes." },
+    { q: "void* can point to ? type (1=any,2=no)", a: 1, hint: "void* is generic." },
+    { q: "calloc(5, 4) allocates how many bytes?", a: 20, hint: "5 x 4." },
+    { q: "int arr[10]; arr points to ? element", a: 0, hint: "The first element." },
+    { q: "free() can only free ? memory (1=heap,2=stack)", a: 1, hint: "Heap memory from malloc." },
   ],
   week5: [
     { q: "A queue enqueues 1, 2, 3. First dequeue returns ?", a: 1, hint: "Queue is FIFO: first in, first out." },
@@ -546,6 +613,11 @@ const CS50_QUIZZES = {
     { q: "Hash table with 10 slots, key=33 goes to slot?", a: 3, hint: "33 % 10." },
     { q: "A trie node for lowercase English has how many child pointers?", a: 26, hint: "One per letter." },
     { q: "Doubly linked list node has how many pointer fields?", a: 2, hint: "Prev and next." },
+    { q: "Queue: enqueue 5, enqueue 3, dequeue, dequeue = ?", a: 3, hint: "First dequeue = 5, second = 3." },
+    { q: "BST left child is ? than parent (1=less,2=greater)", a: 1, hint: "Left < parent." },
+    { q: "Hash table load factor 2 means 2 items per ? (1=slot,2=byte)", a: 1, hint: "Per slot average." },
+    { q: "Linked list insert at head is O(?) (1=O(1),2=O(n))", a: 1, hint: "Just update the head pointer." },
+    { q: "Stack: push 1, push 2, peek = ?", a: 2, hint: "Peek shows top element." },
   ],
 };
 
@@ -565,121 +637,170 @@ function makeCS50GeneratedQuestion(id, weekId, difficulty, n) {
   const a = (n % 5) + 1;
   const b = ((n * 3) % 7) + 1;
   const c = ((n * 5) % 9) + 1;
+  const d = ((n * 7) % 11) + 1;
   switch (weekId) {
     case "week0":
       if (easy) {
-        if (n % 8 === 0) return { id, q: `${a} + ${b} = ?`, a: a + b, hint: "Add the numbers." };
-        if (n % 8 === 1) return { id, q: `What is ${a} in binary? (enter decimal value)`, a: a, hint: "The value stays the same." };
-        if (n % 8 === 2) return { id, q: `How many bits in ${a} bytes?`, a: a * 8, hint: "1 byte = 8 bits." };
-        if (n % 8 === 3) return { id, q: `What is ${a}0 in decimal?`, a: a * 10, hint: "Tens place." };
-        if (n % 8 === 4) return { id, q: `How many values can ${a} bits represent?`, a: 2 ** a, hint: "n bits = 2^n values." };
-        if (n % 8 === 5) return { id, q: `Binary 000${a % 2} to decimal?`, a: a % 2, hint: "0 or 1." };
-        if (n % 8 === 6) return { id, q: `How many bits to store numbers 0-${(2 ** a) - 1}?`, a: a, hint: `2^${a} = ${2 ** a}.` };
-        return { id, q: `ASCII 'A' is 65. ASCII 'B' = ?`, a: 66, hint: "Consecutive letters." };
+        if (n % 12 === 0) return { id, q: `${a} + ${b} = ?`, a: a + b, hint: "Add the numbers." };
+        if (n % 12 === 1) return { id, q: `What is ${a} in binary? (enter decimal value)`, a: a, hint: "The value stays the same." };
+        if (n % 12 === 2) return { id, q: `How many bits in ${a} bytes?`, a: a * 8, hint: "1 byte = 8 bits." };
+        if (n % 12 === 3) return { id, q: `What is ${a}0 in decimal?`, a: a * 10, hint: "Tens place." };
+        if (n % 12 === 4) return { id, q: `How many values can ${a} bits represent?`, a: 2 ** a, hint: "n bits = 2^n values." };
+        if (n % 12 === 5) return { id, q: `Binary 000${a % 2} to decimal?`, a: a % 2, hint: "0 or 1." };
+        if (n % 12 === 6) return { id, q: `How many bits to store numbers 0-${(2 ** a) - 1}?`, a: a, hint: `2^${a} = ${2 ** a}.` };
+        if (n % 12 === 7) return { id, q: `ASCII 'A' is 65. ASCII 'B' = ?`, a: 66, hint: "Consecutive letters." };
+        if (n % 12 === 8) return { id, q: `Binary 00${b % 2}${a % 2} to decimal = ?`, a: (b % 2) * 2 + (a % 2), hint: "2-bit binary to decimal." };
+        if (n % 12 === 9) return { id, q: `How many bits to represent 1 ASCII char?`, a: 8, hint: "7-8 bits per character." };
+        if (n % 12 === 10) return { id, q: `What is the hex digit value of 0xA?`, a: 10, hint: "A in hex = 10 decimal." };
+        return { id, q: `How many bytes in ${a * 2} bits?`, a: a * 2 / 8, hint: "Divide bits by 8." };
       }
-      if (n % 8 === 0) return { id, q: `What is the decimal value of hex 0x${a}${b}?`, a: a * 16 + b, hint: "Hex digits: first x16 + second." };
-      if (n % 8 === 1) return { id, q: `A loop runs ${a * 3} times, counter starts at 0, increments by 1. Final counter?`, a: a * 3, hint: "Starting at 0, increment each iteration." };
-      if (n % 8 === 2) return { id, q: `Convert binary ${a}${b}${(a + b) % 2}${b % 2} to decimal.`, a: a * 8 + b * 4 + ((a + b) % 2) * 2 + (b % 2), hint: "Multiply each bit by its place value." };
-      if (n % 8 === 3) return { id, q: `${a} MB = ? bytes (in millions)`, a: a, hint: "MB means million bytes." };
-      if (n % 8 === 4) return { id, q: `Hex 0xFF in decimal = ?`, a: 255, hint: "15*16 + 15." };
-      if (n % 8 === 5) return { id, q: `How many KB in ${a} MB?`, a: a * 1024, hint: "1 MB = 1024 KB." };
-      if (n % 8 === 6) return { id, q: `RGB color: red=255, green=0, blue=0. Decimal value of red byte?`, a: 255, hint: "Red channel is 255." };
-      return { id, q: `A ${a}-bit system can address up to 2^${a} = ? bytes (enter power of 2)`, a: 2 ** a, hint: `2^${a}.` };
+      if (n % 12 === 0) return { id, q: `What is the decimal value of hex 0x${a}${b}?`, a: a * 16 + b, hint: "Hex digits: first x16 + second." };
+      if (n % 12 === 1) return { id, q: `A loop runs ${a * 3} times, counter starts at 0, increments by 1. Final counter?`, a: a * 3, hint: "Starting at 0, increment each iteration." };
+      if (n % 12 === 2) return { id, q: `Convert binary ${a}${b}${(a + b) % 2}${b % 2} to decimal.`, a: a * 8 + b * 4 + ((a + b) % 2) * 2 + (b % 2), hint: "Multiply each bit by its place value." };
+      if (n % 12 === 3) return { id, q: `${a} MB = ? bytes (in millions)`, a: a, hint: "MB means million bytes." };
+      if (n % 12 === 4) return { id, q: `Hex 0xFF in decimal = ?`, a: 255, hint: "15*16 + 15." };
+      if (n % 12 === 5) return { id, q: `How many KB in ${a} MB?`, a: a * 1024, hint: "1 MB = 1024 KB." };
+      if (n % 12 === 6) return { id, q: `RGB color: red=255, green=0, blue=0. Decimal value of red byte?`, a: 255, hint: "Red channel is 255." };
+      if (n % 12 === 7) return { id, q: `A ${a}-bit system can address up to 2^${a} = ? bytes (enter power of 2)`, a: 2 ** a, hint: `2^${a}.` };
+      if (n % 12 === 8) return { id, q: `Hex subtraction: 0x${a}${b} - 0x${a}0 = ? (decimal)`, a: b, hint: "Only the low nibble changes." };
+      if (n % 12 === 9) return { id, q: `uint8 overflow: 255 + ${a} = ?`, a: a - 1, hint: "uint8 wraps past 255 to 0." };
+      if (n % 12 === 10) return { id, q: `Binary addition: 0b101 + 0b${b%2}${a%2}${(a+b)%2} = ? (enter decimal)`, a: 5 + (b % 2) * 4 + (a % 2) * 2 + ((a + b) % 2), hint: "Add binary values in decimal." };
+      return { id, q: `A nibble (4 bits) max unsigned decimal value = ?`, a: 15, hint: "1111 = 15." };
     case "week1":
       if (easy) {
-        if (n % 8 === 0) return { id, q: `${a} x ${b} = ?`, a: a * b, hint: "Multiply." };
-        if (n % 8 === 1) return { id, q: `5 / 2 integer division = ?`, a: 2, hint: "Integer division truncates." };
-        if (n % 8 === 2) return { id, q: `${a} + ${b} = ?`, a: a + b, hint: "Add them." };
-        if (n % 8 === 3) return { id, q: `char uses how many bytes?`, a: 1, hint: "1 byte." };
-        if (n % 8 === 4) return { id, q: `${a} % ${b} = ?`, a: a % b, hint: "Remainder after division." };
-        if (n % 8 === 5) return { id, q: `int uses how many bytes on 32-bit?`, a: 4, hint: "32 bits = 4 bytes." };
-        if (n % 8 === 6) return { id, q: `${a} == ${b} in C? (1=true,0=false)`, a: a === b ? 1 : 0, hint: "Equality check." };
-        return { id, q: `float usually uses how many bytes?`, a: 4, hint: "Same as int." };
+        if (n % 12 === 0) return { id, q: `${a} x ${b} = ?`, a: a * b, hint: "Multiply." };
+        if (n % 12 === 1) return { id, q: `5 / 2 integer division = ?`, a: 2, hint: "Integer division truncates." };
+        if (n % 12 === 2) return { id, q: `${a} + ${b} = ?`, a: a + b, hint: "Add them." };
+        if (n % 12 === 3) return { id, q: `char uses how many bytes?`, a: 1, hint: "1 byte." };
+        if (n % 12 === 4) return { id, q: `${a} % ${b} = ?`, a: a % b, hint: "Remainder after division." };
+        if (n % 12 === 5) return { id, q: `int uses how many bytes on 32-bit?`, a: 4, hint: "32 bits = 4 bytes." };
+        if (n % 12 === 6) return { id, q: `${a} == ${b} in C? (1=true,0=false)`, a: a === b ? 1 : 0, hint: "Equality check." };
+        if (n % 12 === 7) return { id, q: `float usually uses how many bytes?`, a: 4, hint: "Same as int." };
+        if (n % 12 === 8) return { id, q: `sizeof(char) = ?`, a: 1, hint: "char is 1 byte." };
+        if (n % 12 === 9) return { id, q: `int a = ${a}; a += ${b}; a = ?`, a: a + b, hint: `${a} + ${b}.` };
+        if (n % 12 === 10) return { id, q: `Is 20 % 4 == 0? (1=true,0=false)`, a: 1, hint: "20 is divisible by 4." };
+        return { id, q: `C: result of ${a} < ${b} (1=yes,0=no)`, a: a < b ? 1 : 0, hint: "Less than comparison." };
       }
-      if (n % 8 === 0) return { id, q: `int x = ${a} / ${b}; In C, x = ?`, a: Math.floor(a / b), hint: "Integer division truncates." };
-      if (n % 8 === 1) return { id, q: `int arr[${a}]; sizeof(arr) on 32-bit = ?`, a: a * 4, hint: "int is 4 bytes on 32-bit." };
-      if (n % 8 === 2) return { id, q: `uint8_t x = ${250 + a}; x += ${b}; x = ?`, a: (250 + a + b) % 256, hint: "uint8 wraps at 256." };
-      if (n % 8 === 3) return { id, q: `argc is ${a + 3}. How many user arguments (excluding program name)?`, a: a + 2, hint: "argc minus 1." };
-      if (n % 8 === 4) return { id, q: `long long on most systems is how many bytes?`, a: 8, hint: "64-bit = 8 bytes." };
-      if (n % 8 === 5) return { id, q: `for(int i=0;i<${a};i++) loops how many times?`, a: a, hint: "0 to a-1." };
-      if (n % 8 === 6) return { id, q: `if (${a} > ${b}) true? (1=yes,0=no)`, a: a > b ? 1 : 0, hint: "Compare the two numbers." };
-      return { id, q: `double on most systems is how many bytes?`, a: 8, hint: "64-bit." };
+      if (n % 12 === 0) return { id, q: `int x = ${a} / ${b}; In C, x = ?`, a: Math.floor(a / b), hint: "Integer division truncates." };
+      if (n % 12 === 1) return { id, q: `int arr[${a}]; sizeof(arr) on 32-bit = ?`, a: a * 4, hint: "int is 4 bytes on 32-bit." };
+      if (n % 12 === 2) return { id, q: `uint8_t x = ${250 + a}; x += ${b}; x = ?`, a: (250 + a + b) % 256, hint: "uint8 wraps at 256." };
+      if (n % 12 === 3) return { id, q: `argc is ${a + 3}. How many user arguments (excluding program name)?`, a: a + 2, hint: "argc minus 1." };
+      if (n % 12 === 4) return { id, q: `long long on most systems is how many bytes?`, a: 8, hint: "64-bit = 8 bytes." };
+      if (n % 12 === 5) return { id, q: `for(int i=0;i<${a};i++) loops how many times?`, a: a, hint: "0 to a-1." };
+      if (n % 12 === 6) return { id, q: `if (${a} > ${b}) true? (1=yes,0=no)`, a: a > b ? 1 : 0, hint: "Compare the two numbers." };
+      if (n % 12 === 7) return { id, q: `double on most systems is how many bytes?`, a: 8, hint: "64-bit." };
+      if (n % 12 === 8) return { id, q: `int x = (${a} + ${b}) * ${c}; x = ?`, a: (a + b) * c, hint: "Parentheses first, then multiply." };
+      if (n % 12 === 9) return { id, q: `short on most systems is how many bytes?`, a: 2, hint: "Short is at least 2 bytes." };
+      if (n % 12 === 10) return { id, q: `uint16_t x = 65535; x++; x = ?`, a: 0, hint: "uint16 wraps at 65536." };
+      return { id, q: `int8_t x = 127; x++; x = ?`, a: -128, hint: "Signed overflow wraps to negative." };
     case "week2":
       if (easy) {
-        if (n % 8 === 0) return { id, q: `First index of an array is?`, a: 0, hint: "Arrays start at 0." };
-        if (n % 8 === 1) return { id, q: `A string 'ab' has how many chars (including null)?`, a: 3, hint: "a + b + null." };
-        if (n % 8 === 2) return { id, q: `char s[] = "a"; s[0] ASCII = ?`, a: 97, hint: "ASCII 'a' is 97." };
-        if (n % 8 === 3) return { id, q: `An array of ${a} ints uses ${a * 4} bytes (32-bit). True? 1=yes, 0=no`, a: 1, hint: `${a} x 4 = ${a * 4}.` };
-        if (n % 8 === 4) return { id, q: `int arr[${a}]; last index = ?`, a: a - 1, hint: "0-indexed." };
-        if (n % 8 === 5) return { id, q: `char s[] = "hi"; s[2] (null char) ASCII = ?`, a: 0, hint: "Null terminator is 0." };
-        if (n % 8 === 6) return { id, q: `What is strlen("")?`, a: 0, hint: "Empty string length 0." };
-        return { id, q: `ASCII '0' is 48. ASCII '1' = ?`, a: 49, hint: "Consecutive digits." };
+        if (n % 12 === 0) return { id, q: `First index of an array is?`, a: 0, hint: "Arrays start at 0." };
+        if (n % 12 === 1) return { id, q: `A string 'ab' has how many chars (including null)?`, a: 3, hint: "a + b + null." };
+        if (n % 12 === 2) return { id, q: `char s[] = "a"; s[0] ASCII = ?`, a: 97, hint: "ASCII 'a' is 97." };
+        if (n % 12 === 3) return { id, q: `An array of ${a} ints uses ${a * 4} bytes (32-bit). True? 1=yes, 0=no`, a: 1, hint: `${a} x 4 = ${a * 4}.` };
+        if (n % 12 === 4) return { id, q: `int arr[${a}]; last index = ?`, a: a - 1, hint: "0-indexed." };
+        if (n % 12 === 5) return { id, q: `char s[] = "hi"; s[2] (null char) ASCII = ?`, a: 0, hint: "Null terminator is 0." };
+        if (n % 12 === 6) return { id, q: `What is strlen("")?`, a: 0, hint: "Empty string length 0." };
+        if (n % 12 === 7) return { id, q: `ASCII '0' is 48. ASCII '1' = ?`, a: 49, hint: "Consecutive digits." };
+        if (n % 12 === 8) return { id, q: `ASCII 'Z' is 90, '[' is?`, a: 91, hint: "Consecutive characters." };
+        if (n % 12 === 9) return { id, q: `char s[] = "ab"; strlen(s) = ?`, a: 2, hint: "Length without null." };
+        if (n % 12 === 10) return { id, q: `int arr[${a}]; arr[0] is valid? (1=yes,0=no)`, a: 1, hint: "Index 0 is always valid." };
+        return { id, q: `ASCII 'a' - 'A' = ?`, a: 32, hint: "Lowercase - uppercase." };
       }
-      if (n % 8 === 0) return { id, q: `int arr[${a}] = {${b}}; arr[0] = ?`, a: b, hint: `First element is ${b}.` };
-      if (n % 8 === 1) return { id, q: `char s[] = "hello"; strlen(s) = ?`, a: 5, hint: "strlen counts chars before null." };
-      if (n % 8 === 2) return { id, q: `argc=${a + 2}. argv[0] is program name. argv[${a}] is the ?th argument`, a: a + 1, hint: "Index equals argument position." };
-      if (n % 8 === 3) return { id, q: `Buffer ${a * 2} bytes. Max visible chars (excl null)?`, a: a * 2 - 1, hint: "One byte reserved for null." };
-      if (n % 8 === 4) return { id, q: `char s[${a}] = "abc"; s[${a - 1}] = ? (ASCII)`, a: 0, hint: "Last slot is null." };
-      if (n % 8 === 5) return { id, q: `int a[2][3]; total elements?`, a: 6, hint: "2 x 3." };
-      if (n % 8 === 6) return { id, q: `char* s = "cs50"; s[0] = ? (ASCII)`, a: 99, hint: "ASCII 'c'." };
-      return { id, q: `int arr[${a}] = {${b}}; arr[${a - 1}]=? (default value)`, a: 0, hint: "Uninitialized elements are 0." };
+      if (n % 12 === 0) return { id, q: `int arr[${a}] = {${b}}; arr[0] = ?`, a: b, hint: `First element is ${b}.` };
+      if (n % 12 === 1) return { id, q: `char s[] = "hello"; strlen(s) = ?`, a: 5, hint: "strlen counts chars before null." };
+      if (n % 12 === 2) return { id, q: `argc=${a + 2}. argv[0] is program name. argv[${a}] is the ?th argument`, a: a + 1, hint: "Index equals argument position." };
+      if (n % 12 === 3) return { id, q: `Buffer ${a * 2} bytes. Max visible chars (excl null)?`, a: a * 2 - 1, hint: "One byte reserved for null." };
+      if (n % 12 === 4) return { id, q: `char s[${a}] = "abc"; s[${a - 1}] = ? (ASCII)`, a: 0, hint: "Last slot is null." };
+      if (n % 12 === 5) return { id, q: `int a[2][3]; total elements?`, a: 6, hint: "2 x 3." };
+      if (n % 12 === 6) return { id, q: `char* s = "cs50"; s[0] = ? (ASCII)`, a: 99, hint: "ASCII 'c'." };
+      if (n % 12 === 7) return { id, q: `int arr[${a}] = {${b}}; arr[${a - 1}]=? (default value)`, a: 0, hint: "Uninitialized elements are 0." };
+      if (n % 12 === 8) return { id, q: `char s[] = "Hello"; toupper('H') gives ASCII?`, a: 72, hint: "toupper preserves uppercase. ASCII 'H' = 72." };
+      if (n % 12 === 9) return { id, q: `int mat[${a}][${b}]; total bytes on 32-bit = ?`, a: a * b * 4, hint: `${a} x ${b} x 4.` };
+      if (n % 12 === 10) return { id, q: `strcmp("a", "b") returns <0, 0, or >0?`, a: -1, hint: "Negative when first is less." };
+      return { id, q: `char s[] = "hi\\0there"; strlen(s) = ?`, a: 2, hint: "strlen stops at the first null." };
     case "week3":
       if (easy) {
-        if (n % 8 === 0) return { id, q: `Sorted list of ${a * 10} items, linear search worst-case = ?`, a: a * 10, hint: "Could check every item." };
-        if (n % 8 === 1) return { id, q: `What is 2^${a}?`, a: 2 ** a, hint: `2 raised to ${a}.` };
-        if (n % 8 === 2) return { id, q: `${a}! = ${a} x ${a - 1} x ... x 1. ${a}! = ?`, a: a <= 3 ? 6 : 120, hint: "Multiply from 1 to a." };
-        if (n % 8 === 3) return { id, q: `Is 2^3 = 8? (1=yes, 0=no)`, a: 1, hint: "2x2x2 = 8." };
-        if (n % 8 === 4) return { id, q: `Bubble sort on ${a * 3} items: roughly how many passes?`, a: a * 3, hint: "n-1 passes." };
-        if (n % 8 === 5) return { id, q: `Selection sort finds min how many times for ${a * 5} items?`, a: a * 5, hint: "One per pass." };
-        if (n % 8 === 6) return { id, q: `O(n) means operations grow ? with n (1=linear,2=quadratic)`, a: 1, hint: "O(n) is linear." };
-        return { id, q: `Can binary search work on unsorted data? (1=yes,0=no)`, a: 0, hint: "Must be sorted." };
+        if (n % 12 === 0) return { id, q: `Sorted list of ${a * 10} items, linear search worst-case = ?`, a: a * 10, hint: "Could check every item." };
+        if (n % 12 === 1) return { id, q: `What is 2^${a}?`, a: 2 ** a, hint: `2 raised to ${a}.` };
+        if (n % 12 === 2) return { id, q: `${a}! = ${a} x ${a - 1} x ... x 1. ${a}! = ?`, a: a <= 3 ? 6 : 120, hint: "Multiply from 1 to a." };
+        if (n % 12 === 3) return { id, q: `Is 2^3 = 8? (1=yes, 0=no)`, a: 1, hint: "2x2x2 = 8." };
+        if (n % 12 === 4) return { id, q: `Bubble sort on ${a * 3} items: roughly how many passes?`, a: a * 3, hint: "n-1 passes." };
+        if (n % 12 === 5) return { id, q: `Selection sort finds min how many times for ${a * 5} items?`, a: a * 5, hint: "One per pass." };
+        if (n % 12 === 6) return { id, q: `O(n) means operations grow ? with n (1=linear,2=quadratic)`, a: 1, hint: "O(n) is linear." };
+        if (n % 12 === 7) return { id, q: `Can binary search work on unsorted data? (1=yes,0=no)`, a: 0, hint: "Must be sorted." };
+        if (n % 12 === 8) return { id, q: `Insertion sort: how many items in sorted section after 1 pass?`, a: 1, hint: "First element is the initial sorted section." };
+        if (n % 12 === 9) return { id, q: `O(1) means ? time (1=constant,2=linear)`, a: 1, hint: "O(1) is constant time." };
+        if (n % 12 === 10) return { id, q: `Is 5! = 120? (1=yes,0=no)`, a: 1, hint: "5x4x3x2x1 = 120." };
+        return { id, q: `Recursive factorial(5) calls factorial() how many times (including initial)?`, a: 5, hint: "fact(5) calls fact(4) calls fact(3) ... = 5 calls." };
       }
-      if (n % 8 === 0) return { id, q: `Binary search max comparisons for ${2 ** (a + 3)} items = ?`, a: a + 3, hint: "log2(n)." };
-      if (n % 8 === 1) return { id, q: `Merge sort ${a * 2} items. Comparisons? O(nlogn). log2(${a * 2}) rounded = ?`, a: Math.ceil(Math.log2(a * 2)), hint: "n log n." };
-      if (n % 8 === 2) return { id, q: `Omega(1) means constant? (1=yes,0=no)`, a: 1, hint: "Omega(1) is constant lower bound." };
-      if (n % 8 === 3) return { id, q: `Theta(n) for ${a * 10} items gives about how many operations?`, a: a * 10, hint: "Theta(n) = proportional to n." };
-      if (n % 8 === 4) return { id, q: `O(n^2) for n=${a * 5}: roughly how many operations?`, a: (a * 5) ** 2, hint: `(${a * 5})^2.` };
-      if (n % 8 === 5) return { id, q: `Binary search on 1M items needs ~how many steps? (2^20=1M)`, a: 20, hint: "log2(1M) ~ 20." };
-      if (n % 8 === 6) return { id, q: `Merge sort space complexity: O(?) (1=O(1),2=O(n),3=O(n^2))`, a: 2, hint: "Needs temp array." };
-      return { id, q: `Linear search on ${a * 100} items, avg comparisons = ?`, a: a * 50, hint: "n/2 on average." };
+      if (n % 12 === 0) return { id, q: `Binary search max comparisons for ${2 ** (a + 3)} items = ?`, a: a + 3, hint: "log2(n)." };
+      if (n % 12 === 1) return { id, q: `Merge sort ${a * 2} items. Comparisons? O(nlogn). log2(${a * 2}) rounded = ?`, a: Math.ceil(Math.log2(a * 2)), hint: "n log n." };
+      if (n % 12 === 2) return { id, q: `Omega(1) means constant? (1=yes,0=no)`, a: 1, hint: "Omega(1) is constant lower bound." };
+      if (n % 12 === 3) return { id, q: `Theta(n) for ${a * 10} items gives about how many operations?`, a: a * 10, hint: "Theta(n) = proportional to n." };
+      if (n % 12 === 4) return { id, q: `O(n^2) for n=${a * 5}: roughly how many operations?`, a: (a * 5) ** 2, hint: `(${a * 5})^2.` };
+      if (n % 12 === 5) return { id, q: `Binary search on 1M items needs ~how many steps? (2^20=1M)`, a: 20, hint: "log2(1M) ~ 20." };
+      if (n % 12 === 6) return { id, q: `Merge sort space complexity: O(?) (1=O(1),2=O(n),3=O(n^2))`, a: 2, hint: "Needs temp array." };
+      if (n % 12 === 7) return { id, q: `Linear search on ${a * 100} items, avg comparisons = ?`, a: a * 50, hint: "n/2 on average." };
+      if (n % 12 === 8) return { id, q: `Counting sort on ${a} unique values: range k = ${a}. O(n+k) = O(n+${a}) = O(?)(1=n,2=n+a)`, a: 2, hint: `O(n+k) = O(n+${a}).` };
+      if (n % 12 === 9) return { id, q: `Recursion depth: fib(${a}) calls fib(${a - 1})+fib(${a - 2}). Depth approximately?`, a: a, hint: "Recursive depth roughly equals n." };
+      if (n % 12 === 10) return { id, q: `Omega(n) means best-case at least linear? (1=yes,0=no)`, a: 1, hint: "Omega gives lower bound." };
+      return { id, q: `O(n^3) for n=${a}: roughly how many operations?`, a: a ** 3, hint: `${a}^3.` };
     case "week4":
       if (easy) {
-        if (n % 8 === 0) return { id, q: `malloc(${a * 4}) allocates how many bytes?`, a: a * 4, hint: "malloc returns requested bytes." };
-        if (n % 8 === 1) return { id, q: `sizeof(int) on 32-bit = ? bytes`, a: 4, hint: "int is 4 bytes." };
-        if (n % 8 === 2) return { id, q: `A pointer stores a memory ? (1=address,0=value)`, a: 1, hint: "Pointer stores address." };
-        if (n % 8 === 3) return { id, q: `int ${a} ints in array x ${b} bytes each = total?`, a: a * b, hint: "Multiply." };
-        if (n % 8 === 4) return { id, q: `free() deallocates memory. What does it take? (1=pointer,2=value)`, a: 1, hint: "Takes the pointer." };
-        if (n % 8 === 5) return { id, q: `Stack stores local vars. Heap for ? (1=dynamic,2=static)`, a: 1, hint: "malloc allocates on heap." };
-        if (n % 8 === 6) return { id, q: `sizeof(char*) on 64-bit = ?`, a: 8, hint: "Pointer is 8 bytes on 64-bit." };
-        return { id, q: `int* p; p stores an ? (1=address,2=integer)`, a: 1, hint: "Pointers hold addresses." };
+        if (n % 12 === 0) return { id, q: `malloc(${a * 4}) allocates how many bytes?`, a: a * 4, hint: "malloc returns requested bytes." };
+        if (n % 12 === 1) return { id, q: `sizeof(int) on 32-bit = ? bytes`, a: 4, hint: "int is 4 bytes." };
+        if (n % 12 === 2) return { id, q: `A pointer stores a memory ? (1=address,0=value)`, a: 1, hint: "Pointer stores address." };
+        if (n % 12 === 3) return { id, q: `int ${a} ints in array x ${b} bytes each = total?`, a: a * b, hint: "Multiply." };
+        if (n % 12 === 4) return { id, q: `free() deallocates memory. What does it take? (1=pointer,2=value)`, a: 1, hint: "Takes the pointer." };
+        if (n % 12 === 5) return { id, q: `Stack stores local vars. Heap for ? (1=dynamic,2=static)`, a: 1, hint: "malloc allocates on heap." };
+        if (n % 12 === 6) return { id, q: `sizeof(char*) on 64-bit = ?`, a: 8, hint: "Pointer is 8 bytes on 64-bit." };
+        if (n % 12 === 7) return { id, q: `int* p; p stores an ? (1=address,2=integer)`, a: 1, hint: "Pointers hold addresses." };
+        if (n % 12 === 8) return { id, q: `malloc returns NULL when ? (1=fail,2=success)`, a: 1, hint: "NULL indicates allocation failure." };
+        if (n % 12 === 9) return { id, q: `sizeof(char) = ${a} byte(s)? (1=yes,0=no)`, a: 1, hint: "char is always 1 byte." };
+        if (n % 12 === 10) return { id, q: `int *p; p+${a} advances by how many bytes (32-bit)?`, a: a * 4, hint: "Each int is 4 bytes." };
+        return { id, q: `& operator gets ? of a variable (1=address,2=value)`, a: 1, hint: "& returns the address." };
       }
-      if (n % 8 === 0) return { id, q: `int* p = malloc(${a * 10}); if !p, the return value is? (address)`, a: 0, hint: "NULL = 0." };
-      if (n % 8 === 1) return { id, q: `int x = ${a}; int* p = &x; *p = ${b}; x = ?`, a: b, hint: "Dereference changes x." };
-      if (n % 8 === 2) return { id, q: `char buf[${a}]; gets(buf) risk: how many bytes overflow if input is ${a + 5} chars?`, a: 5, hint: "Extra bytes beyond buffer." };
-      if (n % 8 === 3) return { id, q: `sizeof(double) on most systems = ?`, a: 8, hint: "double is 8 bytes." };
-      if (n % 8 === 4) return { id, q: `int *p = malloc(${a * 4}); free(p); p is now ? (1=dangling,2=valid)`, a: 1, hint: "Dangling pointer." };
-      if (n % 8 === 5) return { id, q: `int* p = malloc(4); p[0] = ${a}; *(p+0) = ?`, a: a, hint: "p[0] is same as *(p+0)." };
-      if (n % 8 === 6) return { id, q: `Stack overflow from infinite recursion (1=yes,0=no)`, a: 1, hint: "Stack has limited size." };
-      return { id, q: `int a = ${a}; int* p = &a; sizeof(p) on 32-bit = ?`, a: 4, hint: "Pointer is 4 bytes on 32-bit." };
+      if (n % 12 === 0) return { id, q: `int* p = malloc(${a * 10}); if !p, the return value is? (address)`, a: 0, hint: "NULL = 0." };
+      if (n % 12 === 1) return { id, q: `int x = ${a}; int* p = &x; *p = ${b}; x = ?`, a: b, hint: "Dereference changes x." };
+      if (n % 12 === 2) return { id, q: `char buf[${a}]; gets(buf) risk: how many bytes overflow if input is ${a + 5} chars?`, a: 5, hint: "Extra bytes beyond buffer." };
+      if (n % 12 === 3) return { id, q: `sizeof(double) on most systems = ?`, a: 8, hint: "double is 8 bytes." };
+      if (n % 12 === 4) return { id, q: `int *p = malloc(${a * 4}); free(p); p is now ? (1=dangling,2=valid)`, a: 1, hint: "Dangling pointer." };
+      if (n % 12 === 5) return { id, q: `int* p = malloc(4); p[0] = ${a}; *(p+0) = ?`, a: a, hint: "p[0] is same as *(p+0)." };
+      if (n % 12 === 6) return { id, q: `Stack overflow from infinite recursion (1=yes,0=no)`, a: 1, hint: "Stack has limited size." };
+      if (n % 12 === 7) return { id, q: `int a = ${a}; int* p = &a; sizeof(p) on 32-bit = ?`, a: 4, hint: "Pointer is 4 bytes on 32-bit." };
+      if (n % 12 === 8) return { id, q: `int* p = malloc(${a} * sizeof(int)); total bytes on 32-bit?`, a: a * 4, hint: `${a} x 4.` };
+      if (n % 12 === 9) return { id, q: `realloc(p, ${a * 8}) changes size to how many bytes?`, a: a * 8, hint: "New size as requested." };
+      if (n % 12 === 10) return { id, q: `struct { int x; } s; sizeof(s) on 32-bit = ?`, a: 4, hint: "One int field = 4 bytes." };
+      return { id, q: `Memory leak: malloc without ? causes leak (1=free,2=realloc)`, a: 1, hint: "Must free allocated memory." };
     case "week5":
       if (easy) {
-        if (n % 8 === 0) return { id, q: `Queue: enqueue 1, enqueue 2, dequeue = ?`, a: 1, hint: "FIFO: first in, first out." };
-        if (n % 8 === 1) return { id, q: `Stack: push 1, push 2, pop = ?`, a: 2, hint: "LIFO: last in, first out." };
-        if (n % 8 === 2) return { id, q: `Hash: key % ${a} maps key ${a * 2} to slot?`, a: 0, hint: `${a * 2} % ${a} = 0.` };
-        if (n % 8 === 3) return { id, q: `Binary tree node max children = ?`, a: 2, hint: "Binary = at most 2." };
-        if (n % 8 === 4) return { id, q: `Linked list node contains data and ? (1=pointer,2=index)`, a: 1, hint: "Points to next node." };
-        if (n % 8 === 5) return { id, q: `Array vs linked list: which has faster index access? (1=array,2=list)`, a: 1, hint: "O(1) vs O(n)." };
-        if (n % 8 === 6) return { id, q: `Hash table load factor = items / ? (1=slots,2=bytes)`, a: 1, hint: "Items per slot." };
-        return { id, q: `Trie node children per English letter?`, a: 26, hint: "One per letter." };
+        if (n % 12 === 0) return { id, q: `Queue: enqueue 1, enqueue 2, dequeue = ?`, a: 1, hint: "FIFO: first in, first out." };
+        if (n % 12 === 1) return { id, q: `Stack: push 1, push 2, pop = ?`, a: 2, hint: "LIFO: last in, first out." };
+        if (n % 12 === 2) return { id, q: `Hash: key % ${a} maps key ${a * 2} to slot?`, a: 0, hint: `${a * 2} % ${a} = 0.` };
+        if (n % 12 === 3) return { id, q: `Binary tree node max children = ?`, a: 2, hint: "Binary = at most 2." };
+        if (n % 12 === 4) return { id, q: `Linked list node contains data and ? (1=pointer,2=index)`, a: 1, hint: "Points to next node." };
+        if (n % 12 === 5) return { id, q: `Array vs linked list: which has faster index access? (1=array,2=list)`, a: 1, hint: "O(1) vs O(n)." };
+        if (n % 12 === 6) return { id, q: `Hash table load factor = items / ? (1=slots,2=bytes)`, a: 1, hint: "Items per slot." };
+        if (n % 12 === 7) return { id, q: `Trie node children per English letter?`, a: 26, hint: "One per letter." };
+        if (n % 12 === 8) return { id, q: `Doubly linked list prev pointer of head = ? (1=NULL,2=tail)`, a: 1, hint: "Head has no previous." };
+        if (n % 12 === 9) return { id, q: `Stack: push 5, pop, push 3, peek = ?`, a: 3, hint: "Peek sees top without removing." };
+        if (n % 12 === 10) return { id, q: `Graph edge connects ? nodes (1=two,2=one)`, a: 1, hint: "An edge connects two nodes." };
+        return { id, q: `Circular queue prevents ? (1=overflow,2=null)`, a: 1, hint: "Wraps around to use empty slots." };
       }
-      if (n % 8 === 0) return { id, q: `Hash table ${a} slots. Key ${a * a + b} goes to slot?`, a: (a * a + b) % a, hint: "key % slots." };
-      if (n % 8 === 1) return { id, q: `Singly linked list traversal from head to tail is O(?)`, a: a <= 3 ? 3 : 4, hint: "1=O(1),2=O(log n),3=O(n),4=O(n^2)" };
-      if (n % 8 === 2) return { id, q: `BST with ${a * 4} nodes, search worst-case with no rebalancing = O(?)`, a: a * 4, hint: "Unbalanced can be O(n)." };
-      if (n % 8 === 3) return { id, q: `Trie storing ${a} words of avg length ${b} has roughly how many nodes?`, a: a * b, hint: "words x avg length." };
-      if (n % 8 === 4) return { id, q: `Queue using array: enqueue O(?), dequeue O(?) (1=O(1),2=O(n))`, a: 12, hint: "Enqueue O(1), dequeue O(n) without ring." };
-      if (n % 8 === 5) return { id, q: `Stack push/pop time complexity (1=O(1),2=O(n))`, a: 1, hint: "Both constant time." };
-      if (n % 8 === 6) return { id, q: `Hash table with chaining: worst-case search O(?) (1=O(n),2=O(1))`, a: 1, hint: "All could collide." };
-      return { id, q: `AVL tree guarantees O(log n) search (1=yes,0=no)`, a: 1, hint: "Self-balancing." };
+      if (n % 12 === 0) return { id, q: `Hash table ${a} slots. Key ${a * a + b} goes to slot?`, a: (a * a + b) % a, hint: "key % slots." };
+      if (n % 12 === 1) return { id, q: `Singly linked list traversal from head to tail is O(?)`, a: a <= 3 ? 3 : 4, hint: "1=O(1),2=O(log n),3=O(n),4=O(n^2)" };
+      if (n % 12 === 2) return { id, q: `BST with ${a * 4} nodes, search worst-case with no rebalancing = O(?)`, a: a * 4, hint: "Unbalanced can be O(n)." };
+      if (n % 12 === 3) return { id, q: `Trie storing ${a} words of avg length ${b} has roughly how many nodes?`, a: a * b, hint: "words x avg length." };
+      if (n % 12 === 4) return { id, q: `Queue using array: enqueue O(?), dequeue O(?) (1=O(1),2=O(n))`, a: 12, hint: "Enqueue O(1), dequeue O(n) without ring." };
+      if (n % 12 === 5) return { id, q: `Stack push/pop time complexity (1=O(1),2=O(n))`, a: 1, hint: "Both constant time." };
+      if (n % 12 === 6) return { id, q: `Hash table with chaining: worst-case search O(?) (1=O(n),2=O(1))`, a: 1, hint: "All could collide." };
+      if (n % 12 === 7) return { id, q: `AVL tree guarantees O(log n) search (1=yes,0=no)`, a: 1, hint: "Self-balancing." };
+      if (n % 12 === 8) return { id, q: `Graph with ${a} nodes fully connected: max edges = ?`, a: (a * (a - 1)) / 2, hint: "n(n-1)/2." };
+      if (n % 12 === 9) return { id, q: `BST inorder traversal visits nodes in ? order (1=sorted,2=random)`, a: 1, hint: "Left-root-right gives sorted order." };
+      if (n % 12 === 10) return { id, q: `Hash table resizing when load factor > ? (typical: 0.75 means enter 75)`, a: 75, hint: "75 means 0.75 load factor." };
+      return { id, q: `Doubly linked list: insert after head is O(?) (1=O(1),2=O(n))`, a: 1, hint: "Head pointer available." };
     default:
       return { id, q: `${a} + ${b} = ?`, a: a + b, hint: "Add the numbers." };
   }
@@ -897,91 +1018,156 @@ function makeGeneratedQuestion(id, topic, level, n) {
   const a = (n % 9) + 2;
   const b = ((n * 3) % 11) + 1;
   const c = ((n * 5) % 13) + 2;
+  const d = ((n * 7) % 15) + 1;
   const source = easy ? "Easy course-aligned original" : advanced ? "Advanced course-aligned original" : "Intermediate course-aligned original";
   const item = (q, answer, hint) => ({ id, topic, level, q, a: answer, hint, source });
 
   if (easy) {
     switch (topic) {
       case "Number Systems":
-        if (n % 4 === 0) return item(`What is ${a} + ${b} in decimal?`, a + b, "Add the numbers.");
-        if (n % 4 === 1) return item(`What is ${a} x ${b}?`, a * b, "Multiply the numbers.");
-        if (n % 4 === 2) return item(`How many bits in ${a} bytes?`, a * 8, "1 byte = 8 bits.");
-        return item(`What is ${b}0 in decimal?`, b * 10, "Tens place value.");
+        if (n % 8 === 0) return item(`What is ${a} + ${b} in decimal?`, a + b, "Add the numbers.");
+        if (n % 8 === 1) return item(`What is ${a} x ${b}?`, a * b, "Multiply the numbers.");
+        if (n % 8 === 2) return item(`How many bits in ${a} bytes?`, a * 8, "1 byte = 8 bits.");
+        if (n % 8 === 3) return item(`What is ${b}0 in decimal?`, b * 10, "Tens place value.");
+        if (n % 8 === 4) return item(`What is 0x${a} in decimal? (hex digit)`, a, "Single hex digit equals same decimal for 0-9.");
+        if (n % 8 === 5) return item(`How many bytes in ${b} KB?`, b * 1024, "1 KB = 1024 bytes.");
+        if (n % 8 === 6) return item(`Binary 0b${a%2}${b%2}${c%2} to decimal?`, (a%2)*4 + (b%2)*2 + (c%2), "Multiply each bit by 4,2,1.");
+        return item(`What is ${a}0 + ${b} in decimal?`, a * 10 + b, "Combine tens and ones.");
       case "Bit Manipulation":
-        if (n % 4 === 0) return item(`${a} AND ${b}: bitwise if both are 1, result = (1 if ${a}>0 && ${b}>0 else 0)?`, (a > 0 && b > 0) ? 1 : 0, "AND requires both true.");
-        if (n % 4 === 1) return item(`${a} OR ${b}: bitwise if either is 1, result = (1 if ${a}>0 || ${b}>0 else 0)?`, (a > 0 || b > 0) ? 1 : 0, "OR true if either is true.");
-        if (n % 4 === 2) return item(`NOT ${a % 2} (use 1=true,0=false)?`, a % 2 ? 0 : 1, "NOT flips the bit.");
-        return item(`${a % 2} XOR ${(a + 1) % 2} (use 1=true,0=false)?`, 1, "XOR is true when bits differ.");
+        if (n % 8 === 0) return item(`${a} AND ${b}: bitwise if both are 1, result = (1 if ${a}>0 && ${b}>0 else 0)?`, (a > 0 && b > 0) ? 1 : 0, "AND requires both true.");
+        if (n % 8 === 1) return item(`${a} OR ${b}: bitwise if either is 1, result = (1 if ${a}>0 || ${b}>0 else 0)?`, (a > 0 || b > 0) ? 1 : 0, "OR true if either is true.");
+        if (n % 8 === 2) return item(`NOT ${a % 2} (use 1=true,0=false)?`, a % 2 ? 0 : 1, "NOT flips the bit.");
+        if (n % 8 === 3) return item(`${a % 2} XOR ${(a + 1) % 2} (use 1=true,0=false)?`, 1, "XOR is true when bits differ.");
+        if (n % 8 === 4) return item(`1 << ${a % 4} = ?`, 2 ** (a % 4), "Left shift by n multiplies by 2^n.");
+        if (n % 8 === 5) return item(`4 >> ${a % 3} = ? (integer division)`, Math.floor(4 / (2 ** (a % 3))), "Right shift divides by 2^n.");
+        if (n % 8 === 6) return item(`${a % 2} NAND ${(a + 1) % 2} = ? (1=true,0=false)`, 1, "NAND is NOT(AND). Both 1 -> NAND 0.");
+        return item(`${a % 2} NOR ${(a + 1) % 2} = ? (1=true,0=false)`, 0, "NOR is NOT(OR). One 1 -> OR 1 -> NOR 0.");
       case "Algebra":
-        if (n % 4 === 0) return item(`If x + ${a} = ${a + b}, x = ?`, b, `Subtract ${a} from both sides.`);
-        if (n % 4 === 1) return item(`If ${a} * x = ${a * b}, x = ?`, b, `Divide both sides by ${a}.`);
-        if (n % 4 === 2) return item(`1 MHz = ? Hz`, 1000000, "MHz means million hertz.");
-        return item(`If x - ${a} = ${b}, x = ?`, a + b, `Add ${a} to both sides.`);
+        if (n % 8 === 0) return item(`If x + ${a} = ${a + b}, x = ?`, b, `Subtract ${a} from both sides.`);
+        if (n % 8 === 1) return item(`If ${a} * x = ${a * b}, x = ?`, b, `Divide both sides by ${a}.`);
+        if (n % 8 === 2) return item(`1 MHz = ? Hz`, 1000000, "MHz means million hertz.");
+        if (n % 8 === 3) return item(`If x - ${a} = ${b}, x = ?`, a + b, `Add ${a} to both sides.`);
+        if (n % 8 === 4) return item(`${a} kHz = ? Hz`, a * 1000, "kHz means thousand hertz.");
+        if (n % 8 === 5) return item(`If x/${a} = ${b}, x = ?`, a * b, `Multiply both sides by ${a}.`);
+        if (n % 8 === 6) return item(`y = ${a}x, if x = ${b}, y = ?`, a * b, `Substitute ${b} for x.`);
+        return item(`${a} ns = ? microseconds`, a / 1000, "Divide nanoseconds by 1000.");
       case "Boolean Logic":
-        if (n % 4 === 0) return item(`TRUE AND TRUE = ? (1=true,0=false)`, 1, "Both true = AND is true.");
-        if (n % 4 === 1) return item(`FALSE OR TRUE = ? (1=true,0=false)`, 1, "One true = OR is true.");
-        if (n % 4 === 2) return item(`TRUE AND FALSE = ? (1=true,0=false)`, 0, "Both must be true for AND.");
-        return item(`TRUE OR FALSE = ? (1=true,0=false)`, 1, "One true is enough for OR.");
+        if (n % 8 === 0) return item(`TRUE AND TRUE = ? (1=true,0=false)`, 1, "Both true = AND is true.");
+        if (n % 8 === 1) return item(`FALSE OR TRUE = ? (1=true,0=false)`, 1, "One true = OR is true.");
+        if (n % 8 === 2) return item(`TRUE AND FALSE = ? (1=true,0=false)`, 0, "Both must be true for AND.");
+        if (n % 8 === 3) return item(`TRUE OR FALSE = ? (1=true,0=false)`, 1, "One true is enough for OR.");
+        if (n % 8 === 4) return item(`NOT(FALSE) = ? (1=true,0=false)`, 1, "NOT flips false to true.");
+        if (n % 8 === 5) return item(`FALSE XOR FALSE = ? (1=true,0=false)`, 0, "XOR is false when both same.");
+        if (n % 8 === 6) return item(`TRUE XOR FALSE = ? (1=true,0=false)`, 1, "XOR is true when inputs differ.");
+        return item(`NOT(TRUE AND FALSE) = ? (1=true,0=false)`, 1, "TRUE AND FALSE = FALSE, NOT(FALSE) = TRUE.");
       case "Fixed-Point":
-        if (n % 4 === 0) return item(`Store ${a}.${b} as integer scaled by 10. Answer = ?`, a * 10 + b, "Move decimal one place right.");
-        if (n % 4 === 1) return item(`5 / 2 = ? (integer division)`, 2, "Integer division discards remainder.");
-        if (n % 4 === 2) return item(`${a} x 10 = ?`, a * 10, "Multiply by 10.");
-        return item(`Scale ${a * 10} back by dividing by 10. Answer = ?`, a, "Divide by 10.");
+        if (n % 8 === 0) return item(`Store ${a}.${b} as integer scaled by 10. Answer = ?`, a * 10 + b, "Move decimal one place right.");
+        if (n % 8 === 1) return item(`5 / 2 = ? (integer division)`, 2, "Integer division discards remainder.");
+        if (n % 8 === 2) return item(`${a} x 10 = ?`, a * 10, "Multiply by 10.");
+        if (n % 8 === 3) return item(`Scale ${a * 10} back by dividing by 10. Answer = ?`, a, "Divide by 10.");
+        if (n % 8 === 4) return item(`Represent ${a}.${b} with scale 100. Integer = ?`, a * 100 + b * 10, "Two decimal places: multiply by 100.");
+        if (n % 8 === 5) return item(`Q4.4: 1 in Q4.4 notation = ?`, 16, "Q4.4 scale is 2^4 = 16.");
+        if (n % 8 === 6) return item(`Scale factor 1000 applied to ${a}.${b} gives?`, a * 1000 + b * 100, "Move three decimal places.");
+        return item(`Integer ${a * 100} / 100 in decimal = ?`, a, "Divide by 100 to get original.");
       case "Modular Arithmetic":
-        if (n % 4 === 0) return item(`${a * 2} % ${a} = ?`, 0, "Even multiple yields remainder 0.");
-        if (n % 4 === 1) return item(`${a * 5 + b} % ${a} = ?`, b, "Remove the multiples of a.");
-        if (n % 4 === 2) return item(`5 + 1 % 3 = ? (add left to right)`, 0, "6 mod 3 = 0.");
-        return item(`${a + b} % ${a} = ?`, b, `${a + b} = ${a} x 1 + ${b}.`);
+        if (n % 8 === 0) return item(`${a * 2} % ${a} = ?`, 0, "Even multiple yields remainder 0.");
+        if (n % 8 === 1) return item(`${a * 5 + b} % ${a} = ?`, b, "Remove the multiples of a.");
+        if (n % 8 === 2) return item(`5 + 1 % 3 = ? (add left to right)`, 0, "6 mod 3 = 0.");
+        if (n % 8 === 3) return item(`${a + b} % ${a} = ?`, b, `${a + b} = ${a} x 1 + ${b}.`);
+        if (n % 8 === 4) return item(`${a * b} % ${a} = ?`, 0, "${a} divides evenly into ${a*b}.");
+        if (n % 8 === 5) return item(`${a * (b + 1)} % ${a} = ?`, 0, "Multiple of a has remainder 0.");
+        if (n % 8 === 6) return item(`12 % ${a} = ? (remainder of 12 / ${a})`, 12 % a, "12 divided by a, remainder.");
+        return item(`Even numbers mod 2 always = ?`, 0, "Even numbers are divisible by 2.");
       case "Calculus Concepts":
-        if (n % 4 === 0) return item(`Value ${a} to ${a + b} change = ?`, b, "Subtract starting from ending.");
-        if (n % 4 === 1) return item(`A ${a * 10} Hz wave period in ms = ?`, Math.round(1000 / (a * 10)), "Period = 1000/f ms.");
-        if (n % 4 === 2) return item(`Area of ${a} x ${b} rectangle = ?`, a * b, "Area = width x height.");
-        return item(`Rate: ${a * 5} units / ${a} seconds = ?`, 5, "Divide units by time.");
+        if (n % 8 === 0) return item(`Value ${a} to ${a + b} change = ?`, b, "Subtract starting from ending.");
+        if (n % 8 === 1) return item(`A ${a * 10} Hz wave period in ms = ?`, Math.round(1000 / (a * 10)), "Period = 1000/f ms.");
+        if (n % 8 === 2) return item(`Area of ${a} x ${b} rectangle = ?`, a * b, "Area = width x height.");
+        if (n % 8 === 3) return item(`Rate: ${a * 5} units / ${a} seconds = ?`, 5, "Divide units by time.");
+        if (n % 8 === 4) return item(`Derivative: constant ${a} has slope ?`, 0, "Constants have zero slope.");
+        if (n % 8 === 5) return item(`If f(x)=${a}x, f(2) + f(3) = ?`, a * 5, `f(2)=${2*a}, f(3)=${3*a}.`);
+        if (n % 8 === 6) return item(`A sine wave has frequency ${a} Hz. Period in ms = ?`, Math.round(1000 / a), "T = 1/f.");
+        return item(`Exponential growth: value ${a} doubles 3 times = ?`, a * 8, "x2 three times = x8.");
       case "Trigonometry & Signals":
-        if (n % 4 === 0) return item(`A full circle has how many degrees?`, 360, "360 degrees in a circle.");
-        if (n % 4 === 1) return item(`A right angle is how many degrees?`, 90, "Right angle = 90 degrees.");
-        if (n % 4 === 2) return item(`${a * 5} Hz period in ms = ?`, Math.round(1000 / (a * 5)), "T = 1000/f.");
-        return item(`Amplitude ${a}V peak gives peak-to-peak = ?`, a * 2, "Peak-to-peak = 2 x amplitude.");
+        if (n % 8 === 0) return item(`A full circle has how many degrees?`, 360, "360 degrees in a circle.");
+        if (n % 8 === 1) return item(`A right angle is how many degrees?`, 90, "Right angle = 90 degrees.");
+        if (n % 8 === 2) return item(`${a * 5} Hz period in ms = ?`, Math.round(1000 / (a * 5)), "T = 1000/f.");
+        if (n % 8 === 3) return item(`Amplitude ${a}V peak gives peak-to-peak = ?`, a * 2, "Peak-to-peak = 2 x amplitude.");
+        if (n % 8 === 4) return item(`sin(0) + cos(0) = ?`, 1, "sin(0)=0, cos(0)=1.");
+        if (n % 8 === 5) return item(`Phase shift of full 360 degrees = ? cycle(s)`, 1, "360 degress = one full cycle.");
+        if (n % 8 === 6) return item(`DC offset: signal oscillates between ${a} and ${a + 2}. Offset = ?`, a + 1, "Offset = (min + max) / 2.");
+        return item(`${a * 10} degrees = ? right angles`, a / 9, "Right angle = 90 degrees.");
       case "Statistics & Probability":
-        if (n % 4 === 0) return item(`Mean of [${a}, ${a + b}, ${a + 2 * b}] = ?`, a + b, "Middle of evenly spaced values.");
-        if (n % 4 === 1) return item(`${a * 10} out of 100 as percent?`, a * 10, "Percent = part/whole x 100.");
-        if (n % 4 === 2) return item(`Probability of heads on fair coin (percent)?`, 50, "1 out of 2 sides.");
-        return item(`Range of [${a}, ${a + b}] = ?`, b, "Max minus min.");
+        if (n % 8 === 0) return item(`Mean of [${a}, ${a + b}, ${a + 2 * b}] = ?`, a + b, "Middle of evenly spaced values.");
+        if (n % 8 === 1) return item(`${a * 10} out of 100 as percent?`, a * 10, "Percent = part/whole x 100.");
+        if (n % 8 === 2) return item(`Probability of heads on fair coin (percent)?`, 50, "1 out of 2 sides.");
+        if (n % 8 === 3) return item(`Range of [${a}, ${a + b}] = ?`, b, "Max minus min.");
+        if (n % 8 === 4) return item(`Median of [${a}, ${a + 2}, ${a + b}] (odd count) = ?`, a + 2, "Middle value when sorted.");
+        if (n % 8 === 5) return item(`Mode of [${a}, ${a}, ${a + b}] = ?`, a, "Most frequent value.");
+        if (n % 8 === 6) return item(`Probability of rolling 6 on fair die (percent)?`, 17, "1/6 ≈ 17%.");
+        return item(`If 3 of ${a * 10} samples are defective, defect rate percent = ?`, 30 / a, "defects / total x 100.");
       case "Linear Algebra":
-        if (n % 4 === 0) return item(`A vector has ${a + 2} elements. Its length is?`, a + 2, "Count the elements.");
-        if (n % 4 === 1) return item(`A 3-axis sensor gives a vector of length?`, 3, "x, y, z.");
-        if (n % 4 === 2) return item(`Add [${a}, ${b}] + [${c}, ${a}] first element = ?`, a + c, "Add first elements.");
-        return item(`${a} x ${b} matrix has how many elements?`, a * b, "Rows x columns.");
+        if (n % 8 === 0) return item(`A vector has ${a + 2} elements. Its length is?`, a + 2, "Count the elements.");
+        if (n % 8 === 1) return item(`A 3-axis sensor gives a vector of length?`, 3, "x, y, z.");
+        if (n % 8 === 2) return item(`Add [${a}, ${b}] + [${c}, ${a}] first element = ?`, a + c, "Add first elements.");
+        if (n % 8 === 3) return item(`${a} x ${b} matrix has how many elements?`, a * b, "Rows x columns.");
+        if (n % 8 === 4) return item(`Scalar multiply [${a},${b}] x ${c} = first element?`, a * c, "Multiply first element by scalar.");
+        if (n % 8 === 5) return item(`Dot product [1,0] dot [${a},${b}] = ?`, a, "1 x a + 0 x b = a.");
+        if (n % 8 === 6) return item(`Identity matrix I${a} has how many 1's?`, a, "Identity has 1's on diagonal.");
+        return item(`Transpose of [${a}, ${b}] (row vector) has how many rows?`, 1, "Transpose swaps rows and columns.");
       case "DSP & Feature Extraction":
-        if (n % 4 === 0) return item(`Mean of [${a}, ${b}, ${c}] rounded down = ?`, Math.floor((a + b + c) / 3), "Sum divided by count.");
-        if (n % 4 === 1) return item(`100 ms at ${a * 10} Hz has how many samples?`, Math.round(0.1 * a * 10), "Samples = seconds x Hz.");
-        if (n % 4 === 2) return item(`Nyquist says sample ${a} kHz signal at least ? Hz`, a * 2000, "At least 2x frequency.");
-        return item(`A ${a * 100} Hz sample rate captures up to ? Hz`, a * 50, "Nyquist = half sample rate.");
+        if (n % 8 === 0) return item(`Mean of [${a}, ${b}, ${c}] rounded down = ?`, Math.floor((a + b + c) / 3), "Sum divided by count.");
+        if (n % 8 === 1) return item(`100 ms at ${a * 10} Hz has how many samples?`, Math.round(0.1 * a * 10), "Samples = seconds x Hz.");
+        if (n % 8 === 2) return item(`Nyquist says sample ${a} kHz signal at least ? Hz`, a * 2000, "At least 2x frequency.");
+        if (n % 8 === 3) return item(`A ${a * 100} Hz sample rate captures up to ? Hz`, a * 50, "Nyquist = half sample rate.");
+        if (n % 8 === 4) return item(`RMS of constant ${a} = ?`, a, "RMS of constant equals magnitude.");
+        if (n % 8 === 5) return item(`Median filter replaces value with ? (1=mean,2=median)`, 2, "Takes the median of neighbors.");
+        if (n % 8 === 6) return item(`${a * 50} ms window at 1000 Hz has how many samples?`, a * 50, "ms/1000 x 1000 = ms.");
+        return item(`Envelope detection tracks signal ? (1=peak,2=zero)`, 1, "Follows the peak amplitude.");
       case "Control Systems Math":
-        if (n % 4 === 0) return item(`Target=${a * 10}, measured=${b * 5}. Error = ?`, a * 10 - b * 5, "target - measured.");
-        if (n % 4 === 1) return item(`Kp=${a}, error=${b}. P output = ?`, a * b, "Kp x error.");
-        if (n % 4 === 2) return item(`If measured > target by ${a}, error sign? (-1 or 1)`, -1, "Error = target - measured.");
-        return item(`${a * 10} Hz control loop period in ms = ?`, Math.round(1000 / (a * 10)), "Period = 1000/f.");
+        if (n % 8 === 0) return item(`Target=${a * 10}, measured=${b * 5}. Error = ?`, a * 10 - b * 5, "target - measured.");
+        if (n % 8 === 1) return item(`Kp=${a}, error=${b}. P output = ?`, a * b, "Kp x error.");
+        if (n % 8 === 2) return item(`If measured > target by ${a}, error sign? (-1 or 1)`, -1, "Error = target - measured.");
+        if (n % 8 === 3) return item(`${a * 10} Hz control loop period in ms = ?`, Math.round(1000 / (a * 10)), "Period = 1000/f.");
+        if (n % 8 === 4) return item(`Steady-state error: target=${a * 10}, settled=${a * 8}. Error = ?`, a * 2, "target - settled.");
+        if (n % 8 === 5) return item(`Control loop runs at ${a * 50} Hz. Period in ms = ?`, Math.round(1000 / (a * 50)), "1/f in ms.");
+        if (n % 8 === 6) return item(`P-only control always has ? error (1=steady-state,2=zero)`, 1, "Pure P has steady-state error.");
+        return item(`Ki term accumulates ? over time (1=error,2=output)`, 1, "Integral accumulates error.");
       case "ML Basics & Loss Functions":
-        if (n % 4 === 0) return item(`Prediction=${a + b}, actual=${a}. Error = ?`, b, "prediction - actual.");
-        if (n % 4 === 1) return item(`Error of ${a} squared = ?`, a * a, "Square the error.");
-        if (n % 4 === 2) return item(`${a * 10} correct out of 100. Accuracy percent = ?`, a * 10, "correct / total x 100.");
-        return item(`Binary classification has how many classes?`, 2, "Two classes.");
+        if (n % 8 === 0) return item(`Prediction=${a + b}, actual=${a}. Error = ?`, b, "prediction - actual.");
+        if (n % 8 === 1) return item(`Error of ${a} squared = ?`, a * a, "Square the error.");
+        if (n % 8 === 2) return item(`${a * 10} correct out of 100. Accuracy percent = ?`, a * 10, "correct / total x 100.");
+        if (n % 8 === 3) return item(`Binary classification has how many classes?`, 2, "Two classes.");
+        if (n % 8 === 4) return item(`MAE for errors [${a}, ${b}] = ?`, (a + b) / 2, "Sum of absolute errors divided by count.");
+        if (n % 8 === 5) return item(`MSE: error=${c}. Square = ?`, c * c, "Square the error value.");
+        if (n % 8 === 6) return item(`Learning rate 0.1 x gradient ${a} = update? (type 0.x)`, a * 0.1, "lr x gradient.");
+        return item(`Batch size ${a * 10} from 100 samples gives batches = ?`, 10, "100 / batch size.");
       case "Neural Network Math":
-        if (n % 4 === 0) return item(`ReLU(${a}) = ?`, a, "Positive passes through.");
-        if (n % 4 === 1) return item(`ReLU(${-a}) = ?`, 0, "Negative clips to zero.");
-        if (n % 4 === 2) return item(`A neuron with ${a} inputs has how many weights?`, a, "One weight per input.");
-        return item(`Sigmoid outputs between 0 and ?`, 1, "Sigmoid range is 0 to 1.");
+        if (n % 8 === 0) return item(`ReLU(${a}) = ?`, a, "Positive passes through.");
+        if (n % 8 === 1) return item(`ReLU(${-a}) = ?`, 0, "Negative clips to zero.");
+        if (n % 8 === 2) return item(`A neuron with ${a} inputs has how many weights?`, a, "One weight per input.");
+        if (n % 8 === 3) return item(`Sigmoid outputs between 0 and ?`, 1, "Sigmoid range is 0 to 1.");
+        if (n % 8 === 4) return item(`Tanh outputs between -1 and ?`, 1, "Tanh ranges from -1 to 1.");
+        if (n % 8 === 5) return item(`Softmax outputs for ${a} classes sum to ?`, 1, "Probabilities sum to 1.");
+        if (n % 8 === 6) return item(`Bias term adds how many parameters per neuron?`, 1, "One bias per neuron.");
+        return item(`Dropout rate 0.${a} keeps ? percent`, (1 - a / 10) * 100, "100 * (1 - dropout).");
       case "Quantization & Numeric Precision":
-        if (n % 4 === 0) return item(`uint8 max = ?`, 255, "0 to 255 range.");
-        if (n % 4 === 1) return item(`int8 max = ?`, 127, "-128 to 127 range.");
-        if (n % 4 === 2) return item(`uint8 min = ?`, 0, "Unsigned minimum is 0.");
-        return item(`int8 min = ?`, -128, "-128 is the minimum.");
+        if (n % 8 === 0) return item(`uint8 max = ?`, 255, "0 to 255 range.");
+        if (n % 8 === 1) return item(`int8 max = ?`, 127, "-128 to 127 range.");
+        if (n % 8 === 2) return item(`uint8 min = ?`, 0, "Unsigned minimum is 0.");
+        if (n % 8 === 3) return item(`int8 min = ?`, -128, "-128 is the minimum.");
+        if (n % 8 === 4) return item(`uint16 max = ?`, 65535, "0 to 65535 range.");
+        if (n % 8 === 5) return item(`int16 max = ?`, 32767, "-32768 to 32767 range.");
+        if (n % 8 === 6) return item(`Float32 has how many bits?`, 32, "32-bit floating point.");
+        return item(`Float32 mantissa precision ~ ? decimal digits`, 7, "~7 decimal digits of precision.");
       case "Model Evaluation & Deployment Math":
-        if (n % 4 === 0) return item(`TP=${a}, FP=${b}. Total positive predictions = ?`, a + b, "TP + FP.");
-        if (n % 4 === 1) return item(`TP=${a}, FN=${b}. Total actual positives = ?`, a + b, "TP + FN.");
-        if (n % 4 === 2) return item(`Inference ${a * 10} ms. Max per second = ?`, Math.round(1000 / (a * 10)), "1000 / latency.");
-        return item(`Model ${b * 10} KB, flash ${a * 32} KB. Remaining = ?`, a * 32 - b * 10, "Budget minus model.");
+        if (n % 8 === 0) return item(`TP=${a}, FP=${b}. Total positive predictions = ?`, a + b, "TP + FP.");
+        if (n % 8 === 1) return item(`TP=${a}, FN=${b}. Total actual positives = ?`, a + b, "TP + FN.");
+        if (n % 8 === 2) return item(`Inference ${a * 10} ms. Max per second = ?`, Math.round(1000 / (a * 10)), "1000 / latency.");
+        if (n % 8 === 3) return item(`Model ${b * 10} KB, flash ${a * 32} KB. Remaining = ?`, a * 32 - b * 10, "Budget minus model.");
+        if (n % 8 === 4) return item(`TP=${a}, FP=0. Precision percent = ?`, 100, "No false positives = 100% precision.");
+        if (n % 8 === 5) return item(`FN=${a}, TP=${b * 5}. Recall percent = ?`, Math.floor((b * 5) / (b * 5 + a) * 100), "TP / (TP + FN).");
+        if (n % 8 === 6) return item(`FPS: ${a * 10} ms per frame = ? FPS`, Math.floor(1000 / (a * 10)), "1000 / ms per frame.");
+        return item(`Model ${b * 5} MB. Flash ${a * 20} MB. Remaining = ?`, a * 20 - b * 5, "Budget minus model.");
       default:
         return item(`${a} + ${b} = ?`, a + b, "Add the values.");
     }
@@ -990,103 +1176,167 @@ function makeGeneratedQuestion(id, topic, level, n) {
   switch (topic) {
     case "Number Systems": {
       const value = advanced ? 128 + ((n * 17) % 120) : 16 + ((n * 7) % 80);
-      if (n % 4 === 0) return item(`Convert decimal ${value} to hex, then enter the decimal value of that hex.`, value, "Conversion should preserve the same value.");
-      if (n % 4 === 1) return item(`How many values can ${a + 4} bits represent?`, 2 ** (a + 4), "n bits represent 2^n values.");
-      if (n % 4 === 2) return item(`What is the maximum unsigned value for ${a + 4} bits?`, 2 ** (a + 4) - 1, "Unsigned max is 2^n - 1.");
-      return item(`Two's complement signed ${a + 4}-bit minimum value is?`, -(2 ** (a + 3)), "Signed minimum is -2^(n-1).");
+      if (n % 8 === 0) return item(`Convert decimal ${value} to hex, then enter the decimal value of that hex.`, value, "Conversion should preserve the same value.");
+      if (n % 8 === 1) return item(`How many values can ${a + 4} bits represent?`, 2 ** (a + 4), "n bits represent 2^n values.");
+      if (n % 8 === 2) return item(`What is the maximum unsigned value for ${a + 4} bits?`, 2 ** (a + 4) - 1, "Unsigned max is 2^n - 1.");
+      if (n % 8 === 3) return item(`Two's complement signed ${a + 4}-bit minimum value is?`, -(2 ** (a + 3)), "Signed minimum is -2^(n-1).");
+      if (n % 8 === 4) return item(`Binary ${value} to hex? (enter decimal equivalent)`, value, "Binary to hex preserves value.");
+      if (n % 8 === 5) return item(`What is 2^${a + 4} in hex? Enter decimal.`, 2 ** (a + 4), `2^${a+4} in decimal.`);
+      if (n % 8 === 6) return item(`Hex 0x${a}${b + 8} to decimal?`, a * 16 + b + 8, "Hex digit x16 plus units.");
+      return item(`Signed ${a + 4}-bit max + 1 = ? (two's complement wrap)`, -(2 ** (a + 3)), "Max wraps to min in two's complement.");
     }
     case "Bit Manipulation": {
       const bit = n % (advanced ? 8 : 6);
-      if (n % 4 === 0) return item(`1 << ${bit} equals?`, 2 ** bit, "Left shift places a 1 at that bit position.");
-      if (n % 4 === 1) return item(`Set bit ${bit} in zero. Result decimal = ?`, 2 ** bit, "Setting one bit produces 2^bit.");
-      if (n % 4 === 2) return item(`Clear bit ${bit} from 255. Result decimal = ?`, 255 - 2 ** bit, "255 has all low 8 bits set.");
-      return item(`Toggle bit ${bit} in ${2 ** bit}. Result decimal = ?`, 0, "Toggling a set bit clears it.");
+      if (n % 8 === 0) return item(`1 << ${bit} equals?`, 2 ** bit, "Left shift places a 1 at that bit position.");
+      if (n % 8 === 1) return item(`Set bit ${bit} in zero. Result decimal = ?`, 2 ** bit, "Setting one bit produces 2^bit.");
+      if (n % 8 === 2) return item(`Clear bit ${bit} from 255. Result decimal = ?`, 255 - 2 ** bit, "255 has all low 8 bits set.");
+      if (n % 8 === 3) return item(`Toggle bit ${bit} in ${2 ** bit}. Result decimal = ?`, 0, "Toggling a set bit clears it.");
+      if (n % 8 === 4) return item(`(1 << ${bit}) | (1 << ${(bit + 1) % 8}) = ? (decimal)`, 2 ** bit + 2 ** ((bit + 1) % 8), "Set two specific bits.");
+      if (n % 8 === 5) return item(`Mask: 0xF0 >> 4 = ? (decimal)`, 15, "0xF0 >> 4 = 0x0F = 15.");
+      if (n % 8 === 6) return item(`255 ^ (1 << ${bit}) toggles bit? (1=yes,0=no)`, 1, "XOR toggles a bit.");
+      return item(`(~0) in 8-bit unsigned = ? (decimal)`, 255, "Bitwise NOT of 0 is all 1s = 255.");
     }
     case "Boolean Logic": {
-      if (n % 4 === 0) return item(`How many truth-table rows are needed for ${a} binary inputs?`, 2 ** a, "Rows = 2^inputs.");
-      if (n % 4 === 1) return item(`NAND(1, ${n % 2}) equals?`, n % 2 ? 0 : 1, "NAND is NOT(AND).");
-      if (n % 4 === 2) return item(`XOR(${n % 2}, ${(n + 1) % 2}) equals?`, 1, "XOR is true when inputs differ.");
-      return item(`NOT(${n % 2}) equals?`, n % 2 ? 0 : 1, "NOT flips a Boolean value.");
+      if (n % 8 === 0) return item(`How many truth-table rows are needed for ${a} binary inputs?`, 2 ** a, "Rows = 2^inputs.");
+      if (n % 8 === 1) return item(`NAND(1, ${n % 2}) equals?`, n % 2 ? 0 : 1, "NAND is NOT(AND).");
+      if (n % 8 === 2) return item(`XOR(${n % 2}, ${(n + 1) % 2}) equals?`, 1, "XOR is true when inputs differ.");
+      if (n % 8 === 3) return item(`NOT(${n % 2}) equals?`, n % 2 ? 0 : 1, "NOT flips a Boolean value.");
+      if (n % 8 === 4) return item(`NOR(0, 0) equals?`, 1, "NOR is true only when both inputs are false.");
+      if (n % 8 === 5) return item(`XOR(${n % 2}, ${n % 2}) equals?`, 0, "XOR is false when inputs are the same.");
+      if (n % 8 === 6) return item(`De Morgan: NOT(A AND B) = NOT A ? NOT B (1=OR,2=AND)`, 1, "NOT(A AND B) = NOT A OR NOT B.");
+      return item(`How many gates needed for 2-input AND?`, 1, "A single AND gate.");
     }
     case "Algebra": {
-      if (n % 4 === 0) return item(`Timer frequency: f_clk=${a * 2}000000 Hz, prescaler=${b}, period=${c * 10}. Frequency rounded down = ?`, Math.floor((a * 2000000) / (b * c * 10)), "f = f_clk / (prescaler x period).");
-      if (n % 4 === 1) return item(`PWM compare=${a * 10}, period=${a * 20}. Duty percent = ?`, 50, "compare / period x 100.");
-      if (n % 4 === 2) return item(`Voltage divider with equal resistors and Vin=${a * 2}V gives Vout = ?`, a, "Equal resistors halve the voltage.");
-      return item(`Convert ${a} MHz to Hz.`, a * 1000000, "MHz means million hertz.");
+      if (n % 8 === 0) return item(`Timer frequency: f_clk=${a * 2}000000 Hz, prescaler=${b}, period=${c * 10}. Frequency rounded down = ?`, Math.floor((a * 2000000) / (b * c * 10)), "f = f_clk / (prescaler x period).");
+      if (n % 8 === 1) return item(`PWM compare=${a * 10}, period=${a * 20}. Duty percent = ?`, 50, "compare / period x 100.");
+      if (n % 8 === 2) return item(`Voltage divider with equal resistors and Vin=${a * 2}V gives Vout = ?`, a, "Equal resistors halve the voltage.");
+      if (n % 8 === 3) return item(`Convert ${a} MHz to Hz.`, a * 1000000, "MHz means million hertz.");
+      if (n % 8 === 4) return item(`Ohm's Law: I = V/R. V=${a * 3}V, R=${a}Ω. I = ? A`, 3, "I = V / R.");
+      if (n % 8 === 5) return item(`Power: P = IV. I=${a}A, V=${b}V. P = ? W`, a * b, "P = I x V.");
+      if (n % 8 === 6) return item(`ADC: Vref=${a}V, reading=${128 * (b % 3 + 1)}/256. Voltage = ?`, a * (128 * (b % 3 + 1)) / 256, "reading/256 x Vref.");
+      return item(`Period T = 1/f. f=${a * 100} Hz. T = ? ms`, Math.round(10 / a), "T = 1000/(a*100) ms.");
     }
     case "Fixed-Point": {
       const singleB = ((n * 3) % 9) + 1;
-      if (n % 4 === 0) return item(`Q8.8 representation of ${a}.0 equals?`, a * 256, "Q8.8 scale is 2^8.");
-      if (n % 4 === 1) return item(`Store ${a}.${singleB} using scale 100. Rounded integer = ?`, a * 100 + singleB * 10, "Move two decimal places.");
-      if (n % 4 === 2) return item(`Signed ${a + 8}-bit max value is?`, 2 ** (a + 7) - 1, "Signed max is 2^(bits-1)-1.");
-      return item(`Unsigned ${a + 8}-bit value wraps after how many distinct values?`, 2 ** (a + 8), "Unsigned range size is 2^bits.");
+      if (n % 8 === 0) return item(`Q8.8 representation of ${a}.0 equals?`, a * 256, "Q8.8 scale is 2^8.");
+      if (n % 8 === 1) return item(`Store ${a}.${singleB} using scale 100. Rounded integer = ?`, a * 100 + singleB * 10, "Move two decimal places.");
+      if (n % 8 === 2) return item(`Signed ${a + 8}-bit max value is?`, 2 ** (a + 7) - 1, "Signed max is 2^(bits-1)-1.");
+      if (n % 8 === 3) return item(`Unsigned ${a + 8}-bit value wraps after how many distinct values?`, 2 ** (a + 8), "Unsigned range size is 2^bits.");
+      if (n % 8 === 4) return item(`Q4.4: max integer part with 4 bits?`, 15, "4-bit unsigned max = 15.");
+      if (n % 8 === 5) return item(`Q7.1: precision = ? (2^-1 = 0.5. enter 0.5)`, 0.5, "1 fractional bit = 0.5 precision.");
+      if (n % 8 === 6) return item(`Scale 16: value ${a}.5 stored as?`, a * 16 + 8, "0.5 x 16 = 8.");
+      return item(`int16 max stored in Q8.8 = ?`, 32767, "Q8.8 uses int16 storage.");
     }
     case "Modular Arithmetic": {
       const size = advanced ? 32 : 16;
-      if (n % 4 === 0) return item(`${a * size + b} % ${size} = ?`, b, "Modulo keeps the remainder.");
-      if (n % 4 === 1) return item(`Ring buffer size ${size}, head ${size - 1}; next head = ?`, 0, "The next index wraps to zero.");
-      if (n % 4 === 2) return item(`uint8 value ${250 + (n % 6)} plus ${10 + (n % 8)} wraps to?`, (250 + (n % 6) + 10 + (n % 8)) % 256, "uint8 arithmetic is modulo 256.");
-      return item(`Clock arithmetic: (${a} + ${b}) % ${c + 8} = ?`, (a + b) % (c + 8), "Add first, then take the remainder.");
+      if (n % 8 === 0) return item(`${a * size + b} % ${size} = ?`, b, "Modulo keeps the remainder.");
+      if (n % 8 === 1) return item(`Ring buffer size ${size}, head ${size - 1}; next head = ?`, 0, "The next index wraps to zero.");
+      if (n % 8 === 2) return item(`uint8 value ${250 + (n % 6)} plus ${10 + (n % 8)} wraps to?`, (250 + (n % 6) + 10 + (n % 8)) % 256, "uint8 arithmetic is modulo 256.");
+      if (n % 8 === 3) return item(`Clock arithmetic: (${a} + ${b}) % ${c + 8} = ?`, (a + b) % (c + 8), "Add first, then take the remainder.");
+      if (n % 8 === 4) return item(`${a * size + b} / ${size} integer division = ?`, a, "Divide discards remainder.");
+      if (n % 8 === 5) return item(`Circular buffer: tail = (head + ${a}) % ${size}. head=0, tail=?`, a % size, "(0 + a) % size.");
+      if (n % 8 === 6) return item(`uint8 wraps at ?`, 256, "256 values: 0 to 255.");
+      return item(`Modular inverse: (${a} * x) % 7 = 1. x = ? (${a} < 7)`, 7 - a + 1, "Trial multiplication until product % 7 = 1.");
     }
     case "Calculus Concepts": {
-      if (n % 4 === 0) return item(`Value changes from ${a} to ${a + b * 2} in ${b} seconds. Rate = ?`, 2, "Rate = change / time.");
-      if (n % 4 === 1) return item(`A ${a * 10} Hz signal has period in milliseconds rounded down = ?`, Math.floor(1000 / (a * 10)), "T = 1/f.");
-      if (n % 4 === 2) return item(`Integral area of constant error ${a} over ${b} seconds = ?`, a * b, "Area = height x width.");
-      return item(`PID P-term with Kp=${a} and error=${b} equals?`, a * b, "P = Kp x error.");
+      if (n % 8 === 0) return item(`Value changes from ${a} to ${a + b * 2} in ${b} seconds. Rate = ?`, 2, "Rate = change / time.");
+      if (n % 8 === 1) return item(`A ${a * 10} Hz signal has period in milliseconds rounded down = ?`, Math.floor(1000 / (a * 10)), "T = 1/f.");
+      if (n % 8 === 2) return item(`Integral area of constant error ${a} over ${b} seconds = ?`, a * b, "Area = height x width.");
+      if (n % 8 === 3) return item(`PID P-term with Kp=${a} and error=${b} equals?`, a * b, "P = Kp x error.");
+      if (n % 8 === 4) return item(`PID I-term accumulates error ${a} for ${b} steps = ?`, a * b, "Sum of error over time.");
+      if (n % 8 === 5) return item(`Derivative: error goes from ${a} to ${a + b * 2} in 1 step = ?`, b * 2, "Change in error.");
+      if (n % 8 === 6) return item(`f(x) = ${a}x + ${b}. f(${c}) - f(${d}) = ?`, a * (c - d), "Change in function = slope x change in x.");
+      return item(`Exponential decay: half-life ${a} periods halves value each time. After 3 periods: 1 -> ?`, 0.125, "1/2^3 = 1/8 = 0.125.");
     }
     case "Trigonometry & Signals": {
-      if (n % 4 === 0) return item(`A ${a * 100} Hz signal has period in milliseconds rounded down = ?`, Math.floor(1000 / (a * 100)), "Period = 1/f.");
-      if (n % 4 === 1) return item(`Peak amplitude ${a}V gives peak-to-peak voltage = ?`, a * 2, "Peak-to-peak is twice amplitude.");
-      if (n % 4 === 2) return item(`Three-phase signals are separated by how many degrees?`, 120, "360 / 3.");
-      return item(`Nyquist minimum sample rate for ${a} kHz signal in Hz = ?`, a * 2000, "Minimum sample rate is 2x frequency.");
+      if (n % 8 === 0) return item(`A ${a * 100} Hz signal has period in milliseconds rounded down = ?`, Math.floor(1000 / (a * 100)), "Period = 1/f.");
+      if (n % 8 === 1) return item(`Peak amplitude ${a}V gives peak-to-peak voltage = ?`, a * 2, "Peak-to-peak is twice amplitude.");
+      if (n % 8 === 2) return item(`Three-phase signals are separated by how many degrees?`, 120, "360 / 3.");
+      if (n % 8 === 3) return item(`Nyquist minimum sample rate for ${a} kHz signal in Hz = ?`, a * 2000, "Minimum sample rate is 2x frequency.");
+      if (n % 8 === 4) return item(`Sin wave with amplitude ${a}V has range -${a}V to +?V`, a, "Amplitude defines peak deviation.");
+      if (n % 8 === 5) return item(`Duty cycle of ${a * 10}% means on for ${a * 10}% of ? (1=period,2=second)`, 1, "Duty is percentage of the period.");
+      if (n % 8 === 6) return item(`Angular frequency: ${a} kHz signal has ω = 2π x ${a}000. ω approx? (2π≈6.28)`, Math.round(6280 * a), "ω = 2πf ≈ 6.28 x f.");
+      return item(`PWM period ${a} ms, duty 50%. On time = ? ms`, a * 0.5, "50% of period.");
     }
     case "Statistics & Probability": {
-      if (n % 4 === 0) return item(`Mean of [${a}, ${a + b}, ${a + b * 2}] = ?`, a + b, "Middle of evenly spaced values.");
-      if (n % 4 === 1) return item(`Accuracy: ${a * 10} correct out of 100 = ? percent`, a * 10, "correct / total x 100.");
-      if (n % 4 === 2) return item(`If variance is ${a * a}, standard deviation = ?`, a, "Standard deviation is sqrt(variance).");
-      return item(`If mean=${a * 10}, std=${b}, x=${a * 10 + b * c}, z-score = ?`, c, "z = (x - mean) / std.");
+      if (n % 8 === 0) return item(`Mean of [${a}, ${a + b}, ${a + b * 2}] = ?`, a + b, "Middle of evenly spaced values.");
+      if (n % 8 === 1) return item(`Accuracy: ${a * 10} correct out of 100 = ? percent`, a * 10, "correct / total x 100.");
+      if (n % 8 === 2) return item(`If variance is ${a * a}, standard deviation = ?`, a, "Standard deviation is sqrt(variance).");
+      if (n % 8 === 3) return item(`If mean=${a * 10}, std=${b}, x=${a * 10 + b * c}, z-score = ?`, c, "z = (x - mean) / std.");
+      if (n % 8 === 4) return item(`Conditional probability P(A|B) = P(A∩B)/P(B). If both = ${a*10}% and P(B)=${b*10}%, P(A|B) = ?`, Math.round(a/b * 100), "P(A∩B) / P(B).");
+      if (n % 8 === 5) return item(`Probability: roll 2 dice. P(sum=7) = 6/36 = ?%`, 17, "6/36 ≈ 17%.");
+      if (n % 8 === 6) return item(`95% confidence leaves ?% in tails`, 5, "100% - 95% = 5%.");
+      return item(`Sample standard deviation uses denominator n-${a > 3 ? 1 : 1}`, 1, "Bessel's correction: n-1.");
     }
     case "Linear Algebra": {
-      if (n % 4 === 0) return item(`Dot product [${a}, ${b}] dot [${c}, ${a}] = ?`, a * c + b * a, "Multiply matching entries and add.");
-      if (n % 4 === 1) return item(`A ${a}x${b} matrix contains how many elements?`, a * b, "rows x columns.");
-      if (n % 4 === 2) return item(`Dense layer with ${a} inputs and ${b} outputs has how many weights?`, a * b, "inputs x outputs.");
-      return item(`Dense layer with ${a} inputs and ${b} outputs has weights plus biases = ?`, a * b + b, "Add one bias per output.");
+      if (n % 8 === 0) return item(`Dot product [${a}, ${b}] dot [${c}, ${a}] = ?`, a * c + b * a, "Multiply matching entries and add.");
+      if (n % 8 === 1) return item(`A ${a}x${b} matrix contains how many elements?`, a * b, "rows x columns.");
+      if (n % 8 === 2) return item(`Dense layer with ${a} inputs and ${b} outputs has how many weights?`, a * b, "inputs x outputs.");
+      if (n % 8 === 3) return item(`Dense layer with ${a} inputs and ${b} outputs has weights plus biases = ?`, a * b + b, "Add one bias per output.");
+      if (n % 8 === 4) return item(`Matrix product: (${a}x${b}) x (${b}x${c}) => shape? Enter first dim.`, a, "Result shape is (a x c).");
+      if (n % 8 === 5) return item(`Vector norm: ||[${a}, 0]|| = ?`, a, "Magnitude of horizontal vector.");
+      if (n % 8 === 6) return item(`Outer product [${a}]x[${b}] = ? (1x1 matrix value)`, a * b, "Multiply the two scalars.");
+      return item(`Hadamard product [${a},${b}] ∘ [${c},${a}] = first element?`, a * c, "Element-wise multiplication.");
     }
     case "DSP & Feature Extraction": {
-      if (n % 4 === 0) return item(`A ${a * 1000} Hz sample rate has Nyquist frequency in Hz = ?`, a * 500, "Nyquist is half the sample rate.");
-      if (n % 4 === 1) return item(`${a * 100} ms window at ${b * 100} Hz has how many samples?`, a * b * 10, "seconds x samples per second.");
-      if (n % 4 === 2) return item(`Moving average of [${a}, ${a + b}, ${a + b * 2}] = ?`, a + b, "Average evenly spaced values.");
-      return item(`FFT bin spacing: fs=${a * 1000} Hz, N=${a * 100}. Spacing Hz = ?`, 10, "fs / N.");
+      if (n % 8 === 0) return item(`A ${a * 1000} Hz sample rate has Nyquist frequency in Hz = ?`, a * 500, "Nyquist is half the sample rate.");
+      if (n % 8 === 1) return item(`${a * 100} ms window at ${b * 100} Hz has how many samples?`, a * b * 10, "seconds x samples per second.");
+      if (n % 8 === 2) return item(`Moving average of [${a}, ${a + b}, ${a + b * 2}] = ?`, a + b, "Average evenly spaced values.");
+      if (n % 8 === 3) return item(`FFT bin spacing: fs=${a * 1000} Hz, N=${a * 100}. Spacing Hz = ?`, 10, "fs / N.");
+      if (n % 8 === 4) return item(`DC component of [${a}, ${a}, ${a}] = ?`, a, "Constant signal has DC = its value.");
+      if (n % 8 === 5) return item(`Signal power: amplitude ${a}V RMS into 1Ω = ? W`, a * a, "P = V^2 / R.");
+      if (n % 8 === 6) return item(`Aliasing happens when fs < ? x max frequency`, 2, "fs must be >= 2x max frequency.");
+      return item(`Zero padding FFT with ${a * 100} samples to ${a * 200} adds interpolation? (1=yes,0=no)`, 1, "Zero padding interpolates spectrum.");
     }
     case "Control Systems Math": {
-      if (n % 4 === 0) return item(`Target=${a * 10}, measured=${b * 5}. Error = ?`, a * 10 - b * 5, "target - measured.");
-      if (n % 4 === 1) return item(`P controller Kp=${a}, error=${b}. Output = ?`, a * b, "Kp x error.");
-      if (n % 4 === 2) return item(`Control loop period ${a} ms means frequency rounded down in Hz = ?`, Math.floor(1000 / a), "Frequency = 1000 / ms.");
-      return item(`Command ${255 + a} clipped to uint8 max gives?`, 255, "Saturation limits output.");
+      if (n % 8 === 0) return item(`Target=${a * 10}, measured=${b * 5}. Error = ?`, a * 10 - b * 5, "target - measured.");
+      if (n % 8 === 1) return item(`P controller Kp=${a}, error=${b}. Output = ?`, a * b, "Kp x error.");
+      if (n % 8 === 2) return item(`Control loop period ${a} ms means frequency rounded down in Hz = ?`, Math.floor(1000 / a), "Frequency = 1000 / ms.");
+      if (n % 8 === 3) return item(`Command ${255 + a} clipped to uint8 max gives?`, 255, "Saturation limits output.");
+      if (n % 8 === 4) return item(`Feedforward: known disturbance ${a} compensated by output ?`, a, "Feedforward cancels known disturbance.");
+      if (n % 8 === 5) return item(`Deadband: error < ${a} ignored. Error=${b}, output if b < a?`, 0, "Inside deadband, output = 0.");
+      if (n % 8 === 6) return item(`Rise time from 10% to 90% of target = ${a*10}ms to ${a*9}ms. Duration = ?`, a * 9 - a * 10, "Difference in ms.");
+      return item(`Settling time within 5% of ${a*10}. Range: ${a*9.5} to ${a*10.5}. Max deviation?`, a * 0.5, "5% of a*10.");
     }
     case "ML Basics & Loss Functions": {
-      if (n % 4 === 0) return item(`Prediction=${a + b}, actual=${a}. Error = ?`, b, "prediction - actual.");
-      if (n % 4 === 1) return item(`MSE for one error ${a} equals?`, a * a, "Square the error.");
-      if (n % 4 === 2) return item(`${a * 10} correct out of 100 gives accuracy percent = ?`, a * 10, "correct / total x 100.");
-      return item(`Dataset ${a * 100} samples, batch size ${a * 10}. Batches per epoch = ?`, 10, "samples / batch size.");
+      if (n % 8 === 0) return item(`Prediction=${a + b}, actual=${a}. Error = ?`, b, "prediction - actual.");
+      if (n % 8 === 1) return item(`MSE for one error ${a} equals?`, a * a, "Square the error.");
+      if (n % 8 === 2) return item(`${a * 10} correct out of 100 gives accuracy percent = ?`, a * 10, "correct / total x 100.");
+      if (n % 8 === 3) return item(`Dataset ${a * 100} samples, batch size ${a * 10}. Batches per epoch = ?`, 10, "samples / batch size.");
+      if (n % 8 === 4) return item(`Cross-entropy for correct class prob ${a/10} = ?(-ln(${a/10}))`, -Math.log(a / 10), "CE = -ln(p) for correct class.");
+      if (n % 8 === 5) return item(`L1 regularization: λ=${a*0.1}, weight=${b}. L1 penalty = ?`, a * 0.1 * Math.abs(b), "λ x |weight|.");
+      if (n % 8 === 6) return item(`Gradient descent step: w = w - lr * grad. lr=${a*0.1}, grad=${b}. Step = ?`, a * 0.1 * b, "lr x grad.");
+      return item(`Huber loss: error ${a}, delta=1. Error > delta: loss = delta*(|error|-delta/2)`, 1 * (Math.abs(a) - 0.5), "Delta*(|error| - delta/2).");
     }
     case "Neural Network Math": {
-      if (n % 4 === 0) return item(`ReLU(${-a}) = ?`, 0, "ReLU clips negative values to zero.");
-      if (n % 4 === 1) return item(`ReLU(${a}) = ?`, a, "Positive values pass through.");
-      if (n % 4 === 2) return item(`3x3 convolution has how many weights per input channel?`, 9, "3 x 3.");
-      return item(`Dense layer ${a} inputs, ${b} outputs, weights plus biases = ?`, a * b + b, "inputs x outputs + outputs.");
+      if (n % 8 === 0) return item(`ReLU(${-a}) = ?`, 0, "ReLU clips negative values to zero.");
+      if (n % 8 === 1) return item(`ReLU(${a}) = ?`, a, "Positive values pass through.");
+      if (n % 8 === 2) return item(`3x3 convolution has how many weights per input channel?`, 9, "3 x 3.");
+      if (n % 8 === 3) return item(`Dense layer ${a} inputs, ${b} outputs, weights plus biases = ?`, a * b + b, "inputs x outputs + outputs.");
+      if (n % 8 === 4) return item(`Max pooling 2x2 reduces size by factor?`, 4, "2x2 pooling divides dimensions by 2, area by 4.");
+      if (n % 8 === 5) return item(`1x1 convolution: kernel size 1, filters ${a}. Weights per channel?`, a, "1x1 convolution = a weights.");
+      if (n % 8 === 6) return item(`Batch norm: mean=0, std=1, input=${a}. Output if learned params = identity?`, a, "Identity if scale=1, shift=0.");
+      return item(`Attention: query matches ${a} keys. Weight sum combines ? values`, a, "Weighted sum of a values.");
     }
     case "Quantization & Numeric Precision": {
-      if (n % 4 === 0) return item(`uint8 maximum value is?`, 255, "uint8 range is 0 to 255.");
-      if (n % 4 === 1) return item(`int8 maximum value is?`, 127, "signed int8 range is -128 to 127.");
-      if (n % 4 === 2) return item(`scale=${a}, zero_point=0, q=${b}. Real value = ?`, a * b, "real = scale x q.");
-      return item(`Float32 uses 4 bytes; int8 uses how many byte?`, 1, "int8 is one byte.");
+      if (n % 8 === 0) return item(`uint8 maximum value is?`, 255, "uint8 range is 0 to 255.");
+      if (n % 8 === 1) return item(`int8 maximum value is?`, 127, "signed int8 range is -128 to 127.");
+      if (n % 8 === 2) return item(`scale=${a}, zero_point=0, q=${b}. Real value = ?`, a * b, "real = scale x q.");
+      if (n % 8 === 3) return item(`Float32 uses 4 bytes; int8 uses how many byte?`, 1, "int8 is one byte.");
+      if (n % 8 === 4) return item(`Per-tensor quantization: one scale per ? (1=tensor,2=channel)`, 1, "One scale for entire tensor.");
+      if (n % 8 === 5) return item(`Per-channel quantization: one scale per ${a > 3 ? "channel" : "filter"}`, a > 3 ? 1 : 0, "Different scale per channel.");
+      if (n % 8 === 6) return item(`Symmetrical quantization: zero_point = ?`, 0, "Symmetric has zero_point = 0.");
+      return item(`Asymmetric quantization: real 0 maps to ? (if zero_point=128)`, 128, "q = round(real/scale) + 128.");
     }
     case "Model Evaluation & Deployment Math": {
-      if (n % 4 === 0) return item(`Precision with TP=${a}, FP=${b}: percent rounded down = ?`, Math.floor((a / (a + b)) * 100), "TP / (TP + FP).");
-      if (n % 4 === 1) return item(`Recall with TP=${a}, FN=${b}: percent rounded down = ?`, Math.floor((a / (a + b)) * 100), "TP / (TP + FN).");
-      if (n % 4 === 2) return item(`Inference ${a * 5} ms means max inferences/sec rounded down = ?`, Math.floor(1000 / (a * 5)), "1000 / latency_ms.");
-      return item(`Flash budget ${a * 32} KB, model ${b * 8} KB. Remaining KB = ?`, a * 32 - b * 8, "budget - model size.");
+      if (n % 8 === 0) return item(`Precision with TP=${a}, FP=${b}: percent rounded down = ?`, Math.floor((a / (a + b)) * 100), "TP / (TP + FP).");
+      if (n % 8 === 1) return item(`Recall with TP=${a}, FN=${b}: percent rounded down = ?`, Math.floor((a / (a + b)) * 100), "TP / (TP + FN).");
+      if (n % 8 === 2) return item(`Inference ${a * 5} ms means max inferences/sec rounded down = ?`, Math.floor(1000 / (a * 5)), "1000 / latency_ms.");
+      if (n % 8 === 3) return item(`Flash budget ${a * 32} KB, model ${b * 8} KB. Remaining KB = ?`, a * 32 - b * 8, "budget - model size.");
+      if (n % 8 === 4) return item(`RAM budget ${a * 16} KB, tensor arena ${b * 4} KB. Remaining = ?`, a * 16 - b * 4, "Budget minus arena.");
+      if (n % 8 === 5) return item(`True negative rate: TN=90, FP=10. TNR percent = ?`, 90, "TN / (TN + FP).");
+      if (n % 8 === 6) return item(`F1 score for P=80%, R=80% = ?%`, 80, "2PR/(P+R) = 2(80)(80)/(160) = 80.");
+      return item(`Energy per inference: ${a * 10} mJ. ${b * 100} inferences. Total energy mJ = ?`, a * 10 * b * 100, "Energy per inference x number.");
     }
     default:
       return item(`${a} + ${b} = ?`, a + b, "Add the values.");
@@ -2189,79 +2439,127 @@ function makeFoundationQuestion(id, levelIndex, n) {
   const b = ((n * 3) % 11) + 1;
   const c = ((n * 5) % 13) + 2;
   const d = ((n * 7) % 15) + 1;
+  const e = ((n * 11) % 17) + 1;
   switch (levelIndex) {
     case 0:
-      if (n % 10 === 0) return { id, q: `${a * 10} + ${b * 10} = ?`, a: a * 10 + b * 10, hint: "Add the tens." };
-      if (n % 10 === 1) return { id, q: `${a} x ${b} = ?`, a: a * b, hint: "Multiply the numbers." };
-      if (n % 10 === 2) return { id, q: `${a * 5} percent of ${b * 20} = ?`, a: a * b, hint: "Percent means per hundred." };
-      if (n % 10 === 3) return { id, q: `${a} + ${b} x ${c} = ?`, a: a + b * c, hint: "Multiply before adding." };
-      if (n % 10 === 4) return { id, q: `${a * b * 2} / ${b * 2} = ?`, a: a, hint: "Division cancels multiplication." };
-      if (n % 10 === 5) return { id, q: `${a * 10} - ${b * 3} = ?`, a: a * 10 - b * 3, hint: "Subtract normally." };
-      if (n % 10 === 6) return { id, q: `Round ${a}.${b} to nearest integer.`, a: a + (b >= 5 ? 1 : 0), hint: "Round up if decimal >= 0.5." };
-      if (n % 10 === 7) return { id, q: `${a * 3} / ${a} + ${b} = ?`, a: 3 + b, hint: "Divide first, then add." };
-      if (n % 10 === 8) return { id, q: `Average of ${a * 2}, ${a * 4}, ${a * 6} = ?`, a: a * 4, hint: "Sum divided by count." };
-      return { id, q: `${a * 3} + ${b * 2} - ${c} = ?`, a: a * 3 + b * 2 - c, hint: "Add and subtract left to right." };
+      if (n % 16 === 0) return { id, q: `${a * 10} + ${b * 10} = ?`, a: a * 10 + b * 10, hint: "Add the tens." };
+      if (n % 16 === 1) return { id, q: `${a} x ${b} = ?`, a: a * b, hint: "Multiply the numbers." };
+      if (n % 16 === 2) return { id, q: `${a * 5} percent of ${b * 20} = ?`, a: a * b, hint: "Percent means per hundred." };
+      if (n % 16 === 3) return { id, q: `${a} + ${b} x ${c} = ?`, a: a + b * c, hint: "Multiply before adding." };
+      if (n % 16 === 4) return { id, q: `${a * b * 2} / ${b * 2} = ?`, a: a, hint: "Division cancels multiplication." };
+      if (n % 16 === 5) return { id, q: `${a * 10} - ${b * 3} = ?`, a: a * 10 - b * 3, hint: "Subtract normally." };
+      if (n % 16 === 6) return { id, q: `Round ${a}.${b} to nearest integer.`, a: a + (b >= 5 ? 1 : 0), hint: "Round up if decimal >= 0.5." };
+      if (n % 16 === 7) return { id, q: `${a * 3} / ${a} + ${b} = ?`, a: 3 + b, hint: "Divide first, then add." };
+      if (n % 16 === 8) return { id, q: `Average of ${a * 2}, ${a * 4}, ${a * 6} = ?`, a: a * 4, hint: "Sum divided by count." };
+      if (n % 16 === 9) return { id, q: `${a * 3} + ${b * 2} - ${c} = ?`, a: a * 3 + b * 2 - c, hint: "Add and subtract left to right." };
+      if (n % 16 === 10) return { id, q: `${a}/${b} of ${b * c} = ?`, a: a * c, hint: `(${a}/${b}) x ${b * c} = ${a} x ${c}.` };
+      if (n % 16 === 11) return { id, q: `0.${a} + 0.${b} = ? (enter decimal)`, a: (a + b) / 10, hint: `Treat as ${a} + ${b} = ${a + b}, then divide by 10.` };
+      if (n % 16 === 12) return { id, q: `${a} - ${a + b} = ?`, a: -b, hint: "Smaller minus larger gives negative." };
+      if (n % 16 === 13) return { id, q: `sqrt(${a * a}) = ?`, a: a, hint: `What number squared is ${a * a}?` };
+      if (n % 16 === 14) return { id, q: `${a}^2 = ?`, a: a * a, hint: `${a} x ${a}.` };
+      return { id, q: `(${a} + ${b}) x ${c} = ?`, a: (a + b) * c, hint: "Parentheses first." };
     case 1:
-      if (n % 10 === 0) return { id, q: `x + ${a} = ${a + b}, x = ?`, a: b, hint: `Subtract ${a} from both sides.` };
-      if (n % 10 === 1) return { id, q: `${a}x = ${a * b}, x = ?`, a: b, hint: `Divide both sides by ${a}.` };
-      if (n % 10 === 2) return { id, q: `${a}(x + ${b}) = ${a * (b + 1)}, x = ?`, a: 1, hint: `Divide by ${a} first, then subtract ${b}.` };
-      if (n % 10 === 3) return { id, q: `y = ${a}x + ${b}, if x = ${c}, y = ?`, a: a * c + b, hint: `Substitute: y = ${a}(${c}) + ${b}.` };
-      if (n % 10 === 4) return { id, q: `${a}x - ${b} = ${a * (b + 1) - b}, x = ?`, a: b + 1, hint: `Add ${b} first, then divide by ${a}.` };
-      if (n % 10 === 5) return { id, q: `x / ${a} = ${b}, x = ?`, a: a * b, hint: `Multiply both sides by ${a}.` };
-      if (n % 10 === 6) return { id, q: `${a}x + ${b} = ${b * 2}, x = ?`, a: (b * 2 - b) / a, hint: `Subtract ${b}, then divide by ${a}.` };
-      if (n % 10 === 7) return { id, q: `Ratio ${a}:${b} = ${a * d}:?`, a: b * d, hint: `Multiply ${b} by ${d}.` };
-      if (n % 10 === 8) return { id, q: `${a * 10}% of ${b * 10} = ?`, a: a * b, hint: `${a * 10}/100 x ${b * 10}.` };
-      return { id, q: `x - ${a} = ${b} - ${a % 2}, x = ?`, a: b - (a % 2) + a, hint: `Add ${a} to both sides.` };
+      if (n % 16 === 0) return { id, q: `x + ${a} = ${a + b}, x = ?`, a: b, hint: `Subtract ${a} from both sides.` };
+      if (n % 16 === 1) return { id, q: `${a}x = ${a * b}, x = ?`, a: b, hint: `Divide both sides by ${a}.` };
+      if (n % 16 === 2) return { id, q: `${a}(x + ${b}) = ${a * (b + 1)}, x = ?`, a: 1, hint: `Divide by ${a} first, then subtract ${b}.` };
+      if (n % 16 === 3) return { id, q: `y = ${a}x + ${b}, if x = ${c}, y = ?`, a: a * c + b, hint: `Substitute: y = ${a}(${c}) + ${b}.` };
+      if (n % 16 === 4) return { id, q: `${a}x - ${b} = ${a * (b + 1) - b}, x = ?`, a: b + 1, hint: `Add ${b} first, then divide by ${a}.` };
+      if (n % 16 === 5) return { id, q: `x / ${a} = ${b}, x = ?`, a: a * b, hint: `Multiply both sides by ${a}.` };
+      if (n % 16 === 6) return { id, q: `${a}x + ${b} = ${b * 2}, x = ?`, a: (b * 2 - b) / a, hint: `Subtract ${b}, then divide by ${a}.` };
+      if (n % 16 === 7) return { id, q: `Ratio ${a}:${b} = ${a * d}:?`, a: b * d, hint: `Multiply ${b} by ${d}.` };
+      if (n % 16 === 8) return { id, q: `${a * 10}% of ${b * 10} = ?`, a: a * b, hint: `${a * 10}/100 x ${b * 10}.` };
+      if (n % 16 === 9) return { id, q: `x - ${a} = ${b} - ${a % 2}, x = ?`, a: b - (a % 2) + a, hint: `Add ${a} to both sides.` };
+      if (n % 16 === 10) return { id, q: `${a}(x - ${b}) = ${a}, x = ?`, a: b + 1, hint: `Divide by ${a}, then add ${b}.` };
+      if (n % 16 === 11) return { id, q: `y = ${a}x + ${b}, y-intercept = ?`, a: b, hint: "y-intercept is the constant term when x=0." };
+      if (n % 16 === 12) return { id, q: `${a}/x = ${a}/${b}, x = ?`, a: b, hint: "Cross-multiply to solve." };
+      if (n % 16 === 13) return { id, q: `x/2 + ${a} = ${a + 3}, x = ?`, a: 6, hint: `Subtract ${a} first, then multiply by 2.` };
+      if (n % 16 === 14) return { id, q: `${a}x + ${b} = ${b}, x = ?`, a: 0, hint: `Subtract ${b} from both sides.` };
+      return { id, q: `If f(x) = ${a}x + ${b}, find f(${c}) - f(${d}) = ?`, a: a * (c - d), hint: `f(${c}) - f(${d}) = ${a}(${c} - ${d}).` };
     case 2:
-      if (n % 10 === 0) return { id, q: `Slope (0,0) to (${a}, ${a * b}) = ?`, a: b, hint: `Slope = (${a*b})/(${a}).` };
-      if (n % 10 === 1) return { id, q: `f(x) = ${a}x^2, f(${b}) = ?`, a: a * b * b, hint: `f(${b}) = ${a} x ${b}^2.` };
-      if (n % 10 === 2) return { id, q: `x^2 = ${(a + 2) * (a + 2)}, positive x = ?`, a: a + 2, hint: "What positive number squared?" };
-      if (n % 10 === 3) return { id, q: `y-intercept of y = ${a}x + ${b} = ?`, a: b, hint: "y-intercept is the constant term." };
-      if (n % 10 === 4) return { id, q: `${a}x + ${b} = ${a * c + b}, x = ?`, a: c, hint: `Subtract ${b}, then divide by ${a}.` };
-      if (n % 10 === 5) return { id, q: `f(x) = ${a}x + ${b}, f(${c}) = ?`, a: a * c + b, hint: `Plug in x = ${c}.` };
-      if (n % 10 === 6) return { id, q: `x^2 - ${(a + 1) * (a + 1)} = 0, positive x = ?`, a: a + 1, hint: "Difference of squares." };
-      if (n % 10 === 7) return { id, q: `Line through (0,${b}) with slope ${a}: y = ?x + ?`, a: a * 100 + b, hint: "y = mx + b." };
-      if (n % 10 === 8) return { id, q: `${a}x - ${a * c} = 0, x = ?`, a: c, hint: `Add ${a * c}, then divide by ${a}.` };
-      return { id, q: `f(x) = ${a}x, f(${b}) + f(${c}) = ?`, a: a * (b + c), hint: `f(${b}) + f(${c}) = ${a}${b} + ${a}${c}.` };
+      if (n % 16 === 0) return { id, q: `Slope (0,0) to (${a}, ${a * b}) = ?`, a: b, hint: `Slope = (${a*b})/(${a}).` };
+      if (n % 16 === 1) return { id, q: `f(x) = ${a}x^2, f(${b}) = ?`, a: a * b * b, hint: `f(${b}) = ${a} x ${b}^2.` };
+      if (n % 16 === 2) return { id, q: `x^2 = ${(a + 2) * (a + 2)}, positive x = ?`, a: a + 2, hint: "What positive number squared?" };
+      if (n % 16 === 3) return { id, q: `y-intercept of y = ${a}x + ${b} = ?`, a: b, hint: "y-intercept is the constant term." };
+      if (n % 16 === 4) return { id, q: `${a}x + ${b} = ${a * c + b}, x = ?`, a: c, hint: `Subtract ${b}, then divide by ${a}.` };
+      if (n % 16 === 5) return { id, q: `f(x) = ${a}x + ${b}, f(${c}) = ?`, a: a * c + b, hint: `Plug in x = ${c}.` };
+      if (n % 16 === 6) return { id, q: `x^2 - ${(a + 1) * (a + 1)} = 0, positive x = ?`, a: a + 1, hint: "Difference of squares." };
+      if (n % 16 === 7) return { id, q: `Line through (0,${b}) with slope ${a}: y = ?x + ?`, a: a * 100 + b, hint: "y = mx + b." };
+      if (n % 16 === 8) return { id, q: `${a}x - ${a * c} = 0, x = ?`, a: c, hint: `Add ${a * c}, then divide by ${a}.` };
+      if (n % 16 === 9) return { id, q: `f(x) = ${a}x, f(${b}) + f(${c}) = ?`, a: a * (b + c), hint: `f(${b}) + f(${c}) = ${a}${b} + ${a}${c}.` };
+      if (n % 16 === 10) return { id, q: `Slope of line through (0,${b}) and (${a}, ${a + b}) = ?`, a: 1, hint: `Slope = (${a + b} - ${b}) / (${a} - 0).` };
+      if (n % 16 === 11) return { id, q: `f(g(x)) where f(x)=2x, g(x)=${a}x. f(g(${b})) = ?`, a: 2 * a * b, hint: `g(${b}) = ${a} x ${b}, then f(...) = 2 x that.` };
+      if (n % 16 === 12) return { id, q: `Parallel slope to y = ${a}x + ${b} is ?`, a: a, hint: "Parallel lines have the same slope." };
+      if (n % 16 === 13) return { id, q: `Perpendicular slope to y = ${a}x + ${b} = ?`, a: -1 / a, hint: "Perpendicular slopes multiply to -1." };
+      if (n % 16 === 14) return { id, q: `Solve: x + y = ${a + b}, x - y = ${a - b}. x = ?`, a: a, hint: "Add the two equations to eliminate y." };
+      return { id, q: `Vertex x-coordinate of y = x^2 - ${2 * a}x + ${b}`, a: a, hint: "Vertex x = -b/(2a) for ax^2 + bx + c." };
     case 3:
-      if (n % 10 === 0) return { id, q: `Area of ${a} x ${b} rectangle = ?`, a: a * b, hint: "Area = length x width." };
-      if (n % 10 === 1) return { id, q: `Perimeter of ${a} x ${a} square = ?`, a: a * 4, hint: "Perimeter = 4 x side." };
-      if (n % 10 === 2) return { id, q: `Volume of ${a} x ${a} x ${a} cube = ?`, a: a * a * a, hint: "Volume = side^3." };
-      if (n % 10 === 3) return { id, q: `${a} meters = ? centimeters`, a: a * 100, hint: "1 meter = 100 cm." };
-      if (n % 10 === 4) return { id, q: `Area of ${a * 2} x ${b} rectangle = ?`, a: a * 2 * b, hint: "Area = length x width." };
-      if (n % 10 === 5) return { id, q: `Circumference of circle radius ${a}, pi=3: ?`, a: 6 * a, hint: "C = 2 x pi x r." };
-      if (n % 10 === 6) return { id, q: `Area of triangle base ${b} height ${a} = ?`, a: (b * a) / 2, hint: "Area = 1/2 x base x height." };
-      if (n % 10 === 7) return { id, q: `${a} km = ? meters`, a: a * 1000, hint: "1 km = 1000 meters." };
-      if (n % 10 === 8) return { id, q: `Surface area of ${a} cube (6 faces) = ?`, a: 6 * a * a, hint: "SA = 6 x side^2." };
-      return { id, q: `Pythagorean: 3-4-5 triangle, if legs ${a*3} and ${a*4}, hypotenuse = ?`, a: a * 5, hint: `a^2 + b^2 = c^2.` };
+      if (n % 16 === 0) return { id, q: `Area of ${a} x ${b} rectangle = ?`, a: a * b, hint: "Area = length x width." };
+      if (n % 16 === 1) return { id, q: `Perimeter of ${a} x ${a} square = ?`, a: a * 4, hint: "Perimeter = 4 x side." };
+      if (n % 16 === 2) return { id, q: `Volume of ${a} x ${a} x ${a} cube = ?`, a: a * a * a, hint: "Volume = side^3." };
+      if (n % 16 === 3) return { id, q: `${a} meters = ? centimeters`, a: a * 100, hint: "1 meter = 100 cm." };
+      if (n % 16 === 4) return { id, q: `Area of ${a * 2} x ${b} rectangle = ?`, a: a * 2 * b, hint: "Area = length x width." };
+      if (n % 16 === 5) return { id, q: `Circumference of circle radius ${a}, pi=3: ?`, a: 6 * a, hint: "C = 2 x pi x r." };
+      if (n % 16 === 6) return { id, q: `Area of triangle base ${b} height ${a} = ?`, a: (b * a) / 2, hint: "Area = 1/2 x base x height." };
+      if (n % 16 === 7) return { id, q: `${a} km = ? meters`, a: a * 1000, hint: "1 km = 1000 meters." };
+      if (n % 16 === 8) return { id, q: `Surface area of ${a} cube (6 faces) = ?`, a: 6 * a * a, hint: "SA = 6 x side^2." };
+      if (n % 16 === 9) return { id, q: `Pythagorean: 3-4-5 triangle, if legs ${a*3} and ${a*4}, hypotenuse = ?`, a: a * 5, hint: `a^2 + b^2 = c^2.` };
+      if (n % 16 === 10) return { id, q: `Area of circle radius ${a}, pi=3: ?`, a: 3 * a * a, hint: "A = pi x r^2." };
+      if (n % 16 === 11) return { id, q: `Volume of cylinder radius ${a} height ${b}, pi=3: ?`, a: 3 * a * a * b, hint: "V = pi x r^2 x h." };
+      if (n % 16 === 12) return { id, q: `${a} inches = ? feet (12 inches / foot)`, a: Math.floor(a / 12), hint: "Divide inches by 12." };
+      if (n % 16 === 13) return { id, q: `Area of trapezoid: bases ${a} and ${b}, height ${c}, /2 = ?`, a: ((a + b) * c) / 2, hint: "A = (b1 + b2) x h / 2." };
+      if (n % 16 === 14) return { id, q: `Perimeter of ${a} x ${b} rectangle = ?`, a: 2 * (a + b), hint: "P = 2 x (length + width)." };
+      return { id, q: `Pythagorean: leg ${a}, hypotenuse ${a + 1}, other leg = ? (use 3-4-5 pattern)`, a: Math.sqrt((a + 1) ** 2 - a ** 2) === Math.floor(Math.sqrt((a + 1) ** 2 - a ** 2)) ? Math.sqrt((a + 1) ** 2 - a ** 2) : (a * 2 + 1), hint: "c^2 - a^2 = b^2." };
     case 4:
-      if (n % 5 === 0) return { id, q: `sin(0 degrees) = ?`, a: 0, hint: "Sine starts at zero." };
-      if (n % 5 === 1) return { id, q: `cos(0 degrees) = ?`, a: 1, hint: "Cosine at 0 is maximum." };
-      if (n % 5 === 2) return { id, q: `A right angle measures how many degrees?`, a: 90, hint: "Right angle = 90 degrees." };
-      if (n % 5 === 3) return { id, q: `sin(90 degrees) = ?`, a: 1, hint: "Sine peaks at 90 degrees." };
-      return { id, q: `cos(90 degrees) = ?`, a: 0, hint: "Cosine crosses zero at 90 degrees." };
+      if (n % 16 === 0) return { id, q: `sin(0 degrees) = ?`, a: 0, hint: "Sine starts at zero." };
+      if (n % 16 === 1) return { id, q: `cos(0 degrees) = ?`, a: 1, hint: "Cosine at 0 is maximum." };
+      if (n % 16 === 2) return { id, q: `A right angle measures how many degrees?`, a: 90, hint: "Right angle = 90 degrees." };
+      if (n % 16 === 3) return { id, q: `sin(90 degrees) = ?`, a: 1, hint: "Sine peaks at 90 degrees." };
+      if (n % 16 === 4) return { id, q: `cos(90 degrees) = ?`, a: 0, hint: "Cosine crosses zero at 90 degrees." };
+      if (n % 16 === 5) return { id, q: `sin(30 degrees) = ? (type 0.5 for 1/2)`, a: 0.5, hint: "sin(30) = 1/2." };
+      if (n % 16 === 6) return { id, q: `cos(60 degrees) = ? (type 0.5 for 1/2)`, a: 0.5, hint: "cos(60) = 1/2." };
+      if (n % 16 === 7) return { id, q: `sin(45 degrees) = ? (type 0.71 for sqrt(2)/2)`, a: 0.71, hint: "sin(45) = sqrt(2)/2 ≈ 0.71." };
+      if (n % 16 === 8) return { id, q: `cos(45 degrees) = ? (type 0.71 for sqrt(2)/2)`, a: 0.71, hint: "cos(45) = sqrt(2)/2 ≈ 0.71." };
+      if (n % 16 === 9) return { id, q: `tan(45 degrees) = ?`, a: 1, hint: "tan = sin/cos, both equal at 45." };
+      if (n % 16 === 10) return { id, q: `180 degrees = ? radians (enter as constant)`, a: Math.PI, hint: "180 degrees = pi radians. Enter 3.1416." };
+      if (n % 16 === 11) return { id, q: `sin(180 degrees) = ?`, a: 0, hint: "Sine crosses zero at 180." };
+      if (n % 16 === 12) return { id, q: `cos(180 degrees) = ?`, a: -1, hint: "Cosine reaches -1 at 180." };
+      if (n % 16 === 13) return { id, q: `sin(-90 degrees) = ?`, a: -1, hint: "Sine is odd: sin(-x) = -sin(x)." };
+      if (n % 16 === 14) return { id, q: `A full sine wave cycle is how many degrees?`, a: 360, hint: "One cycle = 360 degrees." };
+      return { id, q: `sin(0) + cos(0) = ?`, a: 1, hint: "sin(0)=0, cos(0)=1." };
     case 5:
-      if (n % 10 === 0) return { id, q: `2^${a} = ?`, a: 2 ** a, hint: `2 to the power ${a}.` };
-      if (n % 10 === 1) return { id, q: `log2(${2 ** a}) = ?`, a: a, hint: `2^${a} = ${2 ** a}.` };
-      if (n % 10 === 2) return { id, q: `10^${a} = ?`, a: 10 ** a, hint: `10 to the power ${a}.` };
-      if (n % 10 === 3) return { id, q: `Next: ${a}, ${a * 2}, ${a * 4}, ${a * 8}, ?`, a: a * 16, hint: "Each term doubles." };
-      if (n % 10 === 4) return { id, q: `2^${a} x 2^${b} = 2^?`, a: a + b, hint: "Add exponents." };
-      if (n % 10 === 5) return { id, q: `log10(${10 ** a}) = ?`, a: a, hint: `10^${a} = ${10 ** a}.` };
-      if (n % 10 === 6) return { id, q: `Sequence: ${a}, ${a + b}, ${a + 2 * b}, ${a + 3 * b}, next = ?`, a: a + 4 * b, hint: "Adds by b each step." };
-      if (n % 10 === 7) return { id, q: `2^${a} / 2^${b} = 2^?`, a: a - b, hint: "Subtract exponents when dividing." };
-      if (n % 10 === 8) return { id, q: `(2^${a})^${b} = 2^?`, a: a * b, hint: "Multiply exponents." };
-      return { id, q: `Sum 1 to ${a} = ? (formula: n(n+1)/2)`, a: (a * (a + 1)) / 2, hint: `n(n+1)/2 with n=${a}.` };
+      if (n % 16 === 0) return { id, q: `2^${a} = ?`, a: 2 ** a, hint: `2 to the power ${a}.` };
+      if (n % 16 === 1) return { id, q: `log2(${2 ** a}) = ?`, a: a, hint: `2^${a} = ${2 ** a}.` };
+      if (n % 16 === 2) return { id, q: `10^${a} = ?`, a: 10 ** a, hint: `10 to the power ${a}.` };
+      if (n % 16 === 3) return { id, q: `Next: ${a}, ${a * 2}, ${a * 4}, ${a * 8}, ?`, a: a * 16, hint: "Each term doubles." };
+      if (n % 16 === 4) return { id, q: `2^${a} x 2^${b} = 2^?`, a: a + b, hint: "Add exponents." };
+      if (n % 16 === 5) return { id, q: `log10(${10 ** a}) = ?`, a: a, hint: `10^${a} = ${10 ** a}.` };
+      if (n % 16 === 6) return { id, q: `Sequence: ${a}, ${a + b}, ${a + 2 * b}, ${a + 3 * b}, next = ?`, a: a + 4 * b, hint: "Adds by b each step." };
+      if (n % 16 === 7) return { id, q: `2^${a} / 2^${b} = 2^?`, a: a - b, hint: "Subtract exponents when dividing." };
+      if (n % 16 === 8) return { id, q: `(2^${a})^${b} = 2^?`, a: a * b, hint: "Multiply exponents." };
+      if (n % 16 === 9) return { id, q: `Sum 1 to ${a} = ? (formula: n(n+1)/2)`, a: (a * (a + 1)) / 2, hint: `n(n+1)/2 with n=${a}.` };
+      if (n % 16 === 10) return { id, q: `log2(${2 ** (a + b)}) = ?`, a: a + b, hint: `2^${a + b} = ${2 ** (a + b)}.` };
+      if (n % 16 === 11) return { id, q: `3^${a} = ?`, a: 3 ** a, hint: `3 to the power ${a}.` };
+      if (n % 16 === 12) return { id, q: `Sequence: ${a * b}, ${a * b * 2}, ${a * b * 3}, next = ?`, a: a * b * 4, hint: "Multiples of a constant." };
+      if (n % 16 === 13) return { id, q: `10^${a} / 10^${b} = 10^?`, a: a - b, hint: "Subtract exponents." };
+      if (n % 16 === 14) return { id, q: `log10(${10 ** (a + 1)}) - log10(${10 ** a}) = ?`, a: 1, hint: "log(10^(a+1)) - log(10^a) = (a+1) - a." };
+      return { id, q: `2^${a} + 2^${a} = 2^?`, a: a + 1, hint: "Two copies of 2^a = 2 x 2^a = 2^(a+1)." };
     case 6:
-      if (n % 10 === 0) return { id, q: `Value ${a} to ${a * 6} in ${a}s. Avg rate = ?`, a: 5, hint: `Rate = (${a * 6} - ${a}) / ${a}.` };
-      if (n % 10 === 1) return { id, q: `Area of ${a} x ${b} rectangle = ?`, a: a * b, hint: "Area = base x height." };
-      if (n % 10 === 2) return { id, q: `A ${a * 10} Hz signal period in ms = ?`, a: Math.round(1000 / (a * 10)), hint: "Period = 1000/f." };
-      if (n % 10 === 3) return { id, q: `f(t) = ${a}t, f(${b}) = ?`, a: a * b, hint: `f(${b}) = ${a} x ${b}.` };
-      if (n % 10 === 4) return { id, q: `Slope of y = ${a}x + ${b} = ?`, a: a, hint: "Slope is the coefficient of x." };
-      if (n % 10 === 5) return { id, q: `Derivative of ${a}x^2 at x=${b}: slope = ${2*a}*${b} = ?`, a: 2 * a * b, hint: "d/dx ax^2 = 2ax." };
-      if (n % 10 === 6) return { id, q: `Limit: as x->0, ${a}x / x = ?`, a: a, hint: "x cancels out." };
-      if (n % 10 === 7) return { id, q: `Integral of ${a} from 0 to ${b} = ?`, a: a * b, hint: "Area under constant = height x width." };
-      if (n % 10 === 8) return { id, q: `f(x) = ${a}x + ${b}, f(x+${c}) - f(x) = ?`, a: a * c, hint: "Difference is slope x change in x." };
-      return { id, q: `A ${a * 5} Hz signal period in ms = ?`, a: Math.round(1000 / (a * 5)), hint: "Period = 1000/f ms." };
+      if (n % 16 === 0) return { id, q: `Value ${a} to ${a * 6} in ${a}s. Avg rate = ?`, a: 5, hint: `Rate = (${a * 6} - ${a}) / ${a}.` };
+      if (n % 16 === 1) return { id, q: `Area of ${a} x ${b} rectangle = ?`, a: a * b, hint: "Area = base x height." };
+      if (n % 16 === 2) return { id, q: `A ${a * 10} Hz signal period in ms = ?`, a: Math.round(1000 / (a * 10)), hint: "Period = 1000/f." };
+      if (n % 16 === 3) return { id, q: `f(t) = ${a}t, f(${b}) = ?`, a: a * b, hint: `f(${b}) = ${a} x ${b}.` };
+      if (n % 16 === 4) return { id, q: `Slope of y = ${a}x + ${b} = ?`, a: a, hint: "Slope is the coefficient of x." };
+      if (n % 16 === 5) return { id, q: `Derivative of ${a}x^2 at x=${b}: slope = ${2*a}*${b} = ?`, a: 2 * a * b, hint: "d/dx ax^2 = 2ax." };
+      if (n % 16 === 6) return { id, q: `Limit: as x->0, ${a}x / x = ?`, a: a, hint: "x cancels out." };
+      if (n % 16 === 7) return { id, q: `Integral of ${a} from 0 to ${b} = ?`, a: a * b, hint: "Area under constant = height x width." };
+      if (n % 16 === 8) return { id, q: `f(x) = ${a}x + ${b}, f(x+${c}) - f(x) = ?`, a: a * c, hint: "Difference is slope x change in x." };
+      if (n % 16 === 9) return { id, q: `A ${a * 5} Hz signal period in ms = ?`, a: Math.round(1000 / (a * 5)), hint: "Period = 1000/f ms." };
+      if (n % 16 === 10) return { id, q: `Derivative of ${a}x at x = ${b} is always?`, a: a, hint: "d/dx of ax is just a (constant slope)." };
+      if (n % 16 === 11) return { id, q: `Integral of ${a} from 0 to ${a} = ?`, a: a * a, hint: "Area = height x width = a x a." };
+      if (n % 16 === 12) return { id, q: `Limit as x->∞ of ${a}x / (x + ${b}) = ?`, a: a, hint: "As x grows, b becomes negligible." };
+      if (n % 16 === 13) return { id, q: `f(x) = ${a}x^2. f'(${b}) = 2*${a}*${b} = ?`, a: 2 * a * b, hint: "Derivative of ax^2 is 2ax." };
+      if (n % 16 === 14) return { id, q: `Exponential decay: value halved ${a} times from ${b * 16} = ?`, a: b, hint: `${b * 16} / 2^${a}`. };
+      return { id, q: `Rate of change: distance ${a * 10} over ${a} seconds = ?`, a: 10, hint: "Distance / time = rate." };
     default:
       return { id, q: `${a} + ${b} = ?`, a: a + b, hint: "Add the two numbers." };
   }
