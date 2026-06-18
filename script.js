@@ -190,8 +190,8 @@ const FOUNDATIONS = [
       { q: "100 - 3 x 7 = ?", a: 79, hint: "Multiply before subtracting: 3x7=21, 100-21=79." },
     ],
     resources: [
-      { name: "Khan Academy: Arithmetic", url: "https://www.khanacademy.org/math/arithmetic", subtitle: "Place value, addition, subtraction, multiplication, division, and fractions — the building blocks of embedded math." },
-      { name: "Khan Academy: Place Value", url: "https://www.khanacademy.org/math/cc-fourth-grade-math/imp-place-value-and-rounding", subtitle: "Deep-dive into place value, rounding, and the decimal system used in number representations." },
+      { name: "The Organic Chemistry Tutor: Arithmetic", url: "https://youtube.com/playlist?list=PL0o_zxa4K1BUVfD9iHltDeFYrHwIqbyM7", subtitle: "Concise 1-2 hour playlist covering whole numbers, fractions, decimals, percentages, and order of operations." },
+      { name: "Math Antics on YouTube", url: "https://www.youtube.com/c/mathantics", subtitle: "Short, clear animated videos (5-15 min each) on place value, fractions, and arithmetic basics." },
     ],
   },
   {
