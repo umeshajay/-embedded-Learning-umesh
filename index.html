@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Embedded + TinyML Math Path</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="masthead">
+        <div class="masthead-top">
+          <span class="chip">EMBEDDED + TINYML PATH</span>
+          <button id="resetProgress" class="icon-button" title="Reset saved progress" aria-label="Reset saved progress">↻</button>
+        </div>
+        <h1>Math for <span>Embedded TinyML</span></h1>
+        <p>Read the guide, master each quiz at 90%, and unlock the math path from registers to neural networks.</p>
+        <nav class="tabs" aria-label="App sections">
+          <button class="tab active" data-tab="guide">Study Guide</button>
+          <button class="tab" data-tab="quiz">Quiz</button>
+          <button class="tab" data-tab="progress">Progress</button>
+        </nav>
+      </header>
+
+      <section id="guidePanel" class="panel active" aria-live="polite">
+        <div id="guideList"></div>
+        <div id="guideDetail" hidden></div>
+      </section>
+
+      <section id="quizPanel" class="panel" aria-live="polite">
+        <div id="quizSetup"></div>
+        <div id="quizActive" hidden></div>
+        <div id="quizDone" hidden></div>
+      </section>
+
+      <section id="progressPanel" class="panel" aria-live="polite">
+        <div id="progressView"></div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,895 @@
+const STUDY_GUIDE = [
+  {
+    id: "numbers",
+    tag: "FOUNDATION",
+    title: "Number Systems",
+    why: "Embedded engineers work in decimal, binary, hex, and octal every day. Reading a register value like 0xFF or 0b10110011 must be instant.",
+    topics: [
+      ["Decimal (Base 10)", "Standard counting: 0-9"],
+      ["Binary (Base 2)", "How CPUs actually store data: 0b1010 = 10"],
+      ["Hexadecimal (Base 16)", "Register values, memory addresses: 0xFF = 255"],
+      ["Octal (Base 8)", "File permissions in Linux: 0755"],
+      ["Two's Complement", "How negative integers are stored in hardware"],
+    ],
+    examples: ["0xFF = 1111 1111 in binary = 255 in decimal", "0b1010 = 0xA = 10 in decimal", "-1 in 8-bit two's complement = 0xFF"],
+    resource: "Khan Academy: Number Systems",
+  },
+  {
+    id: "bitwise",
+    tag: "CRITICAL",
+    title: "Bit Manipulation",
+    why: "Setting, clearing, and toggling hardware register bits is the most common embedded task. This IS your arithmetic in firmware.",
+    topics: [["AND (&)", "Masking bits: clear specific bits"], ["OR (|)", "Setting bits: turn specific bits on"], ["XOR (^)", "Toggling bits: flip specific bits"], ["NOT (~)", "Inverting all bits"], ["Left shift (<<)", "Multiply by powers of 2, position bits"], ["Right shift (>>)", "Divide by powers of 2, extract bits"]],
+    examples: ["Set bit 3:   reg |=  (1 << 3)   -> reg |=  0x08", "Clear bit 3: reg &= ~(1 << 3)   -> reg &= ~0x08", "Toggle bit 3:reg ^=  (1 << 3)", "Check bit 3: if (reg & (1 << 3)) { ... }"],
+    resource: "Brilliant: Logic & Discrete Math",
+  },
+  {
+    id: "algebra",
+    tag: "FOUNDATION",
+    title: "Algebra Essentials",
+    why: "You'll rearrange equations constantly: calculating baud rates, PWM duty cycles, voltage dividers, and timer frequencies.",
+    topics: [["Solving for unknowns", "Rearrange equations: f = 1/T -> T = 1/f"], ["Substitution", "Plug known values into formulas"], ["Ratios & proportions", "Scaling sensor readings, ADC values"], ["Linear equations", "y = mx + b for sensor calibration"], ["Scientific notation", "Frequencies in MHz, capacitance in pF, nF"]],
+    examples: ["Baud rate formula: BR = f_clk / (16 x UBBR + 1)", "PWM duty: duty% = (compare / period) x 100", "Voltage divider: Vout = Vin x R2 / (R1 + R2)"],
+    resource: "Khan Academy: Algebra 1 & 2",
+  },
+  {
+    id: "boolean",
+    tag: "CRITICAL",
+    title: "Boolean Algebra & Logic Gates",
+    why: "Digital logic is the bedrock of all hardware. Understanding AND, OR, NOT, and NAND helps you design state machines and decode datasheets.",
+    topics: [["Truth tables", "Enumerate all input/output combinations"], ["AND / OR / NOT / NAND / NOR / XOR", "Core logic operations"], ["De Morgan's Laws", "NOT(A AND B) = NOT A OR NOT B"], ["Boolean simplification", "Reduce logic for efficiency"], ["Karnaugh Maps (K-maps)", "Simplify complex logic expressions"]],
+    examples: ["De Morgan's: ~(A & B) == (~A | ~B) - used in C conditions", "State machine guard: if (!error && (state == READY))", "NAND as universal gate: any logic built from NAND only"],
+    resource: "Brilliant: Logic Gates",
+  },
+  {
+    id: "calculus",
+    tag: "USEFUL",
+    title: "Basic Calculus Concepts",
+    why: "You don't need calculus daily, but PID controllers, filters, and ADC sampling theory all come from it. Intuition matters more than computation.",
+    topics: [["Rate of change (derivative)", "How fast something changes: PID D-term"], ["Accumulation (integral)", "Sum over time: PID I-term, energy"], ["Frequency & period", "f = 1/T; waves, PWM, timers"], ["Exponential decay", "RC circuits, filter time constants"]],
+    examples: ["PID: output = Kp x e + Ki x integral(e dt) + Kd x (de/dt)", "RC time constant: tau = R x C (63% charge in one tau)", "Timer frequency: f = f_clk / (prescaler x period)"],
+    resource: "3Blue1Brown: Essence of Calculus",
+  },
+  {
+    id: "fixedpoint",
+    tag: "EMBEDDED SPECIFIC",
+    title: "Fixed-Point Arithmetic",
+    why: "Many microcontrollers have no FPU. You must represent decimals using integers. This is a core embedded skill.",
+    topics: [["Q format notation", "Q8.8 = 8 bits integer + 8 bits fraction"], ["Scaling factors", "Multiply by 1000 to store 3 decimal places"], ["Overflow awareness", "Know when 8/16/32-bit integers overflow"], ["Integer division pitfalls", "5/2 = 2 in integer math, not 2.5"]],
+    examples: ["Store temperature as int: 23.5 C -> 2350 (scale x100)", "Q8.8: 3.5 = 3 x 256 + 128 = 896 = 0x0380", "Avoid: float x = 0.1; (not exact in binary!)"],
+    resource: "Embedded.fm blog: Fixed-Point Math",
+  },
+  {
+    id: "modular",
+    tag: "USEFUL",
+    title: "Modular Arithmetic",
+    why: "Ring buffers, timer wraparound, CRC checksums, and circular indexing all use modular arithmetic.",
+    topics: [["Modulo operator (%)", "Remainder after division"], ["Wraparound behavior", "255 + 1 = 0 in uint8_t"], ["Ring buffer indexing", "head = (head + 1) % BUFFER_SIZE"], ["Checksums & CRC", "Error detection using mod arithmetic"]],
+    examples: ["Ring buffer: idx = (idx + 1) % 16", "Timer overflow: 0xFFFF + 1 = 0x0000", "CRC-8 uses polynomial division (modular)"],
+    resource: "Khan Academy: Modular Arithmetic",
+  },
+  {
+    id: "trig",
+    tag: "SITUATIONAL",
+    title: "Trigonometry & Signals",
+    why: "Needed for motor control, IMU sensor fusion, and signal processing. Not day-1, but important by year 2.",
+    topics: [["Sine & cosine waves", "AC signals, PWM waveforms"], ["Frequency & amplitude", "Signal characterization"], ["Phase angle", "Motor control, 3-phase power"], ["Fourier basics", "FFT: decompose signals into frequencies"]],
+    examples: ["sin(omega t) describes AC voltage: omega = 2 pi f", "FOC motor control uses Park/Clarke transforms", "FFT finds dominant frequency in ADC sampled data"],
+    resource: "Khan Academy: Trigonometry",
+  },
+  {
+    id: "stats",
+    tag: "TINYML CORE",
+    title: "Statistics & Probability",
+    why: "TinyML models are trained on noisy sensor data. Mean, variance, probability, and distributions help you understand normalization, thresholds, confidence, and model behavior.",
+    topics: [["Mean / median / mode", "Summarize sensor streams and datasets"], ["Variance & standard deviation", "Measure noise and spread"], ["Probability", "Interpret classifier confidence and random events"], ["Normal distribution", "Common model for noise and measurement error"], ["Sampling bias", "Know when collected data does not represent the real device environment"]],
+    examples: ["Normalize sensor value: z = (x - mean) / std", "Accuracy = correct / total", "Noise floor estimated using standard deviation"],
+    resource: "Khan Academy: Statistics and Probability",
+  },
+  {
+    id: "linearalgebra",
+    tag: "TINYML CORE",
+    title: "Linear Algebra",
+    why: "Neural networks are mostly matrix multiplication plus nonlinear functions. Vectors, matrices, dot products, and shapes are the language of TinyML inference.",
+    topics: [["Vectors", "Sensor windows, feature arrays, embeddings"], ["Dot product", "Weighted sum used by neurons"], ["Matrices", "Layer weights and batched data"], ["Matrix multiplication", "Dense layers and transforms"], ["Dimensions / shapes", "Avoid tensor shape bugs in deployment"]],
+    examples: ["Neuron: y = w dot x + b", "Dense layer: output = input x weights + bias", "3-axis IMU sample = vector [ax, ay, az]"],
+    resource: "3Blue1Brown: Essence of Linear Algebra",
+  },
+  {
+    id: "dsp",
+    tag: "EMBEDDED ML",
+    title: "DSP & Feature Extraction",
+    why: "TinyML often starts with raw audio, vibration, IMU, or sensor streams. Sampling, filters, FFTs, and windows turn signals into features a small model can learn.",
+    topics: [["Sampling rate", "How often the ADC or sensor captures data"], ["Nyquist rule", "Sample at least twice the highest frequency"], ["Moving average", "Simple low-pass smoothing"], ["FFT intuition", "Convert time-domain signal to frequency features"], ["Windowing", "Process fixed chunks of sensor data"]],
+    examples: ["16 kHz audio captures up to 8 kHz", "Moving average of [2, 4, 6] = 4", "Spectrogram features feed keyword spotting models"],
+    resource: "DSP Guide: Sampling and FFT basics",
+  },
+  {
+    id: "control",
+    tag: "EMBEDDED CORE",
+    title: "Control Systems Math",
+    why: "Robots, motors, heaters, drones, and sensor loops need stable control. PID and discrete-time intuition help firmware interact with the physical world.",
+    topics: [["Feedback loops", "Use measured output to correct behavior"], ["Error signal", "target - measured"], ["PID terms", "Proportional, integral, derivative"], ["Stability", "Avoid oscillation and runaway control"], ["Discrete update rate", "Controllers run at fixed time steps"]],
+    examples: ["P output = Kp x error", "Integral accumulates error over time", "Derivative reacts to rate of change"],
+    resource: "Control Tutorials for MATLAB and Simulink: PID basics",
+  },
+  {
+    id: "mlbasics",
+    tag: "TINYML CORE",
+    title: "ML Basics & Loss Functions",
+    why: "Before neural networks, you need the ideas of features, labels, predictions, errors, and optimization. This is the math behind training and evaluating a model.",
+    topics: [["Features and labels", "Inputs and expected outputs"], ["Loss function", "Number that measures prediction error"], ["Mean squared error", "Common regression loss"], ["Cross entropy intuition", "Common classification loss"], ["Gradient descent", "Improve parameters by moving downhill"]],
+    examples: ["MSE for errors [2, -2] = 4", "Prediction error = predicted - actual", "Training minimizes loss over examples"],
+    resource: "Google Machine Learning Crash Course",
+  },
+  {
+    id: "neuralnets",
+    tag: "TINYML CORE",
+    title: "Neural Network Math",
+    why: "TinyML deployment requires knowing what a model is doing: weighted sums, activation functions, layers, parameters, and memory cost.",
+    topics: [["Neuron equation", "weighted sum plus bias"], ["Activation functions", "ReLU, sigmoid, softmax"], ["Dense layers", "Fully connected matrix math"], ["Convolutions", "Small filters sliding over input"], ["Parameter count", "Weights and biases consume flash and RAM"]],
+    examples: ["ReLU(-3) = 0, ReLU(5) = 5", "Dense params = inputs x outputs + outputs", "Softmax converts logits to class probabilities"],
+    resource: "TensorFlow: Neural network basics",
+  },
+  {
+    id: "quantization",
+    tag: "TINYML DEPLOY",
+    title: "Quantization & Numeric Precision",
+    why: "TinyML often runs int8 models on tiny microcontrollers. Quantization, scaling, clipping, and saturation decide whether a model is fast and accurate on-device.",
+    topics: [["int8 ranges", "-128 to 127 signed, 0 to 255 unsigned"], ["Scale and zero-point", "Map real values to integers"], ["Clipping / saturation", "Values outside range are limited"], ["Quantization error", "Precision lost during conversion"], ["Accumulator width", "Use wider sums for many int8 multiplies"]],
+    examples: ["real = scale x (q - zero_point)", "uint8 range has 256 values", "int8 dot products often accumulate in int32"],
+    resource: "TensorFlow Lite: Quantization specification",
+  },
+  {
+    id: "evaluation",
+    tag: "TINYML DEPLOY",
+    title: "Model Evaluation & Deployment Math",
+    why: "Embedded ML is judged by accuracy, latency, memory, power, and false alarms. You need metrics math to choose a model that works on a real device.",
+    topics: [["Confusion matrix", "TP, TN, FP, FN"], ["Precision and recall", "Measure false alarms and missed detections"], ["F1 score", "Balance precision and recall"], ["Latency", "Inference time per sample"], ["Memory budgeting", "Flash, RAM, tensor arena, and buffers"]],
+    examples: ["Precision = TP / (TP + FP)", "Recall = TP / (TP + FN)", "Model flash budget must include weights and code"],
+    resource: "TensorFlow Lite for Microcontrollers: model optimization",
+  },
+];
+
+const TOPIC_ORDER_IDS = [
+  "numbers",
+  "bitwise",
+  "boolean",
+  "algebra",
+  "fixedpoint",
+  "modular",
+  "calculus",
+  "trig",
+  "stats",
+  "linearalgebra",
+  "dsp",
+  "control",
+  "mlbasics",
+  "neuralnets",
+  "quantization",
+  "evaluation",
+];
+STUDY_GUIDE.sort((a, b) => TOPIC_ORDER_IDS.indexOf(a.id) - TOPIC_ORDER_IDS.indexOf(b.id));
+
+const GUIDE_TO_QUIZ_TOPIC = {
+  numbers: "Number Systems",
+  bitwise: "Bit Manipulation",
+  algebra: "Algebra",
+  boolean: "Boolean Logic",
+  calculus: "Calculus Concepts",
+  fixedpoint: "Fixed-Point",
+  modular: "Modular Arithmetic",
+  trig: "Trigonometry & Signals",
+  stats: "Statistics & Probability",
+  linearalgebra: "Linear Algebra",
+  dsp: "DSP & Feature Extraction",
+  control: "Control Systems Math",
+  mlbasics: "ML Basics & Loss Functions",
+  neuralnets: "Neural Network Math",
+  quantization: "Quantization & Numeric Precision",
+  evaluation: "Model Evaluation & Deployment Math",
+};
+
+const BASE_QUIZ_BANK = [
+  [1, "Number Systems", 1, "What is 0xFF in decimal?", 255, "F in hex = 15. FF = 15 x 16 + 15"],
+  [2, "Number Systems", 1, "What is 0b1010 in decimal?", 10, "1 x 8 + 0 x 4 + 1 x 2 + 0 x 1"],
+  [3, "Number Systems", 2, "What is 255 in hexadecimal? Enter the decimal value of 0xFF.", 255, "FF hex = 255 decimal"],
+  [4, "Number Systems", 2, "0b11111111 in decimal = ?", 255, "All 8 bits set = 2^8 - 1"],
+  [5, "Number Systems", 3, "What is -1 in 8-bit two's complement as unsigned decimal?", 255, "Invert 00000001, add 1 = 11111111 = 255"],
+  [6, "Bit Manipulation", 1, "0b1100 & 0b1010 = ? in decimal", 8, "AND: both bits must be 1. 1000 = 8"],
+  [7, "Bit Manipulation", 1, "0b1100 | 0b0011 = ? in decimal", 15, "OR: either bit is 1. 1111 = 15"],
+  [8, "Bit Manipulation", 2, "1 << 3 = ? in decimal", 8, "Shift 1 left by 3 = 0b1000 = 8"],
+  [9, "Bit Manipulation", 2, "0xFF & ~(1 << 4) = ? Answer in decimal.", 239, "~(1<<4) = ~0x10 = 0xEF. 0xFF & 0xEF = 239"],
+  [10, "Bit Manipulation", 3, "0b10110000 >> 4 = ? in decimal", 11, "Shift right 4: 0b1011 = 11"],
+  [11, "Algebra", 1, "If f = 1/T and T = 0.001s, what is f in Hz?", 1000, "1 / 0.001 = 1000"],
+  [12, "Algebra", 1, "PWM duty: compare=128, period=256. Duty% = ?", 50, "(128/256) x 100 = 50%"],
+  [13, "Algebra", 2, "Voltage divider: Vin=5V, R1=R2. Vout rounded down = ?", 2, "Equal resistors = half voltage. 5/2 = 2.5, rounded down is 2"],
+  [14, "Algebra", 2, "Timer: f_clk=16MHz, prescaler=8, period=250. Frequency = ? Hz", 8000, "16,000,000 / (8 x 250) = 8000"],
+  [15, "Algebra", 3, "ADC: 10-bit, Vref=3.3V, reading=512. Voltage in mV rounded = ?", 1648, "(512/1023) x 3300 is about 1648"],
+  [16, "Boolean Logic", 1, "TRUE AND FALSE = ? Use 1=true, 0=false.", 0, "Both must be true for AND to be true"],
+  [17, "Boolean Logic", 1, "TRUE OR FALSE = ? Use 1=true, 0=false.", 1, "Either true = OR is true"],
+  [18, "Boolean Logic", 2, "NOT(1 AND 1) = ? This is NAND.", 0, "1 AND 1 = 1, NOT 1 = 0"],
+  [19, "Boolean Logic", 2, "De Morgan's: NOT(A OR B) = NOT A __ NOT B. Answer 1=AND, 2=OR.", 1, "NOT(A OR B) = NOT A AND NOT B"],
+  [20, "Boolean Logic", 3, "XOR: 0b1010 ^ 0b1100 = ? in decimal", 6, "XOR: 0110 = 6"],
+  [21, "Fixed-Point", 1, "Store 3.75 C as integer scaled by 100. Answer = ?", 375, "3.75 x 100 = 375"],
+  [22, "Fixed-Point", 2, "In C: int x = 5 / 2; What is x?", 2, "Integer division truncates. 5/2 = 2"],
+  [23, "Fixed-Point", 2, "uint8_t x = 255; x = x + 1; What is x?", 0, "Unsigned 8-bit overflow wraps to 0"],
+  [24, "Fixed-Point", 3, "Max value of uint16_t = ?", 65535, "2^16 - 1 = 65535"],
+  [25, "Modular Arithmetic", 1, "17 % 5 = ?", 2, "17 = 3 x 5 + 2"],
+  [26, "Modular Arithmetic", 1, "Ring buffer size=8, current head=7. Next head = (7+1)%8 = ?", 0, "8 % 8 = 0"],
+  [27, "Modular Arithmetic", 2, "256 % 16 = ?", 0, "256 = 16 x 16 exactly"],
+  [28, "Modular Arithmetic", 2, "Timer counts 0-999. At 75% duty, compare register value = ?", 750, "75% of 1000 = 750"],
+  [29, "Calculus Concepts", 2, "RC circuit: R=1k ohm, C=1uF. Time constant in microseconds = ?", 1000, "1000 ohm x 0.000001 F = 0.001s = 1000 us"],
+  [30, "Calculus Concepts", 3, "PID: error=10, Kp=2, Ki=0, Kd=0. P-term output = ?", 20, "P-term = Kp x error = 20"],
+  [31, "Trigonometry & Signals", 1, "If a sine wave has frequency 50 Hz, what is its period in milliseconds?", 20, "T = 1/f = 1/50 = 0.02s = 20ms"],
+  [32, "Trigonometry & Signals", 1, "A signal ranges from -3V to +3V. What is its amplitude in volts?", 3, "Amplitude is measured from center to peak"],
+  [33, "Trigonometry & Signals", 2, "A full cycle is how many degrees?", 360, "One complete rotation or wave cycle is 360 degrees"],
+  [34, "Trigonometry & Signals", 2, "If f = 1000 Hz, what is omega rounded to the nearest integer? Use omega = 2*pi*f.", 6283, "2 x 3.14159 x 1000 is about 6283"],
+  [35, "Trigonometry & Signals", 2, "A 1 kHz signal sampled at 10 kHz gives how many samples per cycle?", 10, "10,000 samples/sec divided by 1,000 cycles/sec = 10"],
+  [36, "Trigonometry & Signals", 3, "Three-phase electrical signals are separated by how many degrees?", 120, "360 degrees divided by 3 phases = 120"],
+  [37, "Trigonometry & Signals", 3, "A PWM signal at 20 kHz has a period of how many microseconds?", 50, "1/20000 = 0.00005s = 50us"],
+  [38, "Trigonometry & Signals", 3, "If sin(theta)=0 at theta=0 degrees, what is cos(theta)?", 1, "cos(0 degrees) = 1"],
+  [39, "Trigonometry & Signals", 2, "A sine wave has peak amplitude 5V. Peak-to-peak voltage is?", 10, "Peak-to-peak is twice the amplitude"],
+  [40, "Trigonometry & Signals", 3, "Nyquist minimum sample rate for a 4 kHz signal is how many Hz?", 8000, "Sample at least 2 x the highest frequency"],
+  [41, "Number Systems", 1, "What is 0x10 in decimal?", 16, "Hex 10 means one sixteen and zero ones"],
+  [42, "Number Systems", 1, "What is 0b10000000 in decimal?", 128, "The top bit in 8-bit binary is 2^7"],
+  [43, "Number Systems", 2, "What is 64 in hexadecimal? Enter decimal value of 0x40.", 64, "0x40 is 4 x 16 = 64"],
+  [44, "Number Systems", 2, "How many distinct values can 8 bits represent?", 256, "2^8 = 256"],
+  [45, "Number Systems", 3, "Signed int8 range minimum is?", -128, "Two's complement int8 runs from -128 to 127"],
+  [46, "Bit Manipulation", 1, "0b0101 | 0b0010 = ? in decimal", 7, "0101 OR 0010 = 0111"],
+  [47, "Bit Manipulation", 1, "0b1111 & 0b0101 = ? in decimal", 5, "Only matching 1 bits remain"],
+  [48, "Bit Manipulation", 2, "1 << 7 = ? in decimal", 128, "Bit 7 is 2^7"],
+  [49, "Bit Manipulation", 2, "0b1000 >> 3 = ? in decimal", 1, "Shift 1000 right three places"],
+  [50, "Bit Manipulation", 3, "If reg=0, after reg |= (1 << 5), reg equals?", 32, "Bit 5 is 32"],
+  [51, "Algebra", 1, "If y = 2x + 1 and x = 4, y = ?", 9, "2 x 4 + 1"],
+  [52, "Algebra", 1, "Convert 2 MHz to Hz.", 2000000, "Mega means one million"],
+  [53, "Algebra", 2, "If Vout = Vin x 0.25 and Vin=12V, Vout = ?", 3, "12 x 0.25 = 3"],
+  [54, "Algebra", 2, "If period is 500 microseconds, frequency in Hz = ?", 2000, "1 / 0.0005 = 2000"],
+  [55, "Algebra", 3, "A 12-bit ADC has how many codes?", 4096, "2^12 = 4096"],
+  [56, "Boolean Logic", 1, "NOT TRUE = ? Use 1=true, 0=false.", 0, "NOT flips true to false"],
+  [57, "Boolean Logic", 1, "FALSE OR FALSE = ?", 0, "Neither input is true"],
+  [58, "Boolean Logic", 2, "TRUE XOR TRUE = ?", 0, "XOR is true only when inputs differ"],
+  [59, "Boolean Logic", 2, "NOT(0 OR 1) = ?", 0, "0 OR 1 is 1, NOT 1 is 0"],
+  [60, "Boolean Logic", 3, "How many rows are in a truth table with 3 binary inputs?", 8, "2^3 combinations"],
+  [61, "Fixed-Point", 1, "Store 12.34 as integer scaled by 100. Answer = ?", 1234, "12.34 x 100"],
+  [62, "Fixed-Point", 1, "Q8.8 uses how many fractional bits?", 8, "The number after the dot is fractional bits"],
+  [63, "Fixed-Point", 2, "In Q8.8, value 1.0 is stored as?", 256, "1 x 2^8"],
+  [64, "Fixed-Point", 2, "Signed int16 maximum value is?", 32767, "2^15 - 1"],
+  [65, "Fixed-Point", 3, "int8 signed maximum value is?", 127, "Two's complement int8 max is 127"],
+  [66, "Fixed-Point", 3, "If scale is 1000, stored value 2500 represents?", 2, "2500 / 1000 = 2.5, numeric answers are integers here"],
+  [67, "Modular Arithmetic", 1, "9 % 4 = ?", 1, "9 = 2 x 4 + 1"],
+  [68, "Modular Arithmetic", 1, "(3 + 1) % 4 = ?", 0, "4 wraps to 0"],
+  [69, "Modular Arithmetic", 2, "If buffer size is 16 and index is 15, next index is?", 0, "(15 + 1) % 16"],
+  [70, "Modular Arithmetic", 2, "1000 % 256 = ?", 232, "256 x 3 = 768, remainder 232"],
+  [71, "Modular Arithmetic", 3, "uint16_t timer at 65535 plus 1 becomes?", 0, "Unsigned 16-bit wraparound"],
+  [72, "Modular Arithmetic", 3, "For ring size 32, index 45 maps to?", 13, "45 % 32 = 13"],
+  [73, "Calculus Concepts", 1, "If position changes from 0 to 10 in 2 seconds, average speed = ?", 5, "10 / 2"],
+  [74, "Calculus Concepts", 1, "If frequency is 20 Hz, period in milliseconds = ?", 50, "1/20 = 0.05s = 50ms"],
+  [75, "Calculus Concepts", 2, "If error accumulates 3 units for 4 seconds, integral area = ?", 12, "3 x 4"],
+  [76, "Calculus Concepts", 2, "RC time constant with R=2k and C=1uF in microseconds = ?", 2000, "2000 x 1uF = 0.002s"],
+  [77, "Calculus Concepts", 2, "If value rises from 4 to 10 in 3 seconds, rate of change = ?", 2, "(10 - 4) / 3"],
+  [78, "Calculus Concepts", 3, "PID derivative term with Kd=5 and de/dt=4 equals?", 20, "5 x 4"],
+  [79, "Calculus Concepts", 3, "A first-order RC reaches about what percent after one time constant?", 63, "One tau is about 63%"],
+  [80, "Calculus Concepts", 3, "If sampling interval dt is 10 ms, samples per second = ?", 100, "1 / 0.01"],
+  [81, "Statistics & Probability", 1, "Mean of [2, 4, 6] = ?", 4, "Sum 12 divided by 3"],
+  [82, "Statistics & Probability", 1, "Median of [1, 9, 3] = ?", 3, "Sorted values are 1, 3, 9"],
+  [83, "Statistics & Probability", 1, "Probability of heads on a fair coin in percent = ?", 50, "One favorable side out of two"],
+  [84, "Statistics & Probability", 2, "If 80 out of 100 predictions are correct, accuracy percent = ?", 80, "80 / 100"],
+  [85, "Statistics & Probability", 2, "Range of sensor readings [10, 14, 20] = ?", 10, "20 - 10"],
+  [86, "Statistics & Probability", 2, "If mean=10, std=2, z-score for x=14 = ?", 2, "(14 - 10) / 2"],
+  [87, "Statistics & Probability", 2, "A dataset has 30 positive and 70 negative samples. Positive percent = ?", 30, "30 / 100"],
+  [88, "Statistics & Probability", 3, "If variance is 9, standard deviation = ?", 3, "Square root of 9"],
+  [89, "Statistics & Probability", 3, "If false alarms are 5 in 100 events, false alarm percent = ?", 5, "5 / 100"],
+  [90, "Statistics & Probability", 3, "A 95 percent confidence idea roughly leaves how many percent outside?", 5, "100 - 95"],
+  [91, "Linear Algebra", 1, "Dot product [1,2] dot [3,4] = ?", 11, "1x3 + 2x4"],
+  [92, "Linear Algebra", 1, "Vector [2,3,4] has how many elements?", 3, "Count the entries"],
+  [93, "Linear Algebra", 1, "A 3-axis accelerometer sample is a vector of length?", 3, "x, y, z axes"],
+  [94, "Linear Algebra", 2, "A dense layer with 4 inputs and 3 outputs has how many weights?", 12, "4 x 3"],
+  [95, "Linear Algebra", 2, "Add vectors [1,2] + [3,4]. First element = ?", 4, "1 + 3"],
+  [96, "Linear Algebra", 2, "Matrix shape 2x3 contains how many numbers?", 6, "2 x 3"],
+  [97, "Linear Algebra", 3, "A dense layer with 8 inputs and 4 outputs has weights plus biases = ?", 36, "8 x 4 weights + 4 biases"],
+  [98, "Linear Algebra", 3, "Dot product [1,0,1] dot [5,9,2] = ?", 7, "1x5 + 0x9 + 1x2"],
+  [99, "Linear Algebra", 3, "If input shape is 10 and output shape is 2, dense weight count = ?", 20, "10 x 2"],
+  [100, "Linear Algebra", 3, "A 4x4 transform matrix has how many elements?", 16, "4 x 4"],
+  [101, "DSP & Feature Extraction", 1, "Nyquist rate for a 1 kHz signal is how many Hz?", 2000, "At least 2 x highest frequency"],
+  [102, "DSP & Feature Extraction", 1, "Moving average of [3, 6, 9] = ?", 6, "18 / 3"],
+  [103, "DSP & Feature Extraction", 1, "A 16 kHz sampling rate captures frequencies up to how many kHz?", 8, "Nyquist frequency is half the sample rate"],
+  [104, "DSP & Feature Extraction", 2, "A 1-second window at 100 Hz contains how many samples?", 100, "100 samples per second"],
+  [105, "DSP & Feature Extraction", 2, "A 250 ms window at 1000 Hz contains how many samples?", 250, "0.25 x 1000"],
+  [106, "DSP & Feature Extraction", 2, "Downsample 8000 Hz by factor 4 gives how many Hz?", 2000, "8000 / 4"],
+  [107, "DSP & Feature Extraction", 3, "FFT bin spacing for 1000 Hz sample rate and 100 samples = ?", 10, "fs / N = 1000 / 100"],
+  [108, "DSP & Feature Extraction", 3, "A 50% overlap on 200-sample windows advances by how many samples?", 100, "Half of 200"],
+  [109, "DSP & Feature Extraction", 3, "A 10-bit ADC has how many possible codes?", 1024, "2^10"],
+  [110, "DSP & Feature Extraction", 3, "RMS of constant value 5 is?", 5, "RMS of a constant equals the constant magnitude"],
+  [111, "Control Systems Math", 1, "If target=100 and measured=80, error = ?", 20, "target - measured"],
+  [112, "Control Systems Math", 1, "P controller with Kp=3 and error=4 outputs?", 12, "3 x 4"],
+  [113, "Control Systems Math", 1, "If measured is above target by 5, target - measured = ?", -5, "Error is negative"],
+  [114, "Control Systems Math", 2, "Integral accumulates error 2 over 5 steps. Sum = ?", 10, "2 x 5"],
+  [115, "Control Systems Math", 2, "Derivative from error 10 to 4 over 3 seconds = ?", -2, "(4 - 10) / 3"],
+  [116, "Control Systems Math", 2, "A 100 Hz control loop has period in ms = ?", 10, "1/100 = 0.01s"],
+  [117, "Control Systems Math", 3, "PID with Kp=2, error=5, Ki=0, Kd=0 outputs?", 10, "Only P term is active"],
+  [118, "Control Systems Math", 3, "If output saturates at 255 and command is 300, actual output = ?", 255, "Saturation clips to max"],
+  [119, "Control Systems Math", 3, "A loop running every 5 ms runs how many times per second?", 200, "1 / 0.005"],
+  [120, "Control Systems Math", 3, "If error changes from 2 to 8 in 2 seconds, derivative = ?", 3, "(8 - 2) / 2"],
+  [121, "ML Basics & Loss Functions", 1, "If prediction=7 and actual=5, error = ?", 2, "prediction - actual"],
+  [122, "ML Basics & Loss Functions", 1, "MSE for one error of 3 is?", 9, "3 squared"],
+  [123, "ML Basics & Loss Functions", 1, "If 90 out of 100 examples are classified correctly, accuracy percent = ?", 90, "90 / 100"],
+  [124, "ML Basics & Loss Functions", 2, "Mean absolute error for errors [2, 4] = ?", 3, "(2 + 4) / 2"],
+  [125, "ML Basics & Loss Functions", 2, "If learning rate is 2 and gradient is 5, update size = ?", 10, "2 x 5"],
+  [126, "ML Basics & Loss Functions", 2, "Binary labels usually use how many classes?", 2, "Two classes"],
+  [127, "ML Basics & Loss Functions", 3, "A dataset with 1000 samples and batch size 100 has batches per epoch = ?", 10, "1000 / 100"],
+  [128, "ML Basics & Loss Functions", 3, "If loss drops from 12 to 3, decrease amount = ?", 9, "12 - 3"],
+  [129, "ML Basics & Loss Functions", 3, "For 5 classes, random guess accuracy percent is about?", 20, "1 / 5 = 20%"],
+  [130, "ML Basics & Loss Functions", 3, "Train 80 percent of 500 samples gives how many training samples?", 400, "0.8 x 500"],
+  [131, "Neural Network Math", 1, "ReLU(-5) = ?", 0, "ReLU clips negatives to zero"],
+  [132, "Neural Network Math", 1, "ReLU(7) = ?", 7, "Positive values pass through"],
+  [133, "Neural Network Math", 1, "A neuron with 3 inputs has how many weights?", 3, "One weight per input"],
+  [134, "Neural Network Math", 2, "Dense layer 6 inputs, 2 outputs: weight count = ?", 12, "6 x 2"],
+  [135, "Neural Network Math", 2, "Dense layer 6 inputs, 2 outputs: weights plus biases = ?", 14, "12 weights + 2 biases"],
+  [136, "Neural Network Math", 2, "Softmax outputs for 4 classes sum to what value?", 1, "Probabilities sum to 1"],
+  [137, "Neural Network Math", 3, "A 3x3 convolution kernel has how many weights per input channel?", 9, "3 x 3"],
+  [138, "Neural Network Math", 3, "A 1D conv kernel size 5 with 8 filters has how many weights for one input channel?", 40, "5 x 8"],
+  [139, "Neural Network Math", 3, "If model has 10000 int8 weights, weight storage is about how many KB?", 10, "int8 is 1 byte, about 10 KB"],
+  [140, "Neural Network Math", 3, "Sigmoid output is between 0 and what value?", 1, "Sigmoid ranges 0 to 1"],
+  [141, "Quantization & Numeric Precision", 1, "Signed int8 maximum value is?", 127, "int8 signed range is -128 to 127"],
+  [142, "Quantization & Numeric Precision", 1, "Unsigned uint8 maximum value is?", 255, "uint8 range is 0 to 255"],
+  [143, "Quantization & Numeric Precision", 1, "uint8 has how many distinct values?", 256, "0 through 255"],
+  [144, "Quantization & Numeric Precision", 2, "If scale=0.5, zero_point=0, q=10, real value = ?", 5, "0.5 x 10"],
+  [145, "Quantization & Numeric Precision", 2, "If real=6, scale=2, zero_point=0, q = ?", 3, "real / scale"],
+  [146, "Quantization & Numeric Precision", 2, "Clip value 300 into uint8 max gives?", 255, "uint8 cannot exceed 255"],
+  [147, "Quantization & Numeric Precision", 3, "int8 multiply accumulations usually use int how many bits?", 32, "int32 accumulators avoid overflow"],
+  [148, "Quantization & Numeric Precision", 3, "Quantizing 1000 float32 weights to int8 reduces bytes per weight from 4 to?", 1, "int8 uses 1 byte"],
+  [149, "Quantization & Numeric Precision", 3, "A 4x memory reduction from 40 KB gives how many KB?", 10, "40 / 4"],
+  [150, "Quantization & Numeric Precision", 3, "If zero_point=128 and q=128, real value is?", 0, "q - zero_point = 0"],
+  [151, "Model Evaluation & Deployment Math", 1, "Precision formula numerator is TP. If TP=8 and FP=2, precision percent = ?", 80, "8 / (8 + 2)"],
+  [152, "Model Evaluation & Deployment Math", 1, "Recall with TP=9 and FN=1 in percent = ?", 90, "9 / (9 + 1)"],
+  [153, "Model Evaluation & Deployment Math", 1, "If inference takes 20 ms, max inferences per second = ?", 50, "1000 / 20"],
+  [154, "Model Evaluation & Deployment Math", 2, "If model is 80 KB and flash budget is 128 KB, remaining KB = ?", 48, "128 - 80"],
+  [155, "Model Evaluation & Deployment Math", 2, "If tensor arena is 24 KB and RAM is 64 KB, remaining KB = ?", 40, "64 - 24"],
+  [156, "Model Evaluation & Deployment Math", 2, "False positives=3, true negatives=97. False positive rate percent = ?", 3, "3 / (3 + 97)"],
+  [157, "Model Evaluation & Deployment Math", 3, "F1 for precision=100% and recall=50% is about what percent?", 67, "2PR/(P+R)=2x1x0.5/1.5 = 0.667"],
+  [158, "Model Evaluation & Deployment Math", 3, "If duty cycle is 10%, active current is 20mA, sleep current ignored, average mA = ?", 2, "0.1 x 20"],
+  [159, "Model Evaluation & Deployment Math", 3, "A model with 95 correct out of 100 has error percent = ?", 5, "100 - 95"],
+  [160, "Model Evaluation & Deployment Math", 3, "If latency budget is 50 ms and model takes 35 ms, margin ms = ?", 15, "50 - 35"],
+].map(([id, topic, level, q, a, hint]) => ({ id, topic, level: level === 3 ? "Advanced" : "Intermediate", q, a, hint, source: "Original embedded/TinyML practice" }));
+
+function buildExpandedQuizBank(baseQuestions) {
+  const generated = [];
+  let id = 10000;
+  for (const topic of Object.values(GUIDE_TO_QUIZ_TOPIC)) {
+    for (const level of ["Intermediate", "Advanced"]) {
+      for (let i = 1; i <= 65; i += 1) {
+        generated.push(makeGeneratedQuestion(id, topic, level, i));
+        id += 1;
+      }
+    }
+  }
+  return [...baseQuestions, ...generated];
+}
+
+function makeGeneratedQuestion(id, topic, level, n) {
+  const advanced = level === "Advanced";
+  const a = (n % 9) + 2;
+  const b = ((n * 3) % 11) + 1;
+  const c = ((n * 5) % 13) + 2;
+  const source = advanced ? "Advanced course-aligned original" : "Intermediate course-aligned original";
+  const item = (q, answer, hint) => ({ id, topic, level, q, a: answer, hint, source });
+
+  switch (topic) {
+    case "Number Systems": {
+      const value = advanced ? 128 + ((n * 17) % 120) : 16 + ((n * 7) % 80);
+      if (n % 4 === 0) return item(`Convert decimal ${value} to hex, then enter the decimal value of that hex.`, value, "Conversion should preserve the same value.");
+      if (n % 4 === 1) return item(`How many values can ${a + 4} bits represent?`, 2 ** (a + 4), "n bits represent 2^n values.");
+      if (n % 4 === 2) return item(`What is the maximum unsigned value for ${a + 4} bits?`, 2 ** (a + 4) - 1, "Unsigned max is 2^n - 1.");
+      return item(`Two's complement signed ${a + 4}-bit minimum value is?`, -(2 ** (a + 3)), "Signed minimum is -2^(n-1).");
+    }
+    case "Bit Manipulation": {
+      const bit = n % (advanced ? 8 : 6);
+      if (n % 4 === 0) return item(`1 << ${bit} equals?`, 2 ** bit, "Left shift places a 1 at that bit position.");
+      if (n % 4 === 1) return item(`Set bit ${bit} in zero. Result decimal = ?`, 2 ** bit, "Setting one bit produces 2^bit.");
+      if (n % 4 === 2) return item(`Clear bit ${bit} from 255. Result decimal = ?`, 255 - 2 ** bit, "255 has all low 8 bits set.");
+      return item(`Toggle bit ${bit} in ${2 ** bit}. Result decimal = ?`, 0, "Toggling a set bit clears it.");
+    }
+    case "Boolean Logic": {
+      if (n % 4 === 0) return item(`How many truth-table rows are needed for ${a} binary inputs?`, 2 ** a, "Rows = 2^inputs.");
+      if (n % 4 === 1) return item(`NAND(1, ${n % 2}) equals?`, n % 2 ? 0 : 1, "NAND is NOT(AND).");
+      if (n % 4 === 2) return item(`XOR(${n % 2}, ${(n + 1) % 2}) equals?`, 1, "XOR is true when inputs differ.");
+      return item(`NOT(${n % 2}) equals?`, n % 2 ? 0 : 1, "NOT flips a Boolean value.");
+    }
+    case "Algebra": {
+      if (n % 4 === 0) return item(`Timer frequency: f_clk=${a * 2}000000 Hz, prescaler=${b}, period=${c * 10}. Frequency rounded down = ?`, Math.floor((a * 2000000) / (b * c * 10)), "f = f_clk / (prescaler x period).");
+      if (n % 4 === 1) return item(`PWM compare=${a * 10}, period=${a * 20}. Duty percent = ?`, 50, "compare / period x 100.");
+      if (n % 4 === 2) return item(`Voltage divider with equal resistors and Vin=${a * 2}V gives Vout = ?`, a, "Equal resistors halve the voltage.");
+      return item(`Convert ${a} MHz to Hz.`, a * 1000000, "MHz means million hertz.");
+    }
+    case "Fixed-Point": {
+      if (n % 4 === 0) return item(`Q8.8 representation of ${a}.0 equals?`, a * 256, "Q8.8 scale is 2^8.");
+      if (n % 4 === 1) return item(`Store ${a}.${b} using scale 100. Rounded integer = ?`, a * 100 + b * 10, "Move two decimal places.");
+      if (n % 4 === 2) return item(`Signed ${a + 8}-bit max value is?`, 2 ** (a + 7) - 1, "Signed max is 2^(bits-1)-1.");
+      return item(`Unsigned ${a + 8}-bit value wraps after how many distinct values?`, 2 ** (a + 8), "Unsigned range size is 2^bits.");
+    }
+    case "Modular Arithmetic": {
+      const size = advanced ? 32 : 16;
+      if (n % 4 === 0) return item(`${a * size + b} % ${size} = ?`, b, "Modulo keeps the remainder.");
+      if (n % 4 === 1) return item(`Ring buffer size ${size}, head ${size - 1}; next head = ?`, 0, "The next index wraps to zero.");
+      if (n % 4 === 2) return item(`uint8 value ${250 + (n % 6)} plus ${10 + (n % 8)} wraps to?`, (250 + (n % 6) + 10 + (n % 8)) % 256, "uint8 arithmetic is modulo 256.");
+      return item(`Clock arithmetic: (${a} + ${b}) % ${c + 8} = ?`, (a + b) % (c + 8), "Add first, then take the remainder.");
+    }
+    case "Calculus Concepts": {
+      if (n % 4 === 0) return item(`Value changes from ${a} to ${a + b * 2} in ${b} seconds. Rate = ?`, 2, "Rate = change / time.");
+      if (n % 4 === 1) return item(`A ${a * 10} Hz signal has period in milliseconds rounded down = ?`, Math.floor(1000 / (a * 10)), "T = 1/f.");
+      if (n % 4 === 2) return item(`Integral area of constant error ${a} over ${b} seconds = ?`, a * b, "Area = height x width.");
+      return item(`PID P-term with Kp=${a} and error=${b} equals?`, a * b, "P = Kp x error.");
+    }
+    case "Trigonometry & Signals": {
+      if (n % 4 === 0) return item(`A ${a * 100} Hz signal has period in milliseconds rounded down = ?`, Math.floor(1000 / (a * 100)), "Period = 1/f.");
+      if (n % 4 === 1) return item(`Peak amplitude ${a}V gives peak-to-peak voltage = ?`, a * 2, "Peak-to-peak is twice amplitude.");
+      if (n % 4 === 2) return item(`Three-phase signals are separated by how many degrees?`, 120, "360 / 3.");
+      return item(`Nyquist minimum sample rate for ${a} kHz signal in Hz = ?`, a * 2000, "Minimum sample rate is 2x frequency.");
+    }
+    case "Statistics & Probability": {
+      if (n % 4 === 0) return item(`Mean of [${a}, ${a + b}, ${a + b * 2}] = ?`, a + b, "Middle of evenly spaced values.");
+      if (n % 4 === 1) return item(`Accuracy: ${a * 10} correct out of 100 = ? percent`, a * 10, "correct / total x 100.");
+      if (n % 4 === 2) return item(`If variance is ${a * a}, standard deviation = ?`, a, "Standard deviation is sqrt(variance).");
+      return item(`If mean=${a * 10}, std=${b}, x=${a * 10 + b * c}, z-score = ?`, c, "z = (x - mean) / std.");
+    }
+    case "Linear Algebra": {
+      if (n % 4 === 0) return item(`Dot product [${a}, ${b}] dot [${c}, ${a}] = ?`, a * c + b * a, "Multiply matching entries and add.");
+      if (n % 4 === 1) return item(`A ${a}x${b} matrix contains how many elements?`, a * b, "rows x columns.");
+      if (n % 4 === 2) return item(`Dense layer with ${a} inputs and ${b} outputs has how many weights?`, a * b, "inputs x outputs.");
+      return item(`Dense layer with ${a} inputs and ${b} outputs has weights plus biases = ?`, a * b + b, "Add one bias per output.");
+    }
+    case "DSP & Feature Extraction": {
+      if (n % 4 === 0) return item(`A ${a * 1000} Hz sample rate has Nyquist frequency in Hz = ?`, a * 500, "Nyquist is half the sample rate.");
+      if (n % 4 === 1) return item(`${a * 100} ms window at ${b * 100} Hz has how many samples?`, a * b * 10, "seconds x samples per second.");
+      if (n % 4 === 2) return item(`Moving average of [${a}, ${a + b}, ${a + b * 2}] = ?`, a + b, "Average evenly spaced values.");
+      return item(`FFT bin spacing: fs=${a * 1000} Hz, N=${a * 100}. Spacing Hz = ?`, 10, "fs / N.");
+    }
+    case "Control Systems Math": {
+      if (n % 4 === 0) return item(`Target=${a * 10}, measured=${b * 5}. Error = ?`, a * 10 - b * 5, "target - measured.");
+      if (n % 4 === 1) return item(`P controller Kp=${a}, error=${b}. Output = ?`, a * b, "Kp x error.");
+      if (n % 4 === 2) return item(`Control loop period ${a} ms means frequency rounded down in Hz = ?`, Math.floor(1000 / a), "Frequency = 1000 / ms.");
+      return item(`Command ${255 + a} clipped to uint8 max gives?`, 255, "Saturation limits output.");
+    }
+    case "ML Basics & Loss Functions": {
+      if (n % 4 === 0) return item(`Prediction=${a + b}, actual=${a}. Error = ?`, b, "prediction - actual.");
+      if (n % 4 === 1) return item(`MSE for one error ${a} equals?`, a * a, "Square the error.");
+      if (n % 4 === 2) return item(`${a * 10} correct out of 100 gives accuracy percent = ?`, a * 10, "correct / total x 100.");
+      return item(`Dataset ${a * 100} samples, batch size ${a * 10}. Batches per epoch = ?`, 10, "samples / batch size.");
+    }
+    case "Neural Network Math": {
+      if (n % 4 === 0) return item(`ReLU(${-a}) = ?`, 0, "ReLU clips negative values to zero.");
+      if (n % 4 === 1) return item(`ReLU(${a}) = ?`, a, "Positive values pass through.");
+      if (n % 4 === 2) return item(`3x3 convolution has how many weights per input channel?`, 9, "3 x 3.");
+      return item(`Dense layer ${a} inputs, ${b} outputs, weights plus biases = ?`, a * b + b, "inputs x outputs + outputs.");
+    }
+    case "Quantization & Numeric Precision": {
+      if (n % 4 === 0) return item(`uint8 maximum value is?`, 255, "uint8 range is 0 to 255.");
+      if (n % 4 === 1) return item(`int8 maximum value is?`, 127, "signed int8 range is -128 to 127.");
+      if (n % 4 === 2) return item(`scale=${a}, zero_point=0, q=${b}. Real value = ?`, a * b, "real = scale x q.");
+      return item(`Float32 uses 4 bytes; int8 uses how many byte?`, 1, "int8 is one byte.");
+    }
+    case "Model Evaluation & Deployment Math": {
+      if (n % 4 === 0) return item(`Precision with TP=${a}, FP=${b}: percent rounded down = ?`, Math.floor((a / (a + b)) * 100), "TP / (TP + FP).");
+      if (n % 4 === 1) return item(`Recall with TP=${a}, FN=${b}: percent rounded down = ?`, Math.floor((a / (a + b)) * 100), "TP / (TP + FN).");
+      if (n % 4 === 2) return item(`Inference ${a * 5} ms means max inferences/sec rounded down = ?`, Math.floor(1000 / (a * 5)), "1000 / latency_ms.");
+      return item(`Flash budget ${a * 32} KB, model ${b * 8} KB. Remaining KB = ?`, a * 32 - b * 8, "budget - model size.");
+    }
+    default:
+      return item(`${a} + ${b} = ?`, a + b, "Add the values.");
+  }
+}
+
+const QUIZ_BANK = buildExpandedQuizBank(BASE_QUIZ_BANK);
+
+const TOPICS = ["All", ...new Set(QUIZ_BANK.map((q) => q.topic))];
+const LEVELS = ["Intermediate", "Advanced"];
+const EXAM_LENGTHS = [10, 25, 50, 75];
+const state = {
+  tab: "guide",
+  guideTopic: null,
+  quizTopic: "All",
+  quizLevel: "Intermediate",
+  quizLength: Number(localStorage.getItem("firmwareMathQuizLength") || 10),
+  quizQueue: [],
+  qIdx: 0,
+  input: "",
+  feedback: null,
+  showHint: false,
+  score: 0,
+  quizDone: false,
+  allResults: JSON.parse(localStorage.getItem("firmwareMathProgress") || "{}"),
+  topicScores: JSON.parse(localStorage.getItem("firmwareMathTopicScores") || "{}"),
+};
+
+for (const key of Object.keys(state.topicScores)) {
+  if (!key.includes("::")) delete state.topicScores[key];
+}
+saveProgress();
+
+const $ = (id) => document.getElementById(id);
+const tagClass = (tag) => tag.toLowerCase().replace(/\s+/g, "-").replace("embedded-specific", "embedded");
+const esc = (value) => String(value).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[ch]);
+
+function saveProgress() {
+  localStorage.setItem("firmwareMathProgress", JSON.stringify(state.allResults));
+  localStorage.setItem("firmwareMathTopicScores", JSON.stringify(state.topicScores));
+  localStorage.setItem("firmwareMathQuizLength", String(state.quizLength));
+}
+
+function scoreKey(topic, level = state.quizLevel) {
+  return `${level}::${topic}`;
+}
+
+function getTopicScore(topic, level = state.quizLevel) {
+  return state.topicScores[scoreKey(topic, level)] || 0;
+}
+
+function isAdvancedTrackUnlocked() {
+  return STUDY_GUIDE.every((topic) => getTopicScore(GUIDE_TO_QUIZ_TOPIC[topic.id], "Intermediate") >= 90);
+}
+
+function isLevelUnlocked(level) {
+  return level === "Intermediate" || isAdvancedTrackUnlocked();
+}
+
+function topicIndexByQuizTopic(quizTopic) {
+  return STUDY_GUIDE.findIndex((topic) => GUIDE_TO_QUIZ_TOPIC[topic.id] === quizTopic);
+}
+
+function isGuideTopicUnlocked(index, level = state.quizLevel) {
+  if (!isLevelUnlocked(level)) return false;
+  if (index === 0) return true;
+  const previousTopic = GUIDE_TO_QUIZ_TOPIC[STUDY_GUIDE[index - 1].id];
+  return getTopicScore(previousTopic, level) >= 90;
+}
+
+function isQuizTopicUnlocked(quizTopic, level = state.quizLevel) {
+  if (!isLevelUnlocked(level)) return false;
+  if (quizTopic === "All") return true;
+  const index = topicIndexByQuizTopic(quizTopic);
+  return index === -1 ? true : isGuideTopicUnlocked(index, level);
+}
+
+function highestUnlockedGuideIndex(level = state.quizLevel) {
+  let highest = 0;
+  for (let i = 1; i < STUDY_GUIDE.length; i += 1) {
+    if (isGuideTopicUnlocked(i, level)) highest = i;
+  }
+  return highest;
+}
+
+function switchTab(tab) {
+  state.tab = tab;
+  document.querySelectorAll(".tab").forEach((button) => button.classList.toggle("active", button.dataset.tab === tab));
+  document.querySelectorAll(".panel").forEach((panel) => panel.classList.remove("active"));
+  $(`${tab}Panel`).classList.add("active");
+  if (tab === "progress") renderProgress();
+}
+
+function renderGuideList() {
+  if (!isLevelUnlocked(state.quizLevel)) state.quizLevel = "Intermediate";
+  $("guideDetail").hidden = true;
+  $("guideList").hidden = false;
+  $("guideList").innerHTML = `
+    <p class="section-intro">${STUDY_GUIDE.length} topics unlock in order from embedded foundations to TinyML deployment. Intermediate opens first; Advanced opens after every Intermediate topic is mastered at 90% or higher.</p>
+    ${trackSelectorHtml("guide")}
+    <div class="guide-grid">
+      ${STUDY_GUIDE.map((topic, index) => {
+        const unlocked = isGuideTopicUnlocked(index);
+        const quizTopic = GUIDE_TO_QUIZ_TOPIC[topic.id];
+        const best = getTopicScore(quizTopic);
+        return `
+        <button class="card guide-card ${unlocked ? "" : "locked"}" data-guide="${topic.id}" ${unlocked ? "" : "disabled"}>
+          <span class="tag ${tagClass(topic.tag)}">${esc(topic.tag)}</span>
+          <h2>${esc(topic.title)}</h2>
+          <p>${esc(topic.why.slice(0, 118))}...</p>
+          <div class="card-action">${unlocked ? `View guide -> Best quiz: ${best}%` : "Locked: score 90% on previous topic"}</div>
+        </button>
+      `;
+      }).join("")}
+    </div>`;
+  bindTrackSelectors(renderGuideList);
+  document.querySelectorAll("[data-guide]").forEach((button) => {
+    button.addEventListener("click", () => renderGuideDetail(button.dataset.guide));
+  });
+}
+
+function trackSelectorHtml(context) {
+  return `<div class="track-switch" aria-label="${context} track">
+    ${LEVELS.map((level) => {
+      const locked = !isLevelUnlocked(level);
+      return `<button class="track-button ${state.quizLevel === level ? "active" : ""} ${locked ? "locked" : ""}" data-track="${level}" ${locked ? "disabled" : ""}>${level}${locked ? " locked" : ""}</button>`;
+    }).join("")}
+  </div>`;
+}
+
+function bindTrackSelectors(afterChange) {
+  document.querySelectorAll("[data-track]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!isLevelUnlocked(button.dataset.track)) return;
+      state.quizLevel = button.dataset.track;
+      state.quizTopic = "All";
+      afterChange();
+      renderQuizSetup();
+      renderProgress();
+    });
+  });
+}
+
+function renderGuideDetail(id) {
+  const topic = STUDY_GUIDE.find((item) => item.id === id);
+  const topicIndex = STUDY_GUIDE.findIndex((item) => item.id === id);
+  if (!isGuideTopicUnlocked(topicIndex)) {
+    renderGuideList();
+    return;
+  }
+  $("guideList").hidden = true;
+  $("guideDetail").hidden = false;
+  $("guideDetail").innerHTML = `
+    <button class="back" id="backToGuides">← All Topics</button>
+    <article class="detail">
+      <span class="tag ${tagClass(topic.tag)}">${esc(topic.tag)}</span>
+      <h2>${esc(topic.title)}</h2>
+      <div class="detail-grid">
+        <div>
+          <div class="why-box"><div class="label" style="margin-top:0">WHY THIS MATTERS</div><p>${esc(topic.why)}</p></div>
+          <div class="label">TOPICS TO MASTER</div>
+          <div class="topic-list">
+            ${topic.topics.map(([name, note]) => `<div class="topic-row"><strong>${esc(name)}</strong><span>${esc(note)}</span></div>`).join("")}
+          </div>
+        </div>
+        <div>
+          <div class="label" style="margin-top:0">REAL EMBEDDED EXAMPLES</div>
+          <div class="examples">${topic.examples.map((example) => `<div class="example-line">${esc(example)}</div>`).join("")}</div>
+          <div class="resource-box" style="margin-top:16px"><strong>Recommended resource</strong><br>${esc(topic.resource)}</div>
+          <button class="primary practice-button" id="practiceTopic">Practice this topic -></button>
+        </div>
+      </div>
+    </article>`;
+  $("backToGuides").addEventListener("click", renderGuideList);
+  $("practiceTopic").addEventListener("click", () => {
+    state.quizTopic = guideTitleToQuizTopic(topic.title);
+    state.quizLevel = "All";
+    state.quizDone = false;
+    renderQuizSetup();
+    switchTab("quiz");
+  });
+}
+
+function guideTitleToQuizTopic(title) {
+  const topic = STUDY_GUIDE.find((item) => item.title === title);
+  if (topic) return GUIDE_TO_QUIZ_TOPIC[topic.id] || "All";
+  if (title.includes("Number")) return "Number Systems";
+  if (title.includes("Bit")) return "Bit Manipulation";
+  if (title.includes("Algebra")) return "Algebra";
+  if (title.includes("Boolean")) return "Boolean Logic";
+  if (title.includes("Fixed")) return "Fixed-Point";
+  if (title.includes("Modular")) return "Modular Arithmetic";
+  if (title.includes("Calculus")) return "Calculus Concepts";
+  if (title.includes("Trigonometry")) return "Trigonometry & Signals";
+  return "All";
+}
+
+function renderQuizSetup() {
+  if (!isLevelUnlocked(state.quizLevel)) state.quizLevel = "Intermediate";
+  if (!isQuizTopicUnlocked(state.quizTopic)) state.quizTopic = "All";
+  $("quizActive").hidden = true;
+  $("quizDone").hidden = true;
+  $("quizSetup").hidden = false;
+  $("quizSetup").innerHTML = `
+    <p class="section-intro">${QUIZ_BANK.length} questions across embedded software and TinyML math. Choose exam length, then run a focused mastery quiz.</p>
+    <div class="filter-panel">
+      <div><div class="filter-title">TRACK</div>${trackSelectorHtml("quiz")}</div>
+      <div><div class="filter-title">TOPIC</div><div class="filter-buttons">${TOPICS.map((topic) => {
+        const locked = !isQuizTopicUnlocked(topic);
+        const score = topic === "All" ? "" : ` ${getTopicScore(topic)}%`;
+        return `<button class="filter-button ${state.quizTopic === topic ? "active" : ""} ${locked ? "locked" : ""}" data-topic="${topic}" ${locked ? "disabled" : ""}>${topic}${score}</button>`;
+      }).join("")}</div></div>
+      <div><div class="filter-title">EXAM LENGTH</div><div class="length-buttons">${EXAM_LENGTHS.map((count) => `<button class="length-button ${state.quizLength === count ? "active" : ""}" data-length="${count}">${count}</button>`).join("")}</div></div>
+      <button class="primary" id="startQuiz">Start Exam (${state.quizLength} questions) -></button>
+    </div>`;
+  bindTrackSelectors(renderQuizSetup);
+  document.querySelectorAll("[data-topic]").forEach((button) => button.addEventListener("click", () => {
+    state.quizTopic = button.dataset.topic;
+    renderQuizSetup();
+  }));
+  document.querySelectorAll("[data-length]").forEach((button) => button.addEventListener("click", () => {
+    state.quizLength = Number(button.dataset.length);
+    saveProgress();
+    renderQuizSetup();
+  }));
+  $("startQuiz").addEventListener("click", startQuiz);
+}
+
+function startQuiz() {
+  let pool = QUIZ_BANK;
+  if (!isQuizTopicUnlocked(state.quizTopic)) {
+    state.quizTopic = TOPICS.find((topic) => topic !== "All" && isQuizTopicUnlocked(topic)) || "All";
+    renderQuizSetup();
+    return;
+  }
+  if (state.quizTopic === "All") pool = pool.filter((q) => isQuizTopicUnlocked(q.topic));
+  if (state.quizTopic !== "All") pool = pool.filter((q) => q.topic === state.quizTopic);
+  pool = pool.filter((q) => q.level === state.quizLevel);
+  if (!pool.length) {
+    renderQuizSetup();
+    return;
+  }
+  state.quizQueue = shuffle(pool).slice(0, Math.min(state.quizLength, pool.length));
+  state.qIdx = 0;
+  state.input = "";
+  state.feedback = null;
+  state.showHint = false;
+  state.score = 0;
+  state.quizDone = false;
+  $("quizSetup").hidden = true;
+  $("quizDone").hidden = true;
+  $("quizActive").hidden = false;
+  renderQuestion();
+}
+
+function shuffle(items) {
+  return [...items].sort(() => Math.random() - 0.5);
+}
+
+function renderQuestion() {
+  const q = state.quizQueue[state.qIdx];
+  $("quizActive").innerHTML = `
+    <div class="quiz-box">
+      <div class="quiz-top"><span>Exam: ${state.quizLevel} · ${state.quizQueue.length} questions</span><span>Question ${state.qIdx + 1} / ${state.quizQueue.length} · ${state.score} correct</span></div>
+      <div class="dots">${state.quizQueue.map((_, i) => `<div class="dot ${i < state.qIdx ? "done" : i === state.qIdx ? "current" : ""}"></div>`).join("")}</div>
+      <div class="topic-badge">${esc(q.topic)} · Level ${q.level}</div>
+      <div class="question ${state.feedback || ""}">${esc(q.q)}</div>
+      ${state.feedback ? `<div class="feedback ${state.feedback}">${state.feedback === "correct" ? "Correct." : `Answer: ${q.a}`}</div>` : ""}
+      ${state.showHint && !state.feedback ? `<div class="hint">Hint: ${esc(q.hint)}</div>` : ""}
+      <input id="answerInput" class="answer-input" type="number" inputmode="numeric" placeholder="Enter numeric answer..." value="${esc(state.input)}" ${state.feedback ? "disabled" : ""} autofocus />
+      <div class="quiz-actions">
+        <button class="secondary" id="hintButton" ${state.showHint || state.feedback ? "disabled" : ""}>Show hint</button>
+        <button class="primary" id="submitAnswer" ${state.feedback ? "disabled" : ""}>Submit -></button>
+      </div>
+    </div>`;
+  const input = $("answerInput");
+  input.focus();
+  input.addEventListener("input", () => {
+    state.input = input.value;
+  });
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") submitAnswer();
+  });
+  $("hintButton").addEventListener("click", () => {
+    state.showHint = true;
+    renderQuestion();
+  });
+  $("submitAnswer").addEventListener("click", submitAnswer);
+}
+
+function submitAnswer() {
+  if (state.feedback || state.input === "") return;
+  const q = state.quizQueue[state.qIdx];
+  const correct = Number.parseInt(state.input, 10) === q.a;
+  state.feedback = correct ? "correct" : "wrong";
+  if (correct) state.score += 1;
+  state.allResults[q.id] = correct;
+  saveProgress();
+  renderQuestion();
+  window.setTimeout(() => {
+    state.feedback = null;
+    state.showHint = false;
+    state.input = "";
+    if (state.qIdx + 1 >= state.quizQueue.length) {
+      finishQuiz();
+    } else {
+      state.qIdx += 1;
+      renderQuestion();
+    }
+  }, 950);
+}
+
+function finishQuiz() {
+  const pct = Math.round((state.score / state.quizQueue.length) * 100);
+  const topicWasSpecific = state.quizTopic !== "All";
+  let unlockedNext = false;
+  if (topicWasSpecific) {
+    const key = scoreKey(state.quizTopic);
+    const previousBest = state.topicScores[key] || 0;
+    state.topicScores[key] = Math.max(previousBest, pct);
+    const completedIndex = topicIndexByQuizTopic(state.quizTopic);
+    unlockedNext = pct >= 90 && completedIndex >= 0 && completedIndex < STUDY_GUIDE.length - 1;
+    saveProgress();
+    renderGuideList();
+  }
+  $("quizSetup").hidden = true;
+  $("quizActive").hidden = true;
+  $("quizDone").hidden = false;
+  $("quizDone").innerHTML = `
+    <div class="result-card">
+      <h2>${pct >= 80 ? "Solid work!" : pct >= 60 ? "Getting there!" : "Keep studying."}</h2>
+      <div class="result-score">${state.score}<span style="font-size:2rem;color:var(--dim)"> / ${state.quizQueue.length}</span></div>
+      <p class="section-intro">${pct}% score on ${state.quizLevel}. ${topicWasSpecific ? (pct >= 90 ? (unlockedNext ? `Next ${state.quizLevel} topic unlocked.` : (state.quizLevel === "Intermediate" && isAdvancedTrackUnlocked() ? "Intermediate mastered. Advanced track unlocked." : "Topic mastered.")) : `Score 90% or higher on this ${state.quizLevel} topic to unlock the next one.`) : "Topic unlocking only happens on a specific topic quiz, not All."}</p>
+      <div class="result-actions">
+        <button class="primary" id="retryQuiz">Change filters & retry</button>
+        <button class="secondary" id="backGuide">Back to Study Guide</button>
+      </div>
+    </div>`;
+  $("retryQuiz").addEventListener("click", renderQuizSetup);
+  $("backGuide").addEventListener("click", () => switchTab("guide"));
+}
+
+function renderProgress() {
+  const attemptedIds = Object.keys(state.allResults);
+  const correct = Object.values(state.allResults).filter(Boolean).length;
+  const attempted = attemptedIds.length;
+  const unlockedCount = highestUnlockedGuideIndex("Intermediate") + 1;
+  const advancedUnlockedCount = isAdvancedTrackUnlocked() ? highestUnlockedGuideIndex("Advanced") + 1 : 0;
+  if (!attempted) {
+    $("progressView").innerHTML = `<p class="section-intro">Your quiz history and topic unlocks are saved in this browser on this computer.</p><div class="empty">No attempts yet. Take a quiz first.</div>${roadmapHtml()}`;
+    return;
+  }
+  $("progressView").innerHTML = `
+    <p class="section-intro">Saved quiz history for this offline app.</p>
+    <div class="progress-grid">
+      <div class="stat"><strong style="color:var(--green)">${correct}</strong><span>Correct</span></div>
+      <div class="stat"><strong style="color:var(--red)">${attempted - correct}</strong><span>Wrong</span></div>
+      <div class="stat"><strong style="color:var(--blue)">${Math.round((correct / attempted) * 100)}%</strong><span>Accuracy</span></div>
+      <div class="stat"><strong style="color:var(--amber)">${unlockedCount}/${STUDY_GUIDE.length}</strong><span>Intermediate</span></div>
+      <div class="stat"><strong style="color:var(--violet)">${advancedUnlockedCount}/${STUDY_GUIDE.length}</strong><span>Advanced</span></div>
+    </div>
+    <div class="label">INTERMEDIATE BEST SCORES</div>
+    ${STUDY_GUIDE.map((topic, index) => {
+      const quizTopic = GUIDE_TO_QUIZ_TOPIC[topic.id];
+      const best = getTopicScore(quizTopic, "Intermediate");
+      const unlocked = isGuideTopicUnlocked(index, "Intermediate");
+      return `<div class="topic-progress-row"><strong>${esc(topic.title)}</strong><div class="bar"><div class="bar-fill" style="width:${best}%"></div></div><span>${unlocked ? `${best}%` : "Locked"}</span></div>`;
+    }).join("")}
+    <div class="label">ADVANCED BEST SCORES</div>
+    ${STUDY_GUIDE.map((topic, index) => {
+      const quizTopic = GUIDE_TO_QUIZ_TOPIC[topic.id];
+      const best = getTopicScore(quizTopic, "Advanced");
+      const unlocked = isGuideTopicUnlocked(index, "Advanced");
+      return `<div class="topic-progress-row"><strong>${esc(topic.title)}</strong><div class="bar"><div class="bar-fill" style="width:${best}%"></div></div><span>${unlocked ? `${best}%` : "Locked"}</span></div>`;
+    }).join("")}
+    <div class="label">BY TOPIC</div>
+    ${TOPICS.filter((t) => t !== "All").map(topicProgressHtml).join("")}
+    ${roadmapHtml()}`;
+}
+
+function topicProgressHtml(topic) {
+  const questions = QUIZ_BANK.filter((q) => q.topic === topic);
+  const attempted = questions.filter((q) => state.allResults[q.id] !== undefined);
+  if (!attempted.length) return "";
+  const correct = attempted.filter((q) => state.allResults[q.id]).length;
+  const pct = Math.round((correct / attempted.length) * 100);
+  return `<div class="topic-progress-row"><strong>${esc(topic)}</strong><div class="bar"><div class="bar-fill" style="width:${pct}%"></div></div><span>${pct}%</span></div>`;
+}
+
+function roadmapHtml() {
+  const rows = [
+    ["Phase 1", "Number systems, bit manipulation, Boolean logic, and register-level thinking"],
+    ["Phase 2", "Algebra, fixed-point arithmetic, modular wraparound, and timer math"],
+    ["Phase 3", "Calculus intuition, trigonometry, sampling, filters, and signal features"],
+    ["Phase 4", "Control systems: feedback, PID, stability, update rates, and saturation"],
+    ["Phase 5", "Statistics, probability, normalization, noise, and dataset quality"],
+    ["Phase 6", "Linear algebra: vectors, matrices, dot products, tensor shapes, dense layers"],
+    ["Phase 7", "ML fundamentals: labels, losses, gradient descent, batches, and evaluation"],
+    ["Phase 8", "Neural networks: activations, convolutions, parameter counts, memory cost"],
+    ["Phase 9", "TinyML deployment: int8 quantization, precision, latency, RAM, flash, power"],
+  ];
+  return `<div class="label">YOUR LEARNING ROADMAP</div>${rows.map(([phase, task]) => `<div class="roadmap-row"><strong>${esc(phase)}</strong><span>${esc(task)}</span></div>`).join("")}`;
+}
+
+document.querySelectorAll(".tab").forEach((button) => button.addEventListener("click", () => switchTab(button.dataset.tab)));
+$("resetProgress").addEventListener("click", () => {
+  if (!confirm("Reset saved quiz progress?")) return;
+  state.allResults = {};
+  state.topicScores = {};
+  state.quizTopic = "All";
+  saveProgress();
+  renderGuideList();
+  renderQuizSetup();
+  renderProgress();
+});
+
+renderGuideList();
+renderQuizSetup();
+renderProgress();
