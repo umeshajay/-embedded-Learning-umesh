@@ -439,6 +439,51 @@ const CS50_WEEKS = [
   },
 ];
 
+const CS50_QUIZZES = {
+  week0: [
+    { q: "How many unique values can 1 bit represent?", a: 2, hint: "One bit can be either 0 or 1." },
+    { q: "Convert binary 1010 to decimal.", a: 10, hint: "1x8 + 0x4 + 1x2 + 0x1." },
+    { q: "How many bits are in 2 bytes?", a: 16, hint: "1 byte = 8 bits." },
+    { q: "A repeat loop runs 5 times, counter starts at 0 and increments by 1 each time. Final counter = ?", a: 5, hint: "0 + 1 + 1 + 1 + 1 + 1." },
+    { q: "What is the decimal value of hex 0x0F?", a: 15, hint: "0x0F = 0*16 + 15." },
+  ],
+  week1: [
+    { q: "In C, what is the integer result of 5 / 2?", a: 2, hint: "Integer division truncates the decimal part." },
+    { q: "sizeof(char) in standard C returns what value?", a: 1, hint: "A char is always 1 byte." },
+    { q: "How many bits are in a standard byte?", a: 8, hint: "A byte contains 8 bits." },
+    { q: "If uint8_t x = 255 and we add 1, what is the result?", a: 0, hint: "Unsigned 8-bit overflow wraps around." },
+    { q: "A program takes 3 command-line arguments including program name. argc = ?", a: 3, hint: "argc includes the program name itself." },
+  ],
+  week2: [
+    { q: "What is the index of the first element in a C array?", a: 0, hint: "C arrays are zero-indexed." },
+    { q: "How many bytes does the string 'hi' occupy including null terminator?", a: 3, hint: "h + i + null = 3 bytes." },
+    { q: "If char s[] = 'abc', what is s[0]? (Enter ASCII code of 'a')", a: 97, hint: "ASCII 'a' has decimal value 97." },
+    { q: "If argc is 5, how many arguments were passed (excluding program name)?", a: 4, hint: "argc minus 1." },
+    { q: "A buffer of 10 chars holds at most how many visible characters (excluding null)?", a: 9, hint: "One slot is needed for the null terminator." },
+  ],
+  week3: [
+    { q: "Linear search worst-case comparisons for n = 1000 items = ?", a: 1000, hint: "You might check every single item." },
+    { q: "What is log base 2 of 64?", a: 6, hint: "2 raised to what power equals 64?" },
+    { q: "Binary search max comparisons for 256 sorted items = ?", a: 8, hint: "log2(256) = 8." },
+    { q: "Factorial 5! = ?", a: 120, hint: "5 x 4 x 3 x 2 x 1." },
+    { q: "What is log2(1024)?", a: 10, hint: "1024 = 2^10." },
+  ],
+  week4: [
+    { q: "malloc(8) allocates how many bytes on the heap?", a: 8, hint: "malloc takes the number of bytes requested." },
+    { q: "sizeof(int) on a typical 32-bit system is how many bytes?", a: 4, hint: "A standard int is 4 bytes (32 bits)." },
+    { q: "A pointer on a 64-bit system is how many bytes?", a: 8, hint: "64-bit addresses need 8 bytes." },
+    { q: "If int x = 42 and int* p = &x, what does *p equal?", a: 42, hint: "Dereferencing p gives the value of x." },
+    { q: "How many bytes for an array of 10 ints (32-bit)?", a: 40, hint: "10 x 4 bytes." },
+  ],
+  week5: [
+    { q: "A queue enqueues 1, 2, 3. First dequeue returns ?", a: 1, hint: "Queue is FIFO: first in, first out." },
+    { q: "A stack pushes 1 then 2. Pop returns ?", a: 2, hint: "Stack is LIFO: last in, first out." },
+    { q: "Hash table of 10 slots, hash(key) = key % 10. Where does key 23 go?", a: 3, hint: "23 % 10." },
+    { q: "Singly linked list node has how many pointer fields?", a: 1, hint: "It points to the next node." },
+    { q: "How many children can a binary tree node have at most?", a: 2, hint: "Binary means at most two children." },
+  ],
+};
+
 const GUIDE_TO_QUIZ_TOPIC = {
   numbers: "Number Systems",
   bitwise: "Bit Manipulation",
@@ -927,12 +972,23 @@ const state = {
   fFeedback: null,
   fShowHint: false,
   fScore: 0,
+  cs50Queue: [],
+  cs50QIdx: 0,
+  cs50Input: "",
+  cs50Feedback: null,
+  cs50ShowHint: false,
+  cs50Score: 0,
+  cs50CurrentWeek: null,
 };
 
 if (![25, 50, 75].includes(state.foundationsQuizLength)) state.foundationsQuizLength = 25;
 
 for (const key of Object.keys(state.topicScores)) {
   if (!key.includes("::")) delete state.topicScores[key];
+}
+for (const key of Object.keys(state.cs50Progress)) {
+  if (state.cs50Progress[key] === true) state.cs50Progress[key] = 100;
+  if (typeof state.cs50Progress[key] !== "number") delete state.cs50Progress[key];
 }
 saveProgress();
 
@@ -1258,7 +1314,7 @@ function renderProgress() {
   const unlockedCount = highestUnlockedGuideIndex("Intermediate") + 1;
   const advancedUnlockedCount = isAdvancedTrackUnlocked() ? highestUnlockedGuideIndex("Advanced") + 1 : 0;
   if (!attempted) {
-    $("progressView").innerHTML = `<p class="section-intro">Your quiz history and topic unlocks are saved in this browser on this computer.</p><div class="empty">No attempts yet. Take a quiz first.</div>${roadmapHtml()}`;
+    $("progressView").innerHTML = `<p class="section-intro">Your quiz history and topic unlocks are saved in this browser on this computer.</p><div class="empty">No attempts yet. Take a quiz or CS50x checkpoint first.</div>${roadmapHtml()}`;
     return;
   }
   $("progressView").innerHTML = `
@@ -1283,6 +1339,12 @@ function renderProgress() {
       const best = getTopicScore(quizTopic, "Advanced");
       const unlocked = isGuideTopicUnlocked(index, "Advanced");
       return `<div class="topic-progress-row"><strong>${esc(topic.title)}</strong><div class="bar"><div class="bar-fill" style="width:${best}%"></div></div><span>${unlocked ? `${best}%` : "Locked"}</span></div>`;
+    }).join("")}
+    <div class="label">CS50x WEEK SCORES</div>
+    ${CS50_WEEKS.map((week) => {
+      const score = getCS50WeekScore(week.id);
+      const unlocked = isCS50WeekUnlocked(CS50_WEEKS.indexOf(week));
+      return `<div class="topic-progress-row"><strong>${esc(week.title)}</strong><div class="bar"><div class="bar-fill" style="width:${score}%"></div></div><span>${unlocked ? (score > 0 ? score + "%" : "Not started") : "Locked"}</span></div>`;
     }).join("")}
     <div class="label">BY TOPIC</div>
     ${TOPICS.filter((t) => t !== "All").map(topicProgressHtml).join("")}
@@ -1591,27 +1653,40 @@ function finishFoundationCheckpoint() {
   $("fBackToPath").addEventListener("click", renderFoundations);
 }
 
-/* CS50 TAB */
+/* CS50x TAB */
+
+function isCS50WeekUnlocked(index) {
+  if (index <= 0) return true;
+  const prevId = CS50_WEEKS[index - 1].id;
+  return (state.cs50Progress[prevId] || 0) >= 80;
+}
+
+function getCS50WeekScore(id) {
+  return state.cs50Progress[id] || 0;
+}
 
 function renderCS50() {
   $("cs50View").innerHTML = `
-    <p class="section-intro">Harvard CS50: Introduction to Computer Science. Track your progress through Weeks 0\u20135 (Scratch through Data Structures).</p>
+    <p class="section-intro">Harvard CS50x: Introduction to Computer Science. Pass each week's checkpoint quiz (80%+) to unlock the next week.</p>
     <div class="cs50-path">
       ${CS50_WEEKS.map((week, index) => {
-        const done = state.cs50Progress[week.id];
+        const score = getCS50WeekScore(week.id);
+        const unlocked = isCS50WeekUnlocked(index);
+        const passed = score >= 80;
         return `
-        <div class="cs50-card ${done ? "done" : ""}" data-cs50="${week.id}">
+        <div class="cs50-card ${unlocked ? "" : "locked"} ${passed ? "done" : ""}" data-cs50="${week.id}">
           <div class="cs50-card-top">
             <span class="cs50-week-num">Week ${index}</span>
-            ${done ? '<span class="cs50-check">Completed</span>' : '<span class="cs50-check pending">Not started</span>'}
+            ${passed ? '<span class="cs50-check" style="color:var(--green)">Passed</span>' : (score > 0 ? `<span class="cs50-check" style="color:var(--amber)">${score}%</span>` : '<span class="cs50-check" style="color:var(--dim)">Not started</span>')}
           </div>
           <h3>${esc(week.title)}</h3>
-          <p>${esc(week.topics.slice(0, 3).join(" \u00b7 "))} \u00b7\u00b7\u00b7</p>
-          <div class="cs50-card-action">Open week \u2192</div>
+          ${unlocked
+            ? `<p>${esc(week.topics.slice(0, 3).join(" \u00b7 "))} \u00b7\u00b7\u00b7</p><div class="cs50-card-action">Open week \u2192</div>`
+            : `<p style="color:var(--muted);font-size:0.92rem;margin:0">Score 80% on the quiz for Week ${index} to unlock</p>`}
         </div>`;
       }).join("")}
     </div>`;
-  document.querySelectorAll("[data-cs50]").forEach((card) => {
+  document.querySelectorAll(".cs50-card:not(.locked)").forEach((card) => {
     card.addEventListener("click", () => renderCS50Week(card.dataset.cs50));
   });
 }
@@ -1619,12 +1694,15 @@ function renderCS50() {
 function renderCS50Week(id) {
   const week = CS50_WEEKS.find((w) => w.id === id);
   if (!week) { renderCS50(); return; }
-  const done = state.cs50Progress[week.id];
+  const score = getCS50WeekScore(week.id);
+  const passed = score >= 80;
+  const weekIndex = CS50_WEEKS.indexOf(week);
+  const nextUnlocked = isCS50WeekUnlocked(weekIndex + 1);
   $("cs50View").innerHTML = `
     <button class="back" id="backToCS50">\u2190 All Weeks</button>
     <article class="cs50-detail">
       <div class="cs50-week-num">${esc(week.title)}</div>
-      <h2>${esc(week.title)}</h2>
+      <h2>${esc(week.title)}${passed ? ' <span style="color:var(--green);font-size:0.85rem;font-weight:800">Passed</span>' : ""}</h2>
       <div class="why-box"><div class="label" style="margin-top:0">WHY THIS MATTERS</div><p>${esc(week.why)}</p></div>
       <div class="label">TOPICS COVERED</div>
       <div class="cs50-topics">
@@ -1639,21 +1717,119 @@ function renderCS50Week(id) {
         <a class="resource-link secondary" href="${week.videoUrl}" target="_blank" rel="noopener">YouTube Playlist (Weeks 0\u20135) \u2192</a>
       </div>
       <div class="cs50-progress-area">
-        <button class="primary" id="toggleCS50Progress">
-          ${done ? "Mark as incomplete" : "Mark as completed \u2192"}
+        ${score > 0 ? `<div class="foundation-score-badge">Best quiz score: <strong style="color:${passed ? "var(--green)" : "var(--amber)"}">${score}%</strong> ${passed ? "Passed" : "Keep trying for 80%"}</div>` : ""}
+        <button class="primary" id="startCS50Quiz">
+          ${score > 0 ? "Retry quiz \u2192" : "Take checkpoint quiz \u2192"}
         </button>
+        ${!passed && weekIndex < CS50_WEEKS.length - 1 ? `<p class="foundation-unlock-note">Score 80% to unlock ${esc(CS50_WEEKS[weekIndex + 1].title)}</p>` : ""}
+        ${passed && weekIndex >= CS50_WEEKS.length - 1 ? '<p class="foundation-unlock-note">All CS50x weeks completed!</p>' : ""}
+        ${passed && nextUnlocked && weekIndex < CS50_WEEKS.length - 1 ? '<p class="foundation-unlock-note">' + esc(CS50_WEEKS[weekIndex + 1].title) + ' unlocked.</p>' : ""}
       </div>
     </article>`;
-  $("backToCS50").addEventListener("click", renderCS50);
-  $("toggleCS50Progress").addEventListener("click", () => {
-    if (state.cs50Progress[week.id]) {
-      delete state.cs50Progress[week.id];
-    } else {
-      state.cs50Progress[week.id] = true;
-    }
-    saveProgress();
-    renderCS50Week(id);
+  $("backToCS50").addEventListener("click", () => { state.cs50CurrentWeek = null; state.cs50Queue = []; renderCS50(); });
+  $("startCS50Quiz").addEventListener("click", () => startCS50Quiz(id));
+}
+
+function startCS50Quiz(id) {
+  const quiz = CS50_QUIZZES[id];
+  if (!quiz) { renderCS50Week(id); return; }
+  state.cs50Queue = shuffle(quiz);
+  state.cs50QIdx = 0;
+  state.cs50Input = "";
+  state.cs50Feedback = null;
+  state.cs50ShowHint = false;
+  state.cs50Score = 0;
+  state.cs50CurrentWeek = id;
+  renderCS50Question();
+}
+
+function renderCS50Question() {
+  if (!state.cs50Queue.length || state.cs50QIdx >= state.cs50Queue.length) {
+    finishCS50Quiz();
+    return;
+  }
+  const q = state.cs50Queue[state.cs50QIdx];
+  const week = CS50_WEEKS.find((w) => w.id === state.cs50CurrentWeek);
+  $("cs50View").innerHTML = `
+    <button class="back" id="cancelCS50Quiz">\u2190 Back to week</button>
+    <div class="quiz-box">
+      <div class="quiz-top"><span>Quiz: ${esc(week ? week.title : "")}</span><span>${state.cs50Score} correct</span></div>
+      <div class="dots">${state.cs50Queue.map((_, i) => `<div class="dot ${i < state.cs50QIdx ? "done" : i === state.cs50QIdx ? "current" : ""}"></div>`).join("")}</div>
+      <div class="topic-badge">Question ${state.cs50QIdx + 1} of ${state.cs50Queue.length}</div>
+      <div class="question ${state.cs50Feedback || ""}">${esc(q.q)}</div>
+      ${state.cs50Feedback ? `<div class="feedback ${state.cs50Feedback}">${state.cs50Feedback === "correct" ? "Correct." : "Answer: " + q.a}</div>` : ""}
+      ${state.cs50ShowHint && !state.cs50Feedback ? `<div class="hint">Hint: ${esc(q.hint)}</div>` : ""}
+      <input id="cs50AnswerInput" class="answer-input" type="number" inputmode="numeric" placeholder="Enter numeric answer..." value="${esc(state.cs50Input)}" ${state.cs50Feedback ? "disabled" : ""} autofocus />
+      <div class="quiz-actions">
+        <button class="secondary" id="cs50HintButton" ${state.cs50ShowHint || state.cs50Feedback ? "disabled" : ""}>Show hint</button>
+        <button class="primary" id="cs50SubmitAnswer" ${state.cs50Feedback ? "disabled" : ""}>Submit \u2192</button>
+      </div>
+    </div>`;
+  $("cancelCS50Quiz").addEventListener("click", () => {
+    const weekId = state.cs50CurrentWeek;
+    state.cs50CurrentWeek = null;
+    state.cs50Queue = [];
+    renderCS50Week(weekId);
   });
+  const input = $("cs50AnswerInput");
+  if (input) {
+    input.focus();
+    input.addEventListener("input", () => { state.cs50Input = input.value; });
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") submitCS50Answer(); });
+  }
+  const hb = $("cs50HintButton");
+  if (hb) hb.addEventListener("click", () => { state.cs50ShowHint = true; renderCS50Question(); });
+  const sb = $("cs50SubmitAnswer");
+  if (sb) sb.addEventListener("click", submitCS50Answer);
+}
+
+function submitCS50Answer() {
+  if (state.cs50Feedback || state.cs50Input === "") return;
+  const q = state.cs50Queue[state.cs50QIdx];
+  const correct = Number.parseInt(state.cs50Input, 10) === q.a;
+  state.cs50Feedback = correct ? "correct" : "wrong";
+  if (correct) state.cs50Score += 1;
+  renderCS50Question();
+  window.setTimeout(() => {
+    state.cs50Feedback = null;
+    state.cs50ShowHint = false;
+    state.cs50Input = "";
+    state.cs50QIdx += 1;
+    if (state.cs50QIdx >= state.cs50Queue.length) {
+      finishCS50Quiz();
+    } else {
+      renderCS50Question();
+    }
+  }, 900);
+}
+
+function finishCS50Quiz() {
+  const totalQ = state.cs50Queue.length;
+  const pct = Math.round((state.cs50Score / totalQ) * 100);
+  const weekId = state.cs50CurrentWeek;
+  const week = CS50_WEEKS.find((w) => w.id === weekId);
+  state.cs50CurrentWeek = null;
+  state.cs50Queue = [];
+  if (week) {
+    const prevBest = state.cs50Progress[week.id] || 0;
+    state.cs50Progress[week.id] = Math.max(prevBest, pct);
+    saveProgress();
+  }
+  const passed = pct >= 80;
+  const weekIndex = week ? CS50_WEEKS.indexOf(week) : -1;
+  const nextUnlocked = passed && weekIndex >= 0 && weekIndex < CS50_WEEKS.length - 1;
+  $("cs50View").innerHTML = `
+    <div class="result-card">
+      <h2>${passed ? "Week passed!" : "Keep studying."}</h2>
+      <div class="result-score">${state.cs50Score}<span style="font-size:2rem;color:var(--dim)"> / ${totalQ}</span></div>
+      <p class="section-intro">${pct}% score${week ? " on " + esc(week.title) : ""}. ${passed ? (nextUnlocked ? esc(CS50_WEEKS[weekIndex + 1].title) + " is now unlocked." : weekIndex >= CS50_WEEKS.length - 1 ? "You completed all CS50x weeks!" : "Week mastered.") : "Score 80% or higher to unlock the next week."}</p>
+      <div class="result-actions">
+        <button class="primary" id="cs50BackToWeek">Back to week</button>
+        <button class="secondary" id="cs50BackToAll">All weeks</button>
+      </div>
+    </div>`;
+  $("cs50BackToWeek").addEventListener("click", () => renderCS50Week(weekId));
+  $("cs50BackToAll").addEventListener("click", renderCS50);
 }
 
 document.querySelectorAll(".tab").forEach((button) => button.addEventListener("click", () => switchTab(button.dataset.tab)));

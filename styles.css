@@ -872,6 +872,16 @@ h2 span {
   transform: translateY(-2px);
 }
 
+.cs50-card.locked {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.cs50-card.locked:hover {
+  border-color: var(--line);
+  transform: none;
+}
+
 .cs50-card.done {
   border-color: var(--green);
 }
