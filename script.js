@@ -213,8 +213,8 @@ const FOUNDATIONS = [
       { q: "4x - 3 = 13, x = ?", a: 4, hint: "Add 3 to both sides: 4x=16, then divide by 4." },
     ],
     resources: [
-      { name: "Khan Academy: Pre-Algebra", url: "https://www.khanacademy.org/math/pre-algebra", subtitle: "Variables, expressions, equations, and inequalities — everything you need to rearrange formulas with confidence." },
-      { name: "Khan Academy: Algebraic Equations Basics", url: "https://www.khanacademy.org/math/algebra-basics/alg-basics-linear-equations-and-inequalities", subtitle: "Master solving one-step and two-step equations through structured practice." },
+      { name: "The Organic Chemistry Tutor: Pre-Algebra", url: "https://www.youtube.com/playlist?list=PL0o_zxa4K1BVoTlaXWFcFZ7fU3RvmFMMG", subtitle: "85-video playlist covering variables, expressions, equations, inequalities, and all pre-algebra essentials in ~1 day." },
+      { name: "Math Antics on YouTube", url: "https://www.youtube.com/c/mathantics", subtitle: "Short, animated videos (5-15 min each) on algebra basics — solving equations, exponents, and graphing fundamentals." },
     ],
   },
   {
@@ -236,8 +236,8 @@ const FOUNDATIONS = [
       { q: "2x + 3 = 11, x = ?", a: 4, hint: "Subtract 3, then divide by 2." },
     ],
     resources: [
-      { name: "Khan Academy: Algebra 1", url: "https://www.khanacademy.org/math/algebra", subtitle: "Linear equations, functions, graphs, quadratics, and systems — the math behind sensor calibration and ML." },
-      { name: "Khan Academy: Linear Equations & Graphs", url: "https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:linear-equations-graphs", subtitle: "Understand slope, intercepts, and graphing — essential for sensor transfer functions." },
+      { name: "The Organic Chemistry Tutor: Algebra Playlist", url: "https://www.youtube.com/playlist?list=PL0o_zxa4K1BUeF2o-MlNpbRiS-oE2Kn6J", subtitle: "264-video playlist covering linear equations, functions, quadratics, systems, and graphing — ~2 days total." },
+      { name: "Math Antics on YouTube", url: "https://www.youtube.com/c/mathantics", subtitle: "Short, animated videos on algebra basics — solving equations, slope, functions, and the coordinate plane." },
     ],
   },
   {
@@ -259,8 +259,8 @@ const FOUNDATIONS = [
       { q: "1 meter = ? centimeters", a: 100, hint: "Centi means one hundredth." },
     ],
     resources: [
-      { name: "Khan Academy: Geometry", url: "https://www.khanacademy.org/math/geometry", subtitle: "Area, volume, angles, transformations, and coordinate geometry for physical design intuition." },
-      { name: "Khan Academy: Basic Geometry", url: "https://www.khanacademy.org/math/basic-geo", subtitle: "Foundational geometry concepts — area, perimeter, volume, and circles for embedded hardware layouts." },
+      { name: "The Organic Chemistry Tutor: Geometry Playlist", url: "https://www.youtube.com/playlist?list=PL0o_zxa4K1BVkRxCZubMPcCJ5Q5QwZdEM", subtitle: "142-video playlist covering area, volume, angles, triangles, circles, and coordinate geometry — ~1.5 days." },
+      { name: "Math Antics on YouTube", url: "https://www.youtube.com/c/mathantics", subtitle: "Short, clear videos on geometry basics — perimeter, area, volume, circles, and the Pythagorean theorem." },
     ],
   },
   {
@@ -282,8 +282,8 @@ const FOUNDATIONS = [
       { q: "The three angles of a triangle sum to how many degrees?", a: 180, hint: "Triangle angle sum theorem." },
     ],
     resources: [
-      { name: "Khan Academy: Trigonometry", url: "https://www.khanacademy.org/math/trigonometry", subtitle: "Sine, cosine, tangent, the unit circle, and trigonometric identities for signal processing." },
-      { name: "Khan Academy: Trigonometry Basics", url: "https://www.khanacademy.org/math/trigonometry/unit-circle-trig-func", subtitle: "Master the unit circle and understand how sine and cosine describe oscillating signals." },
+      { name: "The Organic Chemistry Tutor: Trigonometry Playlist", url: "https://www.youtube.com/playlist?list=PL0o_zxa4K1BVCB8iCVCGOES9pEF6byTMT", subtitle: "84-video playlist covering sine, cosine, tangent, the unit circle, identities, and polar coordinates — ~1 day." },
+      { name: "Professor Dave Explains on YouTube", url: "https://www.youtube.com/@ProfessorDaveExplains", subtitle: "Concise, engaging math tutorials — find the trigonometry section for a quick, intuitive overview." },
     ],
   },
   {
@@ -305,8 +305,8 @@ const FOUNDATIONS = [
       { q: "2^3 x 2^4 = 2 raised to what power?", a: 7, hint: "When multiplying same bases, add the exponents: 3+4." },
     ],
     resources: [
-      { name: "Khan Academy: Precalculus", url: "https://www.khanacademy.org/math/precalculus", subtitle: "Exponents, logarithms, sequences, and matrices — the math that connects algebra to calculus and embedded ML." },
-      { name: "Khan Academy: Exponents & Radicals", url: "https://www.khanacademy.org/math/algebra2/x2ec2f6f830c9fb89:exp", subtitle: "Master exponent rules, scientific notation, and powers of 2 used everywhere in computing." },
+      { name: "The Organic Chemistry Tutor: Precalculus Playlist", url: "https://www.youtube.com/playlist?list=PL0o_zxa4K1BU5sTWZ2YxFhpXwsnMfMke7", subtitle: "273-video playlist covering exponents, logarithms, functions, sequences, and matrices — the bridge to calculus." },
+      { name: "Professor Dave Explains on YouTube", url: "https://www.youtube.com/@ProfessorDaveExplains", subtitle: "Clear, fast-paced precalculus tutorials covering functions, exponentials, logarithms, and more." },
     ],
   },
   {
@@ -328,8 +328,8 @@ const FOUNDATIONS = [
       { q: "Slope of y = 2x + 1 is ?", a: 2, hint: "In y = mx + b, m is the slope." },
     ],
     resources: [
-      { name: "Khan Academy: Calculus AB", url: "https://www.khanacademy.org/math/ap-calculus-ab", subtitle: "Derivatives, integrals, limits, and the Fundamental Theorem — the calculus concepts behind PID and gradient descent." },
-      { name: "Khan Academy: Differential Calculus", url: "https://www.khanacademy.org/math/differential-calculus", subtitle: "Rate of change, derivatives, and optimization — the math behind gradient descent and control systems." },
+      { name: "3Blue1Brown: Essence of Calculus", url: "https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr", subtitle: "12 beautifully animated videos (~3 hours total) building deep intuition for derivatives, integrals, and the Fundamental Theorem." },
+      { name: "The Organic Chemistry Tutor: Calculus Playlist", url: "https://www.youtube.com/playlist?list=PL0o_zxa4K1BWYThyV4T2Allw6zY0jEumv", subtitle: "331-video playlist covering limits, derivatives, integrals, and applications — concise explanations for each topic." },
     ],
   },
 ];
