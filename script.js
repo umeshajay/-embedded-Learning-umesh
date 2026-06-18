@@ -1167,6 +1167,7 @@ const state = {
   cs50CurrentWeek: null,
   cs50Level: "Easy",
   studySubTab: "guide",
+  theme: localStorage.getItem("firmwareMathTheme") || "dark",
 };
 
 if (![25, 50, 75].includes(state.foundationsQuizLength)) state.foundationsQuizLength = 25;
@@ -1191,6 +1192,7 @@ function saveProgress() {
   localStorage.setItem("firmwareMathFoundationsLength", String(state.foundationsQuizLength));
   localStorage.setItem("firmwareMathCS50Progress", JSON.stringify(state.cs50Progress));
   localStorage.setItem("firmwareMathQuizLength", String(state.quizLength));
+  localStorage.setItem("firmwareMathTheme", state.theme);
 }
 
 function scoreKey(topic, level = state.quizLevel) {
@@ -2104,6 +2106,20 @@ $("resetProgress").addEventListener("click", () => {
   switchTab("study");
   renderProgress();
 });
+
+function applyTheme(theme) {
+  document.body.classList.toggle("light", theme === "light");
+  const btn = $("themeToggle");
+  if (btn) btn.textContent = theme === "light" ? "☀" : "☾";
+}
+
+$("themeToggle").addEventListener("click", () => {
+  state.theme = state.theme === "light" ? "dark" : "light";
+  applyTheme(state.theme);
+  saveProgress();
+});
+
+applyTheme(state.theme);
 
 renderStudy();
 renderProgress();
