@@ -484,6 +484,103 @@ const CS50_QUIZZES = {
   ],
 };
 
+const CS50_LEVELS = ["Easy", "Intermediate", "Advanced"];
+
+function isCS50DifficultyUnlocked(difficulty) {
+  if (difficulty === "Easy") return true;
+  const prevLevel = difficulty === "Advanced" ? "Intermediate" : "Easy";
+  return CS50_WEEKS.every((week) => {
+    const key = `${prevLevel}::cs50::${week.id}`;
+    return (state.cs50Progress[key] || 0) >= 80;
+  });
+}
+
+function makeCS50GeneratedQuestion(id, weekId, difficulty, n) {
+  const easy = difficulty === "Easy";
+  const a = (n % 5) + 1;
+  const b = ((n * 3) % 7) + 1;
+  switch (weekId) {
+    case "week0":
+      if (easy) {
+        if (n % 4 === 0) return { id, q: `${a} + ${b} = ?`, a: a + b, hint: "Add the numbers." };
+        if (n % 4 === 1) return { id, q: `What is ${a} in binary? (enter decimal value)`, a: a, hint: "The value stays the same." };
+        if (n % 4 === 2) return { id, q: `How many bits in ${a} bytes?`, a: a * 8, hint: "1 byte = 8 bits." };
+        return { id, q: `What is ${a}0 in decimal?`, a: a * 10, hint: "Tens place." };
+      }
+      if (n % 4 === 0) return { id, q: `What is the decimal value of hex 0x${a}${b}?`, a: a * 16 + b, hint: "Hex digits: first x16 + second." };
+      if (n % 4 === 1) return { id, q: `A loop runs ${a * 3} times, counter starts at 0, increments by 1. Final counter?`, a: a * 3, hint: "Starting at 0, increment each iteration." };
+      if (n % 4 === 2) return { id, q: `Convert binary ${a}${b}${(a + b) % 2}${b % 2} to decimal.`, a: a * 8 + b * 4 + ((a + b) % 2) * 2 + (b % 2), hint: "Multiply each bit by its place value." };
+      return { id, q: `${a} MB = ? bytes (in millions)`, a: a, hint: "MB means million bytes." };
+    case "week1":
+      if (easy) {
+        if (n % 4 === 0) return { id, q: `${a} x ${b} = ?`, a: a * b, hint: "Multiply." };
+        if (n % 4 === 1) return { id, q: `5 / 2 integer division = ?`, a: 2, hint: "Integer division truncates." };
+        if (n % 4 === 2) return { id, q: `${a} + ${b} = ?`, a: a + b, hint: "Add them." };
+        return { id, q: `char uses how many bytes?`, a: 1, hint: "1 byte." };
+      }
+      if (n % 4 === 0) return { id, q: `int x = ${a} / ${b}; In C, x = ?`, a: Math.floor(a / b), hint: "Integer division truncates." };
+      if (n % 4 === 1) return { id, q: `int arr[${a}]; sizeof(arr) on 32-bit = ?`, a: a * 4, hint: "int is 4 bytes on 32-bit." };
+      if (n % 4 === 2) return { id, q: `uint8_t x = ${250 + a}; x += ${b}; x = ?`, a: (250 + a + b) % 256, hint: "uint8 wraps at 256." };
+      return { id, q: `argc is ${a + 3}. How many user arguments (excluding program name)?`, a: a + 2, hint: "argc minus 1." };
+    case "week2":
+      if (easy) {
+        if (n % 4 === 0) return { id, q: `First index of an array is?`, a: 0, hint: "Arrays start at 0." };
+        if (n % 4 === 1) return { id, q: `A string 'ab' has how many chars (including null)?`, a: 3, hint: "a + b + null." };
+        if (n % 4 === 2) return { id, q: `char s[] = "a"; s[0] ASCII = ?`, a: 97, hint: "ASCII 'a' is 97." };
+        return { id, q: `An array of ${a} ints uses ${a * 4} bytes (32-bit). True? 1=yes, 0=no`, a: 1, hint: `${a} x 4 = ${a * 4}.` };
+      }
+      if (n % 4 === 0) return { id, q: `int arr[${a}] = {${b}}; arr[0] = ?`, a: b, hint: `First element is ${b}.` };
+      if (n % 4 === 1) return { id, q: `char s[] = "hello"; strlen(s) = ?`, a: 5, hint: "strlen counts chars before null." };
+      if (n % 4 === 2) return { id, q: `argc=${a + 2}. argv[0] is program name. argv[${a}] is the ?th argument`, a: a + 1, hint: "Index equals argument position." };
+      return { id, q: `Buffer ${a * 2} bytes. Max visible chars (excl null)?`, a: a * 2 - 1, hint: "One byte reserved for null." };
+    case "week3":
+      if (easy) {
+        if (n % 4 === 0) return { id, q: `Sorted list of ${a * 10} items, linear search worst-case = ?`, a: a * 10, hint: "Could check every item." };
+        if (n % 4 === 1) return { id, q: `What is 2^${a}?`, a: 2 ** a, hint: `2 raised to ${a}.` };
+        if (n % 4 === 2) return { id, q: `${a}! = ${a} x ${a - 1} x ... x 1. ${a}! = ?`, a: a <= 3 ? 6 : 120, hint: "Multiply from 1 to a." };
+        return { id, q: `Is 2^3 = 8? (1=yes, 0=no)`, a: 1, hint: "2x2x2 = 8." };
+      }
+      if (n % 4 === 0) return { id, q: `Binary search max comparisons for ${2 ** (a + 3)} items = ?`, a: a + 3, hint: "log2(n)." };
+      if (n % 4 === 1) return { id, q: `Merge sort ${a * 2} items. Comparisons? O(nlogn). log2(${a * 2}) rounded = ?`, a: Math.ceil(Math.log2(a * 2)), hint: "n log n." };
+      if (n % 4 === 2) return { id, q: `Omega(1) means constant? (1=yes,0=no)`, a: 1, hint: "Omega(1) is constant lower bound." };
+      return { id, q: `Theta(n) for ${a * 10} items gives about how many operations?`, a: a * 10, hint: "Theta(n) = proportional to n." };
+    case "week4":
+      if (easy) {
+        if (n % 4 === 0) return { id, q: `malloc(${a * 4}) allocates how many bytes?`, a: a * 4, hint: "malloc returns requested bytes." };
+        if (n % 4 === 1) return { id, q: `sizeof(int) on 32-bit = ? bytes`, a: 4, hint: "int is 4 bytes." };
+        if (n % 4 === 2) return { id, q: `A pointer stores a memory ? (1=address,0=value)`, a: 1, hint: "Pointer stores address." };
+        return { id, q: `int ${a} ints in array x ${b} bytes each = total?`, a: a * b, hint: "Multiply." };
+      }
+      if (n % 4 === 0) return { id, q: `int* p = malloc(${a * 10}); if !p, the return value is? (address)`, a: 0, hint: "NULL = 0." };
+      if (n % 4 === 1) return { id, q: `int x = ${a}; int* p = &x; *p = ${b}; x = ?`, a: b, hint: "Dereference changes x." };
+      if (n % 4 === 2) return { id, q: `char buf[${a}]; gets(buf) risk: how many bytes overflow if input is ${a + 5} chars?`, a: 5, hint: "Extra bytes beyond buffer." };
+      return { id, q: `sizeof(double) on most systems = ?`, a: 8, hint: "double is 8 bytes." };
+    case "week5":
+      if (easy) {
+        if (n % 4 === 0) return { id, q: `Queue: enqueue 1, enqueue 2, dequeue = ?`, a: 1, hint: "FIFO: first in, first out." };
+        if (n % 4 === 1) return { id, q: `Stack: push 1, push 2, pop = ?`, a: 2, hint: "LIFO: last in, first out." };
+        if (n % 4 === 2) return { id, q: `Hash: key % ${a} maps key ${a * 2} to slot?`, a: 0, hint: `${a * 2} % ${a} = 0.` };
+        return { id, q: `Binary tree node max children = ?`, a: 2, hint: "Binary = at most 2." };
+      }
+      if (n % 4 === 0) return { id, q: `Hash table ${a} slots. Key ${a * a + b} goes to slot?`, a: (a * a + b) % a, hint: "key % slots." };
+      if (n % 4 === 1) return { id, q: `Singly linked list traversal from head to tail is O(?)`, a: a <= 3 ? 3 : 4, hint: "1=O(1),2=O(log n),3=O(n),4=O(n^2)" };
+      if (n % 4 === 2) return { id, q: `BST with ${a * 4} nodes, search worst-case with no rebalancing = O(?)`, a: a * 4, hint: "Unbalanced can be O(n)." };
+      return { id, q: `Trie storing ${a} words of avg length ${b} has roughly how many nodes?`, a: a * b, hint: "words x avg length." };
+    default:
+      return { id, q: `${a} + ${b} = ?`, a: a + b, hint: "Add the numbers." };
+  }
+}
+
+function getCS50Quiz(weekId, difficulty) {
+  const base = CS50_QUIZZES[weekId] || [];
+  if (difficulty === "Intermediate") return base.map((q, i) => ({ ...q, id: `cs50-int-${weekId}-${i}` }));
+  const generated = [];
+  for (let i = 1; i <= 10; i += 1) {
+    generated.push(makeCS50GeneratedQuestion(30000 + i, weekId, difficulty, i));
+  }
+  return generated;
+}
+
 const GUIDE_TO_QUIZ_TOPIC = {
   numbers: "Number Systems",
   bitwise: "Bit Manipulation",
@@ -664,14 +761,14 @@ const BASE_QUIZ_BANK = [
   [158, "Model Evaluation & Deployment Math", 3, "If duty cycle is 10%, active current is 20mA, sleep current ignored, average mA = ?", 2, "0.1 x 20"],
   [159, "Model Evaluation & Deployment Math", 3, "A model with 95 correct out of 100 has error percent = ?", 5, "100 - 95"],
   [160, "Model Evaluation & Deployment Math", 3, "If latency budget is 50 ms and model takes 35 ms, margin ms = ?", 15, "50 - 35"],
-].map(([id, topic, level, q, a, hint]) => ({ id, topic, level: level === 3 ? "Advanced" : "Intermediate", q, a, hint, source: "Original embedded/TinyML practice" }));
+].map(([id, topic, level, q, a, hint]) => ({ id, topic, level: level === 3 ? "Advanced" : level === 2 ? "Intermediate" : "Easy", q, a, hint, source: "Original embedded/TinyML practice" }));
 
 function buildExpandedQuizBank(baseQuestions) {
   const generated = [];
   let id = 10000;
   for (const topic of Object.values(GUIDE_TO_QUIZ_TOPIC)) {
-    for (const level of ["Intermediate", "Advanced"]) {
-      for (let i = 1; i <= 65; i += 1) {
+    for (const level of ["Easy", "Intermediate", "Advanced"]) {
+      for (let i = 1; i <= 50; i += 1) {
         generated.push(makeGeneratedQuestion(id, topic, level, i));
         id += 1;
       }
@@ -681,12 +778,100 @@ function buildExpandedQuizBank(baseQuestions) {
 }
 
 function makeGeneratedQuestion(id, topic, level, n) {
+  const easy = level === "Easy";
   const advanced = level === "Advanced";
   const a = (n % 9) + 2;
   const b = ((n * 3) % 11) + 1;
   const c = ((n * 5) % 13) + 2;
-  const source = advanced ? "Advanced course-aligned original" : "Intermediate course-aligned original";
+  const source = easy ? "Easy course-aligned original" : advanced ? "Advanced course-aligned original" : "Intermediate course-aligned original";
   const item = (q, answer, hint) => ({ id, topic, level, q, a: answer, hint, source });
+
+  if (easy) {
+    switch (topic) {
+      case "Number Systems":
+        if (n % 4 === 0) return item(`What is ${a} + ${b} in decimal?`, a + b, "Add the numbers.");
+        if (n % 4 === 1) return item(`What is ${a} x ${b}?`, a * b, "Multiply the numbers.");
+        if (n % 4 === 2) return item(`How many bits in ${a} bytes?`, a * 8, "1 byte = 8 bits.");
+        return item(`What is ${b}0 in decimal?`, b * 10, "Tens place value.");
+      case "Bit Manipulation":
+        if (n % 4 === 0) return item(`${a} AND ${b}: bitwise if both are 1, result = (1 if ${a}>0 && ${b}>0 else 0)?`, (a > 0 && b > 0) ? 1 : 0, "AND requires both true.");
+        if (n % 4 === 1) return item(`${a} OR ${b}: bitwise if either is 1, result = (1 if ${a}>0 || ${b}>0 else 0)?`, (a > 0 || b > 0) ? 1 : 0, "OR true if either is true.");
+        if (n % 4 === 2) return item(`NOT ${a % 2} (use 1=true,0=false)?`, a % 2 ? 0 : 1, "NOT flips the bit.");
+        return item(`${a % 2} XOR ${(a + 1) % 2} (use 1=true,0=false)?`, 1, "XOR is true when bits differ.");
+      case "Algebra":
+        if (n % 4 === 0) return item(`If x + ${a} = ${a + b}, x = ?`, b, `Subtract ${a} from both sides.`);
+        if (n % 4 === 1) return item(`If ${a} * x = ${a * b}, x = ?`, b, `Divide both sides by ${a}.`);
+        if (n % 4 === 2) return item(`1 MHz = ? Hz`, 1000000, "MHz means million hertz.");
+        return item(`If x - ${a} = ${b}, x = ?`, a + b, `Add ${a} to both sides.`);
+      case "Boolean Logic":
+        if (n % 4 === 0) return item(`TRUE AND TRUE = ? (1=true,0=false)`, 1, "Both true = AND is true.");
+        if (n % 4 === 1) return item(`FALSE OR TRUE = ? (1=true,0=false)`, 1, "One true = OR is true.");
+        if (n % 4 === 2) return item(`TRUE AND FALSE = ? (1=true,0=false)`, 0, "Both must be true for AND.");
+        return item(`TRUE OR FALSE = ? (1=true,0=false)`, 1, "One true is enough for OR.");
+      case "Fixed-Point":
+        if (n % 4 === 0) return item(`Store ${a}.${b} as integer scaled by 10. Answer = ?`, a * 10 + b, "Move decimal one place right.");
+        if (n % 4 === 1) return item(`5 / 2 = ? (integer division)`, 2, "Integer division discards remainder.");
+        if (n % 4 === 2) return item(`${a} x 10 = ?`, a * 10, "Multiply by 10.");
+        return item(`Scale ${a * 10} back by dividing by 10. Answer = ?`, a, "Divide by 10.");
+      case "Modular Arithmetic":
+        if (n % 4 === 0) return item(`${a * 2} % ${a} = ?`, 0, "Even multiple yields remainder 0.");
+        if (n % 4 === 1) return item(`${a * 5 + b} % ${a} = ?`, b, "Remove the multiples of a.");
+        if (n % 4 === 2) return item(`5 + 1 % 3 = ? (add left to right)`, 0, "6 mod 3 = 0.");
+        return item(`${a + b} % ${a} = ?`, b, `${a + b} = ${a} x 1 + ${b}.`);
+      case "Calculus Concepts":
+        if (n % 4 === 0) return item(`Value ${a} to ${a + b} change = ?`, b, "Subtract starting from ending.");
+        if (n % 4 === 1) return item(`A ${a * 10} Hz wave period in ms = ?`, Math.round(1000 / (a * 10)), "Period = 1000/f ms.");
+        if (n % 4 === 2) return item(`Area of ${a} x ${b} rectangle = ?`, a * b, "Area = width x height.");
+        return item(`Rate: ${a * 5} units / ${a} seconds = ?`, 5, "Divide units by time.");
+      case "Trigonometry & Signals":
+        if (n % 4 === 0) return item(`A full circle has how many degrees?`, 360, "360 degrees in a circle.");
+        if (n % 4 === 1) return item(`A right angle is how many degrees?`, 90, "Right angle = 90 degrees.");
+        if (n % 4 === 2) return item(`${a * 5} Hz period in ms = ?`, Math.round(1000 / (a * 5)), "T = 1000/f.");
+        return item(`Amplitude ${a}V peak gives peak-to-peak = ?`, a * 2, "Peak-to-peak = 2 x amplitude.");
+      case "Statistics & Probability":
+        if (n % 4 === 0) return item(`Mean of [${a}, ${a + b}, ${a + 2 * b}] = ?`, a + b, "Middle of evenly spaced values.");
+        if (n % 4 === 1) return item(`${a * 10} out of 100 as percent?`, a * 10, "Percent = part/whole x 100.");
+        if (n % 4 === 2) return item(`Probability of heads on fair coin (percent)?`, 50, "1 out of 2 sides.");
+        return item(`Range of [${a}, ${a + b}] = ?`, b, "Max minus min.");
+      case "Linear Algebra":
+        if (n % 4 === 0) return item(`A vector has ${a + 2} elements. Its length is?`, a + 2, "Count the elements.");
+        if (n % 4 === 1) return item(`A 3-axis sensor gives a vector of length?`, 3, "x, y, z.");
+        if (n % 4 === 2) return item(`Add [${a}, ${b}] + [${c}, ${a}] first element = ?`, a + c, "Add first elements.");
+        return item(`${a} x ${b} matrix has how many elements?`, a * b, "Rows x columns.");
+      case "DSP & Feature Extraction":
+        if (n % 4 === 0) return item(`Mean of [${a}, ${b}, ${c}] rounded down = ?`, Math.floor((a + b + c) / 3), "Sum divided by count.");
+        if (n % 4 === 1) return item(`100 ms at ${a * 10} Hz has how many samples?`, Math.round(0.1 * a * 10), "Samples = seconds x Hz.");
+        if (n % 4 === 2) return item(`Nyquist says sample ${a} kHz signal at least ? Hz`, a * 2000, "At least 2x frequency.");
+        return item(`A ${a * 100} Hz sample rate captures up to ? Hz`, a * 50, "Nyquist = half sample rate.");
+      case "Control Systems Math":
+        if (n % 4 === 0) return item(`Target=${a * 10}, measured=${b * 5}. Error = ?`, a * 10 - b * 5, "target - measured.");
+        if (n % 4 === 1) return item(`Kp=${a}, error=${b}. P output = ?`, a * b, "Kp x error.");
+        if (n % 4 === 2) return item(`If measured > target by ${a}, error sign? (-1 or 1)`, -1, "Error = target - measured.");
+        return item(`${a * 10} Hz control loop period in ms = ?`, Math.round(1000 / (a * 10)), "Period = 1000/f.");
+      case "ML Basics & Loss Functions":
+        if (n % 4 === 0) return item(`Prediction=${a + b}, actual=${a}. Error = ?`, b, "prediction - actual.");
+        if (n % 4 === 1) return item(`Error of ${a} squared = ?`, a * a, "Square the error.");
+        if (n % 4 === 2) return item(`${a * 10} correct out of 100. Accuracy percent = ?`, a * 10, "correct / total x 100.");
+        return item(`Binary classification has how many classes?`, 2, "Two classes.");
+      case "Neural Network Math":
+        if (n % 4 === 0) return item(`ReLU(${a}) = ?`, a, "Positive passes through.");
+        if (n % 4 === 1) return item(`ReLU(${-a}) = ?`, 0, "Negative clips to zero.");
+        if (n % 4 === 2) return item(`A neuron with ${a} inputs has how many weights?`, a, "One weight per input.");
+        return item(`Sigmoid outputs between 0 and ?`, 1, "Sigmoid range is 0 to 1.");
+      case "Quantization & Numeric Precision":
+        if (n % 4 === 0) return item(`uint8 max = ?`, 255, "0 to 255 range.");
+        if (n % 4 === 1) return item(`int8 max = ?`, 127, "-128 to 127 range.");
+        if (n % 4 === 2) return item(`uint8 min = ?`, 0, "Unsigned minimum is 0.");
+        return item(`int8 min = ?`, -128, "-128 is the minimum.");
+      case "Model Evaluation & Deployment Math":
+        if (n % 4 === 0) return item(`TP=${a}, FP=${b}. Total positive predictions = ?`, a + b, "TP + FP.");
+        if (n % 4 === 1) return item(`TP=${a}, FN=${b}. Total actual positives = ?`, a + b, "TP + FN.");
+        if (n % 4 === 2) return item(`Inference ${a * 10} ms. Max per second = ?`, Math.round(1000 / (a * 10)), "1000 / latency.");
+        return item(`Model ${b * 10} KB, flash ${a * 32} KB. Remaining = ?`, a * 32 - b * 10, "Budget minus model.");
+      default:
+        return item(`${a} + ${b} = ?`, a + b, "Add the values.");
+    }
+  }
 
   switch (topic) {
     case "Number Systems": {
@@ -944,13 +1129,13 @@ const RESOURCES = [
 ];
 
 const TOPICS = ["All", ...new Set(QUIZ_BANK.map((q) => q.topic))];
-const LEVELS = ["Intermediate", "Advanced"];
+const LEVELS = ["Easy", "Intermediate", "Advanced"];
 const EXAM_LENGTHS = [10, 25, 50, 75];
 const state = {
   tab: "study",
   guideTopic: null,
   quizTopic: "All",
-  quizLevel: "Intermediate",
+  quizLevel: "Easy",
   quizLength: Number(localStorage.getItem("firmwareMathQuizLength") || 10),
   quizQueue: [],
   qIdx: 0,
@@ -965,6 +1150,7 @@ const state = {
   foundationsQuizLength: Number(localStorage.getItem("firmwareMathFoundationsLength") || 25),
   cs50Progress: JSON.parse(localStorage.getItem("firmwareMathCS50Progress") || "{}"),
   foundationsView: "overview",
+  foundationsLevel: "Easy",
   foundationsCurrentLevel: 0,
   fQueue: [],
   fIdx: 0,
@@ -979,6 +1165,7 @@ const state = {
   cs50ShowHint: false,
   cs50Score: 0,
   cs50CurrentWeek: null,
+  cs50Level: "Easy",
   studySubTab: "guide",
 };
 
@@ -1014,12 +1201,15 @@ function getTopicScore(topic, level = state.quizLevel) {
   return state.topicScores[scoreKey(topic, level)] || 0;
 }
 
-function isAdvancedTrackUnlocked() {
-  return STUDY_GUIDE.every((topic) => getTopicScore(GUIDE_TO_QUIZ_TOPIC[topic.id], "Intermediate") >= 90);
+function allTopicsAtLeast(level, pct) {
+  return STUDY_GUIDE.every((topic) => getTopicScore(GUIDE_TO_QUIZ_TOPIC[topic.id], level) >= pct);
 }
 
 function isLevelUnlocked(level) {
-  return level === "Intermediate" || isAdvancedTrackUnlocked();
+  if (level === "Easy") return true;
+  if (level === "Intermediate") return allTopicsAtLeast("Easy", 90);
+  if (level === "Advanced") return allTopicsAtLeast("Intermediate", 90);
+  return false;
 }
 
 function topicIndexByQuizTopic(quizTopic) {
@@ -1078,10 +1268,10 @@ function renderStudy() {
 }
 
 function renderGuideList() {
-  if (!isLevelUnlocked(state.quizLevel)) state.quizLevel = "Intermediate";
+  if (!isLevelUnlocked(state.quizLevel)) state.quizLevel = "Easy";
   state.studySubTab = "guide";
   $("studySubContent").innerHTML = `
-    <p class="section-intro">${STUDY_GUIDE.length} topics unlock in order from embedded foundations to TinyML deployment. Intermediate opens first; Advanced opens after every Intermediate topic is mastered at 90% or higher.</p>
+    <p class="section-intro">${STUDY_GUIDE.length} topics unlock in order from embedded foundations to TinyML deployment. Easy opens first; Intermediate opens after every Easy topic at 90%; Advanced opens after every Intermediate topic at 90%.</p>
     ${trackSelectorHtml("guide")}
     <div class="guide-grid">
       ${STUDY_GUIDE.map((topic, index) => {
@@ -1178,7 +1368,7 @@ function guideTitleToQuizTopic(title) {
 }
 
 function renderQuizSetup() {
-  if (!isLevelUnlocked(state.quizLevel)) state.quizLevel = "Intermediate";
+  if (!isLevelUnlocked(state.quizLevel)) state.quizLevel = "Easy";
   if (!isQuizTopicUnlocked(state.quizTopic)) state.quizTopic = "All";
   state.studySubTab = "quiz";
   $("studySubContent").innerHTML = `
@@ -1304,7 +1494,7 @@ function finishQuiz() {
     <div class="result-card">
       <h2>${pct >= 80 ? "Solid work!" : pct >= 60 ? "Getting there!" : "Keep studying."}</h2>
       <div class="result-score">${state.score}<span style="font-size:2rem;color:var(--dim)"> / ${state.quizQueue.length}</span></div>
-      <p class="section-intro">${pct}% score on ${state.quizLevel}. ${topicWasSpecific ? (pct >= 90 ? (unlockedNext ? `Next ${state.quizLevel} topic unlocked.` : (state.quizLevel === "Intermediate" && isAdvancedTrackUnlocked() ? "Intermediate mastered. Advanced track unlocked." : "Topic mastered.")) : `Score 90% or higher on this ${state.quizLevel} topic to unlock the next one.`) : "Topic unlocking only happens on a specific topic quiz, not All."}</p>
+      <p class="section-intro">${pct}% score on ${state.quizLevel}. ${topicWasSpecific ? (pct >= 90 ? (unlockedNext ? `Next ${state.quizLevel} topic unlocked.` : (state.quizLevel === "Easy" && isLevelUnlocked("Intermediate") ? "Easy mastered. Intermediate track unlocked." : state.quizLevel === "Intermediate" && isLevelUnlocked("Advanced") ? "Intermediate mastered. Advanced track unlocked." : "Topic mastered.")) : `Score 90% or higher on this ${state.quizLevel} topic to unlock the next one.`) : "Topic unlocking only happens on a specific topic quiz, not All."}</p>
       <div class="result-actions">
         <button class="primary" id="retryQuiz">Change filters & retry</button>
         <button class="secondary" id="backGuide">Back to Guide</button>
@@ -1318,8 +1508,9 @@ function renderProgress() {
   const attemptedIds = Object.keys(state.allResults);
   const correct = Object.values(state.allResults).filter(Boolean).length;
   const attempted = attemptedIds.length;
-  const unlockedCount = highestUnlockedGuideIndex("Intermediate") + 1;
-  const advancedUnlockedCount = isAdvancedTrackUnlocked() ? highestUnlockedGuideIndex("Advanced") + 1 : 0;
+  const easyUnlockedCount = highestUnlockedGuideIndex("Easy") + 1;
+  const intermediateUnlockedCount = highestUnlockedGuideIndex("Intermediate") + 1;
+  const advancedUnlockedCount = isLevelUnlocked("Advanced") ? highestUnlockedGuideIndex("Advanced") + 1 : 0;
   if (!attempted) {
     $("progressView").innerHTML = `<p class="section-intro">Your quiz history and topic unlocks are saved in this browser on this computer.</p><div class="empty">No attempts yet. Take a quiz or Cs50x checkpoint first.</div>${roadmapHtml()}`;
     return;
@@ -1330,9 +1521,17 @@ function renderProgress() {
       <div class="stat"><strong style="color:var(--green)">${correct}</strong><span>Correct</span></div>
       <div class="stat"><strong style="color:var(--red)">${attempted - correct}</strong><span>Wrong</span></div>
       <div class="stat"><strong style="color:var(--blue)">${Math.round((correct / attempted) * 100)}%</strong><span>Accuracy</span></div>
-      <div class="stat"><strong style="color:var(--amber)">${unlockedCount}/${STUDY_GUIDE.length}</strong><span>Intermediate</span></div>
+      <div class="stat"><strong style="color:var(--cyan)">${easyUnlockedCount}/${STUDY_GUIDE.length}</strong><span>Easy</span></div>
+      <div class="stat"><strong style="color:var(--amber)">${intermediateUnlockedCount}/${STUDY_GUIDE.length}</strong><span>Intermediate</span></div>
       <div class="stat"><strong style="color:var(--violet)">${advancedUnlockedCount}/${STUDY_GUIDE.length}</strong><span>Advanced</span></div>
     </div>
+    <div class="label">EASY BEST SCORES</div>
+    ${STUDY_GUIDE.map((topic, index) => {
+      const quizTopic = GUIDE_TO_QUIZ_TOPIC[topic.id];
+      const best = getTopicScore(quizTopic, "Easy");
+      const unlocked = isGuideTopicUnlocked(index, "Easy");
+      return `<div class="topic-progress-row"><strong>${esc(topic.title)}</strong><div class="bar"><div class="bar-fill" style="width:${best}%"></div></div><span>${unlocked ? `${best}%` : "Locked"}</span></div>`;
+    }).join("")}
     <div class="label">INTERMEDIATE BEST SCORES</div>
     ${STUDY_GUIDE.map((topic, index) => {
       const quizTopic = GUIDE_TO_QUIZ_TOPIC[topic.id];
@@ -1347,11 +1546,17 @@ function renderProgress() {
       const unlocked = isGuideTopicUnlocked(index, "Advanced");
       return `<div class="topic-progress-row"><strong>${esc(topic.title)}</strong><div class="bar"><div class="bar-fill" style="width:${best}%"></div></div><span>${unlocked ? `${best}%` : "Locked"}</span></div>`;
     }).join("")}
-    <div class="label">Cs50x WEEK SCORES</div>
+    <div class="label">Cs50x WEEK SCORES (Intermediate shown, per-difficulty tracking saved)</div>
     ${CS50_WEEKS.map((week) => {
-      const score = getCS50WeekScore(week.id);
+      const score = getCS50WeekScore(week.id, "Intermediate");
       const unlocked = isCS50WeekUnlocked(CS50_WEEKS.indexOf(week));
       return `<div class="topic-progress-row"><strong>${esc(week.title)}</strong><div class="bar"><div class="bar-fill" style="width:${score}%"></div></div><span>${unlocked ? (score > 0 ? score + "%" : "Not started") : "Locked"}</span></div>`;
+    }).join("")}
+    <div class="label">MATH FOUNDATIONS SCORES (Easy shown, per-difficulty saved)</div>
+    ${FOUNDATIONS.map((level, index) => {
+      const score = getFoundationScore(level.id, "Easy");
+      const unlocked = index === 0 || (state.foundationsScores[`Easy::found::${FOUNDATIONS[index - 1].id}`] || 0) >= 80;
+      return `<div class="topic-progress-row"><strong>${esc(level.title)}</strong><div class="bar"><div class="bar-fill" style="width:${score}%"></div></div><span>${unlocked ? (score > 0 ? score + "%" : "Not started") : "Locked"}</span></div>`;
     }).join("")}
     <div class="label">BY TOPIC</div>
     ${TOPICS.filter((t) => t !== "All").map(topicProgressHtml).join("")}
@@ -1434,19 +1639,43 @@ function renderResourceDetail(topic) {
 
 /* FOUNDATIONS TAB */
 
+const FOUNDATIONS_LEVELS = ["Easy", "Intermediate", "Advanced"];
+
+function isFoundationDifficultyUnlocked(difficulty) {
+  if (difficulty === "Easy") return true;
+  const prevLevel = difficulty === "Advanced" ? "Intermediate" : "Easy";
+  return FOUNDATIONS.every((level) => {
+    const key = `${prevLevel}::found::${level.id}`;
+    return (state.foundationsScores[key] || 0) >= 80;
+  });
+}
+
 function isFoundationLevelUnlocked(index) {
   if (index <= 0) return true;
-  return (state.foundationsScores[FOUNDATIONS[index - 1].id] || 0) >= 80;
+  const prevId = FOUNDATIONS[index - 1].id;
+  const key = `${state.foundationsLevel}::found::${prevId}`;
+  return (state.foundationsScores[key] || 0) >= 80;
+}
+
+function getFoundationScore(levelId, difficulty) {
+  const lvl = difficulty || state.foundationsLevel;
+  return state.foundationsScores[`${lvl}::found::${levelId}`] || 0;
 }
 
 function renderFoundations() {
   state.foundationsView = "overview";
   $("foundationsView").innerHTML = `
-    <p class="section-intro">A progressive maths foundation from basic arithmetic to calculus, built for the embedded TinyML engineer. Each level unlocks after scoring 80% or higher on its checkpoint quiz.</p>
+    <p class="section-intro">A progressive maths foundation from basic arithmetic to calculus, built for the embedded TinyML engineer. Each level unlocks after scoring 80% or higher on its checkpoint quiz. Easy opens first; Intermediate after all Easy levels; Advanced after all Intermediate levels.</p>
+    <div class="track-switch" aria-label="foundations difficulty">
+      ${FOUNDATIONS_LEVELS.map((level) => {
+        const locked = !isFoundationDifficultyUnlocked(level);
+        return `<button class="track-button ${state.foundationsLevel === level ? "active" : ""} ${locked ? "locked" : ""}" data-foundtrack="${level}" ${locked ? "disabled" : ""}>${level}${locked ? " locked" : ""}</button>`;
+      }).join("")}
+    </div>
     <div class="foundations-path">
       ${FOUNDATIONS.map((level, index) => {
         const unlocked = isFoundationLevelUnlocked(index);
-        const score = state.foundationsScores[level.id] || 0;
+        const score = getFoundationScore(level.id);
         const attempted = score > 0;
         return `
         <div class="foundation-card ${unlocked ? "unlocked" : "locked"}" data-level="${index}">
@@ -1463,6 +1692,13 @@ function renderFoundations() {
         </div>`;
       }).join("")}
     </div>`;
+  document.querySelectorAll("[data-foundtrack]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (!isFoundationDifficultyUnlocked(btn.dataset.foundtrack)) return;
+      state.foundationsLevel = btn.dataset.foundtrack;
+      renderFoundations();
+    });
+  });
   document.querySelectorAll(".foundation-card.unlocked").forEach((card) => {
     card.addEventListener("click", () => renderFoundationLevel(Number(card.dataset.level)));
   });
@@ -1473,7 +1709,7 @@ function renderFoundationLevel(index) {
   const level = FOUNDATIONS[index];
   state.foundationsView = "level";
   state.foundationsCurrentLevel = index;
-  const score = state.foundationsScores[level.id] || 0;
+  const score = getFoundationScore(level.id);
   const passed = score >= 80;
   const lengths = [25, 50, 75];
   $("foundationsView").innerHTML = `
@@ -1642,8 +1878,9 @@ function submitFoundationAnswer() {
 function finishFoundationCheckpoint() {
   const pct = Math.round((state.fScore / state.fQueue.length) * 100);
   const level = FOUNDATIONS[state.foundationsCurrentLevel];
-  const prevBest = state.foundationsScores[level.id] || 0;
-  state.foundationsScores[level.id] = Math.max(prevBest, pct);
+  const key = `${state.foundationsLevel}::found::${level.id}`;
+  const prevBest = state.foundationsScores[key] || 0;
+  state.foundationsScores[key] = Math.max(prevBest, pct);
   saveProgress();
   const passed = pct >= 80;
   const nextUnlocked = passed && state.foundationsCurrentLevel < FOUNDATIONS.length - 1;
@@ -1666,16 +1903,24 @@ function finishFoundationCheckpoint() {
 function isCS50WeekUnlocked(index) {
   if (index <= 0) return true;
   const prevId = CS50_WEEKS[index - 1].id;
-  return (state.cs50Progress[prevId] || 0) >= 80;
+  const key = `${state.cs50Level}::cs50::${prevId}`;
+  return (state.cs50Progress[key] || 0) >= 80;
 }
 
-function getCS50WeekScore(id) {
-  return state.cs50Progress[id] || 0;
+function getCS50WeekScore(id, level) {
+  const lvl = level || state.cs50Level;
+  return state.cs50Progress[`${lvl}::cs50::${id}`] || 0;
 }
 
 function renderCS50() {
   $("cs50View").innerHTML = `
-    <p class="section-intro">Harvard Cs50x: Introduction to Computer Science. Pass each week's checkpoint quiz (80%+) to unlock the next week.</p>
+    <p class="section-intro">Harvard Cs50x: Introduction to Computer Science. Pass each week's checkpoint quiz (80%+) to unlock the next week. Easy opens first; Intermediate unlocks after all Easy weeks passed; Advanced after all Intermediate weeks passed.</p>
+    <div class="track-switch" aria-label="cs50 difficulty">
+      ${CS50_LEVELS.map((level) => {
+        const locked = !isCS50DifficultyUnlocked(level);
+        return `<button class="track-button ${state.cs50Level === level ? "active" : ""} ${locked ? "locked" : ""}" data-cs50track="${level}" ${locked ? "disabled" : ""}>${level}${locked ? " locked" : ""}</button>`;
+      }).join("")}
+    </div>
     <div class="cs50-path">
       ${CS50_WEEKS.map((week, index) => {
         const score = getCS50WeekScore(week.id);
@@ -1694,6 +1939,13 @@ function renderCS50() {
         </div>`;
       }).join("")}
     </div>`;
+  document.querySelectorAll("[data-cs50track]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (!isCS50DifficultyUnlocked(btn.dataset.cs50track)) return;
+      state.cs50Level = btn.dataset.cs50track;
+      renderCS50();
+    });
+  });
   document.querySelectorAll(".cs50-card:not(.locked)").forEach((card) => {
     card.addEventListener("click", () => renderCS50Week(card.dataset.cs50));
   });
@@ -1739,8 +1991,8 @@ function renderCS50Week(id) {
 }
 
 function startCS50Quiz(id) {
-  const quiz = CS50_QUIZZES[id];
-  if (!quiz) { renderCS50Week(id); return; }
+  const quiz = getCS50Quiz(id, state.cs50Level);
+  if (!quiz || !quiz.length) { renderCS50Week(id); return; }
   state.cs50Queue = shuffle(quiz);
   state.cs50QIdx = 0;
   state.cs50Input = "";
@@ -1819,8 +2071,9 @@ function finishCS50Quiz() {
   state.cs50CurrentWeek = null;
   state.cs50Queue = [];
   if (week) {
-    const prevBest = state.cs50Progress[week.id] || 0;
-    state.cs50Progress[week.id] = Math.max(prevBest, pct);
+    const key = `${state.cs50Level}::cs50::${week.id}`;
+    const prevBest = state.cs50Progress[key] || 0;
+    state.cs50Progress[key] = Math.max(prevBest, pct);
     saveProgress();
   }
   const passed = pct >= 80;
