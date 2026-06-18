@@ -1195,6 +1195,45 @@ function saveProgress() {
   localStorage.setItem("firmwareMathTheme", state.theme);
 }
 
+function saveQuizSession() {
+  if (!state.quizQueue.length || state.quizDone) return;
+  localStorage.setItem("firmwareMathQuizSession", JSON.stringify({
+    queue: state.quizQueue,
+    qIdx: state.qIdx,
+    score: state.score,
+    input: state.input,
+    feedback: state.feedback,
+    showHint: state.showHint,
+    quizTopic: state.quizTopic,
+    quizLevel: state.quizLevel,
+    quizLength: state.quizLength,
+  }));
+}
+
+function clearQuizSession() {
+  localStorage.removeItem("firmwareMathQuizSession");
+}
+
+function restoreQuizSession() {
+  const saved = localStorage.getItem("firmwareMathQuizSession");
+  if (!saved) return false;
+  try {
+    const session = JSON.parse(saved);
+    if (!session.queue || !session.queue.length) { clearQuizSession(); return false; }
+    state.quizQueue = session.queue;
+    state.qIdx = session.qIdx ?? 0;
+    state.score = session.score ?? 0;
+    state.input = session.input ?? "";
+    state.feedback = session.feedback ?? null;
+    state.showHint = session.showHint ?? false;
+    state.quizTopic = session.quizTopic ?? "All";
+    state.quizLevel = session.quizLevel ?? "Easy";
+    state.quizLength = session.quizLength ?? 10;
+    state.quizDone = false;
+    return true;
+  } catch { clearQuizSession(); return false; }
+}
+
 function scoreKey(topic, level = state.quizLevel) {
   return `${level}::${topic}`;
 }
@@ -1373,8 +1412,21 @@ function renderQuizSetup() {
   if (!isLevelUnlocked(state.quizLevel)) state.quizLevel = "Easy";
   if (!isQuizTopicUnlocked(state.quizTopic)) state.quizTopic = "All";
   state.studySubTab = "quiz";
+  const saved = localStorage.getItem("firmwareMathQuizSession");
+  let resumeHtml = "";
+  if (saved) {
+    try {
+      const session = JSON.parse(saved);
+      if (session.queue && session.queue.length) {
+        const total = session.queue.length;
+        const cur = (session.qIdx ?? 0) + 1;
+        resumeHtml = `<div class="resume-card"><span>Unfinished ${session.quizLevel} quiz · Q${cur}/${total} · ${session.score ?? 0} correct</span><div><button class="primary" id="resumeQuizBtn">Resume</button><button class="secondary" id="discardQuizBtn" style="margin-left:8px">Discard</button></div></div>`;
+      }
+    } catch {}
+  }
   $("studySubContent").innerHTML = `
     <p class="section-intro">${QUIZ_BANK.length} questions across embedded software and TinyML math. Choose exam length, then run a focused mastery quiz.</p>
+    ${resumeHtml}
     <div class="filter-panel">
       <div><div class="filter-title">TRACK</div>${trackSelectorHtml("quiz")}</div>
       <div><div class="filter-title">TOPIC</div><div class="filter-buttons">${TOPICS.map((topic) => {
@@ -1385,6 +1437,16 @@ function renderQuizSetup() {
       <div><div class="filter-title">EXAM LENGTH</div><div class="length-buttons">${EXAM_LENGTHS.map((count) => `<button class="length-button ${state.quizLength === count ? "active" : ""}" data-length="${count}">${count}</button>`).join("")}</div></div>
       <button class="primary" id="startQuiz">Start Exam (${state.quizLength} questions) -></button>
     </div>`;
+  if (resumeHtml) {
+    $("resumeQuizBtn").addEventListener("click", () => {
+      restoreQuizSession();
+      renderQuestion();
+    });
+    $("discardQuizBtn").addEventListener("click", () => {
+      clearQuizSession();
+      renderQuizSetup();
+    });
+  }
   bindTrackSelectors(renderQuizSetup);
   document.querySelectorAll("[data-topic]").forEach((button) => button.addEventListener("click", () => {
     state.quizTopic = button.dataset.topic;
@@ -1399,6 +1461,7 @@ function renderQuizSetup() {
 }
 
 function startQuiz() {
+  clearQuizSession();
   let pool = QUIZ_BANK;
   if (!isQuizTopicUnlocked(state.quizTopic)) {
     state.quizTopic = TOPICS.find((topic) => topic !== "All" && isQuizTopicUnlocked(topic)) || "All";
@@ -1419,6 +1482,7 @@ function startQuiz() {
   state.showHint = false;
   state.score = 0;
   state.quizDone = false;
+  saveQuizSession();
   renderQuestion();
 }
 
@@ -1465,6 +1529,7 @@ function submitAnswer() {
   if (correct) state.score += 1;
   state.allResults[q.id] = correct;
   saveProgress();
+  saveQuizSession();
   renderQuestion();
   window.setTimeout(() => {
     state.feedback = null;
@@ -1480,6 +1545,7 @@ function submitAnswer() {
 }
 
 function finishQuiz() {
+  clearQuizSession();
   const pct = Math.round((state.score / state.quizQueue.length) * 100);
   const topicWasSpecific = state.quizTopic !== "All";
   let unlockedNext = false;
@@ -2141,3 +2207,30 @@ applyTheme(state.theme);
 
 renderStudy();
 renderProgress();
+
+if (localStorage.getItem("firmwareMathQuizSession")) {
+  const banner = document.createElement("div");
+  banner.id = "resumeBanner";
+  banner.innerHTML = `Unfinished quiz found — <a href="#" id="resumeBannerLink">Resume now</a> <span id="resumeBannerClose" style="cursor:pointer;margin-left:12px;opacity:.6">✕</span>`;
+  document.body.prepend(banner);
+  $("resumeBannerLink").addEventListener("click", (e) => {
+    e.preventDefault();
+    banner.remove();
+    state.studySubTab = "quiz";
+    switchTab("study");
+    const saved = localStorage.getItem("firmwareMathQuizSession");
+    if (saved) {
+      try {
+        const session = JSON.parse(saved);
+        if (session.queue && session.queue.length) {
+          restoreQuizSession();
+          renderQuestion();
+        } else {
+          clearQuizSession();
+          renderQuizSetup();
+        }
+      } catch { renderQuizSetup(); }
+    }
+  });
+  $("resumeBannerClose").addEventListener("click", () => banner.remove());
+}
