@@ -521,8 +521,9 @@ const RESOURCES = [
   {
     topic: "Calculus Concepts",
     videos: [
+      { title: "The Essence of Calculus (Ch1)", youtubeId: "WUvTyaaNkzM", channel: "3Blue1Brown" },
+      { title: "The Paradox of the Derivative (Ch2)", youtubeId: "9vKqVkMQHKk", channel: "3Blue1Brown" },
       { title: "Derivative as a Concept", youtubeId: "N2PpRnFqnqY", channel: "Khan Academy" },
-      { title: "Introduction to Integrals", youtubeId: "_B56F9hEHg0", channel: "Khan Academy" },
     ],
     exerciseUrl: "https://www.khanacademy.org/math/ap-calculus-ab/ab-differentiation-1-new/ab-2-1/e/derivative-as-a-concept",
     topicUrl: "https://www.khanacademy.org/math/ap-calculus-ab",
@@ -554,8 +555,9 @@ const RESOURCES = [
   {
     topic: "Statistics & Probability",
     videos: [
+      { title: "Bayes Theorem (Geometry of Changing Beliefs)", youtubeId: "HZGCoVF3YvM", channel: "3Blue1Brown" },
       { title: "Statistics Intro: Mean, Median, and Mode", youtubeId: "h8EYEJ32oQ8", channel: "Khan Academy" },
-      { title: "Finding Mean, Median, and Mode", youtubeId: "k3aKKasOmIw", channel: "Khan Academy" },
+      { title: "Binomial Distributions (Probabilities of Probabilities)", youtubeId: "8idr1WZ1A7Q", channel: "3Blue1Brown" },
     ],
     exerciseUrl: "https://www.khanacademy.org/math/statistics-probability/summarizing-quantitative-data/mean-median-basics/e/mean_median_and_mode",
     topicUrl: "https://www.khanacademy.org/math/statistics-probability",
@@ -563,9 +565,10 @@ const RESOURCES = [
   {
     topic: "Linear Algebra",
     videos: [
+      { title: "Vectors (Essence of LA Ch1)", youtubeId: "fNk_zzaMoSs", channel: "3Blue1Brown" },
+      { title: "Linear Transformations & Matrices (Ch3)", youtubeId: "kYB8IZa5AuE", channel: "3Blue1Brown" },
+      { title: "Matrix Multiplication as Composition (Ch4)", youtubeId: "XkY2DOUCWMU", channel: "3Blue1Brown" },
       { title: "Introduction to Matrices", youtubeId: "xyAuNHPsq-g", channel: "Khan Academy" },
-      { title: "Matrix Multiplication Intro", youtubeId: "kT4Mp9EdVqs", channel: "Khan Academy" },
-      { title: "Linear Transformations as Matrix Products", youtubeId: "PErhLkQcpZ8", channel: "Khan Academy" },
     ],
     exerciseUrl: "https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices/x9e81a4f98389efdf:multiplying-matrices-by-matrices/e/matrix_multiplication",
     topicUrl: "https://www.khanacademy.org/math/linear-algebra",
@@ -596,10 +599,12 @@ const RESOURCES = [
   {
     topic: "Neural Network Math",
     videos: [
-      { title: "But What Is a Neural Network?", youtubeId: "aircAruvnKk", channel: "3Blue1Brown" },
-      { title: "Gradient Descent & Backpropagation", youtubeId: "IHZwWFHWa-w", channel: "3Blue1Brown" },
+      { title: "But What Is a Neural Network? (Ch1)", youtubeId: "aircAruvnKk", channel: "3Blue1Brown" },
+      { title: "Gradient Descent (Ch2)", youtubeId: "IHZwWFHWa-w", channel: "3Blue1Brown" },
+      { title: "What Is Backpropagation Really Doing? (Ch3)", youtubeId: "Ilg3gGewQ5U", channel: "3Blue1Brown" },
+      { title: "Backpropagation Calculus (Ch4)", youtubeId: "tIeHLnjs5U8", channel: "3Blue1Brown" },
     ],
-    topicUrl: "https://www.khanacademy.org/computing/computer-science/algorithms",
+    topicUrl: "https://www.3blue1brown.com/topics/neural-networks",
   },
   {
     topic: "Quantization & Numeric Precision",
