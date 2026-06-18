@@ -1884,6 +1884,12 @@ function renderFoundationsQuizSetup() {
   $("foundationsSubContent").innerHTML = `
     <p class="section-intro">Test your maths foundations knowledge across multiple levels. Choose scope and length, then start a quiz.</p>
     ${resumeHtml}
+    <div class="track-switch" aria-label="foundations difficulty">
+      ${FOUNDATIONS_LEVELS.map((level) => {
+        const locked = !isFoundationDifficultyUnlocked(level);
+        return `<button class="track-button ${state.foundationsLevel === level ? "active" : ""} ${locked ? "locked" : ""}" data-fqtrack="${level}" ${locked ? "disabled" : ""}>${level}${locked ? " locked" : ""}</button>`;
+      }).join("")}
+    </div>
     <div class="filter-panel">
       <div><div class="filter-title">TOPIC</div><div class="filter-buttons">${["All", ...levelIds].map((id) => {
         const label = id === "All" ? "All" : FOUNDATIONS.find((l) => l.id === id).title;
@@ -1902,9 +1908,10 @@ function renderFoundationsQuizSetup() {
       renderFoundationsQuizSetup();
     });
   }
-  document.querySelectorAll("[data-fqtopic]").forEach((btn) => {
+  document.querySelectorAll("[data-fqtrack]").forEach((btn) => {
+    if (!isFoundationDifficultyUnlocked(btn.dataset.fqtrack)) return;
     btn.addEventListener("click", () => {
-      state.foundationsQuizTopic = btn.dataset.fqtopic;
+      state.foundationsLevel = btn.dataset.fqtrack;
       renderFoundationsQuizSetup();
     });
   });
@@ -2162,7 +2169,16 @@ function submitFoundationAnswer() {
 
 function finishFoundationCheckpoint() {
   const fromQuiz = state.foundationsView === "quiz";
-  if (!fromQuiz) {
+  if (fromQuiz && state.foundationsQuizTopic !== "All") {
+    const level = FOUNDATIONS.find((l) => l.id === state.foundationsQuizTopic);
+    if (level) {
+      const key = `${state.foundationsLevel}::found::${level.id}`;
+      const prevBest = state.foundationsScores[key] || 0;
+      const pct = Math.round((state.fScore / state.fQueue.length) * 100);
+      state.foundationsScores[key] = Math.max(prevBest, pct);
+      saveProgress();
+    }
+  } else if (!fromQuiz) {
     const level = FOUNDATIONS[state.foundationsCurrentLevel];
     const key = `${state.foundationsLevel}::found::${level.id}`;
     const prevBest = state.foundationsScores[key] || 0;
@@ -2272,6 +2288,12 @@ function renderCS50QuizSetup() {
   $("cs50SubContent").innerHTML = `
     <p class="section-intro">Test your CS50x knowledge across multiple weeks. Choose scope and length, then start a quiz.</p>
     ${resumeHtml}
+    <div class="track-switch" aria-label="cs50 difficulty">
+      ${CS50_LEVELS.map((level) => {
+        const locked = !isCS50DifficultyUnlocked(level);
+        return `<button class="track-button ${state.cs50Level === level ? "active" : ""} ${locked ? "locked" : ""}" data-cqtrack="${level}" ${locked ? "disabled" : ""}>${level}${locked ? " locked" : ""}</button>`;
+      }).join("")}
+    </div>
     <div class="filter-panel">
       <div><div class="filter-title">TOPIC</div><div class="filter-buttons">${["All", ...weekIds].map((id) => {
         const label = id === "All" ? "All" : CS50_WEEKS.find((w) => w.id === id).title;
@@ -2290,9 +2312,10 @@ function renderCS50QuizSetup() {
       renderCS50QuizSetup();
     });
   }
-  document.querySelectorAll("[data-cqtopic]").forEach((btn) => {
+  document.querySelectorAll("[data-cqtrack]").forEach((btn) => {
+    if (!isCS50DifficultyUnlocked(btn.dataset.cqtrack)) return;
     btn.addEventListener("click", () => {
-      state.cs50QuizTopic = btn.dataset.cqtopic;
+      state.cs50Level = btn.dataset.cqtrack;
       renderCS50QuizSetup();
     });
   });
@@ -2493,6 +2516,14 @@ function finishCS50Quiz() {
     const prevBest = state.cs50Progress[key] || 0;
     state.cs50Progress[key] = Math.max(prevBest, pct);
     saveProgress();
+  } else if (state.cs50QuizTopic !== "All") {
+    const w = CS50_WEEKS.find((ww) => ww.id === state.cs50QuizTopic);
+    if (w) {
+      const key = `${state.cs50Level}::cs50::${w.id}`;
+      const prevBest = state.cs50Progress[key] || 0;
+      state.cs50Progress[key] = Math.max(prevBest, pct);
+      saveProgress();
+    }
   }
   const passed = pct >= 80;
   const weekIndex = week ? CS50_WEEKS.indexOf(week) : -1;
