@@ -1527,6 +1527,10 @@ function renderProgress() {
       <div class="stat"><strong style="color:var(--amber)">${intermediateUnlockedCount}/${STUDY_GUIDE.length}</strong><span>Intermediate</span></div>
       <div class="stat"><strong style="color:var(--violet)">${advancedUnlockedCount}/${STUDY_GUIDE.length}</strong><span>Advanced</span></div>
     </div>
+    <div class="label">SECTION COMPLETION</div>
+    <div class="topic-progress-row"><strong>CS Fundamentals</strong><div class="bar"><div class="bar-fill" style="width:${Math.round(STUDY_GUIDE.filter((_, i) => getTopicScore(GUIDE_TO_QUIZ_TOPIC[STUDY_GUIDE[i].id], "Easy") >= 90).length / STUDY_GUIDE.length * 100)}%"></div></div><span>${Math.round(STUDY_GUIDE.filter((_, i) => getTopicScore(GUIDE_TO_QUIZ_TOPIC[STUDY_GUIDE[i].id], "Easy") >= 90).length / STUDY_GUIDE.length * 100)}%</span></div>
+    <div class="topic-progress-row"><strong>CS50x</strong><div class="bar"><div class="bar-fill" style="width:${Math.round(CS50_WEEKS.filter((w) => getCS50WeekScore(w.id, "Intermediate") >= 80).length / CS50_WEEKS.length * 100)}%"></div></div><span>${Math.round(CS50_WEEKS.filter((w) => getCS50WeekScore(w.id, "Intermediate") >= 80).length / CS50_WEEKS.length * 100)}%</span></div>
+    <div class="topic-progress-row"><strong>Maths Foundations</strong><div class="bar"><div class="bar-fill" style="width:${Math.round(FOUNDATIONS.filter((l) => getFoundationScore(l.id, "Easy") >= 80).length / FOUNDATIONS.length * 100)}%"></div></div><span>${Math.round(FOUNDATIONS.filter((l) => getFoundationScore(l.id, "Easy") >= 80).length / FOUNDATIONS.length * 100)}%</span></div>
     <div class="label">EASY BEST SCORES</div>
     ${STUDY_GUIDE.map((topic, index) => {
       const quizTopic = GUIDE_TO_QUIZ_TOPIC[topic.id];
@@ -1548,21 +1552,18 @@ function renderProgress() {
       const unlocked = isGuideTopicUnlocked(index, "Advanced");
       return `<div class="topic-progress-row"><strong>${esc(topic.title)}</strong><div class="bar"><div class="bar-fill" style="width:${best}%"></div></div><span>${unlocked ? `${best}%` : "Locked"}</span></div>`;
     }).join("")}
-    <div class="label">Cs50x WEEK SCORES (Intermediate shown, per-difficulty tracking saved)</div>
+    <div class="label">CS50x WEEK SCORES (Intermediate shown, per-difficulty tracking saved)</div>
     ${CS50_WEEKS.map((week) => {
       const score = getCS50WeekScore(week.id, "Intermediate");
       const unlocked = isCS50WeekUnlocked(CS50_WEEKS.indexOf(week));
       return `<div class="topic-progress-row"><strong>${esc(week.title)}</strong><div class="bar"><div class="bar-fill" style="width:${score}%"></div></div><span>${unlocked ? (score > 0 ? score + "%" : "Not started") : "Locked"}</span></div>`;
     }).join("")}
-    <div class="label">MATH FOUNDATIONS SCORES (Easy shown, per-difficulty saved)</div>
+    <div class="label">MATHS FOUNDATIONS SCORES (Easy shown, per-difficulty saved)</div>
     ${FOUNDATIONS.map((level, index) => {
       const score = getFoundationScore(level.id, "Easy");
       const unlocked = index === 0 || (state.foundationsScores[`Easy::found::${FOUNDATIONS[index - 1].id}`] || 0) >= 80;
       return `<div class="topic-progress-row"><strong>${esc(level.title)}</strong><div class="bar"><div class="bar-fill" style="width:${score}%"></div></div><span>${unlocked ? (score > 0 ? score + "%" : "Not started") : "Locked"}</span></div>`;
-    }).join("")}
-    <div class="label">BY TOPIC</div>
-    ${TOPICS.filter((t) => t !== "All").map(topicProgressHtml).join("")}
-    ${roadmapHtml()}`;
+    }).join("")}`;
 }
 
 function topicProgressHtml(topic) {
