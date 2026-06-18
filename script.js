@@ -1150,6 +1150,8 @@ const state = {
   foundationsQuizLength: Number(localStorage.getItem("firmwareMathFoundationsLength") || 25),
   cs50Progress: JSON.parse(localStorage.getItem("firmwareMathCS50Progress") || "{}"),
   foundationsView: "overview",
+  foundationsSubTab: "levels",
+  foundationsQuizTopic: "All",
   foundationsLevel: "Easy",
   foundationsCurrentLevel: 0,
   fQueue: [],
@@ -1158,6 +1160,8 @@ const state = {
   fFeedback: null,
   fShowHint: false,
   fScore: 0,
+  cs50SubTab: "weeks",
+  cs50QuizTopic: "All",
   cs50Queue: [],
   cs50QIdx: 0,
   cs50Input: "",
@@ -1165,6 +1169,7 @@ const state = {
   cs50ShowHint: false,
   cs50Score: 0,
   cs50CurrentWeek: null,
+  cs50QuizLength: Number(localStorage.getItem("firmwareMathCS50Length") || 25),
   cs50Level: "Easy",
   studySubTab: "guide",
   theme: localStorage.getItem("firmwareMathTheme") || "dark",
@@ -1191,6 +1196,7 @@ function saveProgress() {
   localStorage.setItem("firmwareMathFoundationsScores", JSON.stringify(state.foundationsScores));
   localStorage.setItem("firmwareMathFoundationsLength", String(state.foundationsQuizLength));
   localStorage.setItem("firmwareMathCS50Progress", JSON.stringify(state.cs50Progress));
+  localStorage.setItem("firmwareMathCS50Length", String(state.cs50QuizLength));
   localStorage.setItem("firmwareMathQuizLength", String(state.quizLength));
   localStorage.setItem("firmwareMathTheme", state.theme);
 }
@@ -1805,8 +1811,24 @@ function getFoundationScore(levelId, difficulty) {
 }
 
 function renderFoundations() {
-  state.foundationsView = "overview";
+  const sub = state.foundationsSubTab;
   $("foundationsView").innerHTML = `
+    <nav class="study-sub-tabs">
+      <button class="sub-tab ${sub === "levels" ? "active" : ""}" data-fsub="levels">Levels</button>
+      <button class="sub-tab ${sub === "quiz" ? "active" : ""}" data-fsub="quiz">Quiz</button>
+    </nav>
+    <div id="foundationsSubContent"></div>`;
+  document.querySelectorAll("[data-fsub]").forEach((btn) => btn.addEventListener("click", () => {
+    state.foundationsSubTab = btn.dataset.fsub;
+    renderFoundations();
+  }));
+  if (sub === "levels") renderFoundationsLevels();
+  else renderFoundationsQuizSetup();
+}
+
+function renderFoundationsLevels() {
+  state.foundationsView = "overview";
+  $("foundationsSubContent").innerHTML = `
     <p class="section-intro">A progressive maths foundation from basic arithmetic to calculus, built for the embedded TinyML engineer. Each level unlocks after scoring 80% or higher on its checkpoint quiz. Easy opens first; Intermediate after all Easy levels; Advanced after all Intermediate levels.</p>
     <div class="track-switch" aria-label="foundations difficulty">
       ${FOUNDATIONS_LEVELS.map((level) => {
@@ -1838,12 +1860,85 @@ function renderFoundations() {
     btn.addEventListener("click", () => {
       if (!isFoundationDifficultyUnlocked(btn.dataset.foundtrack)) return;
       state.foundationsLevel = btn.dataset.foundtrack;
-      renderFoundations();
+      renderFoundationsLevels();
     });
   });
   document.querySelectorAll(".foundation-card.unlocked").forEach((card) => {
     card.addEventListener("click", () => renderFoundationLevel(Number(card.dataset.level)));
   });
+}
+
+function renderFoundationsQuizSetup() {
+  const levelIds = FOUNDATIONS.map((l) => l.id);
+  const saved = localStorage.getItem("firmwareMathFoundSession");
+  let resumeHtml = "";
+  if (saved) {
+    try {
+      const s = JSON.parse(saved);
+      if (s.queue && s.queue.length) {
+        const cur = (s.fIdx ?? 0) + 1;
+        resumeHtml = `<div class="resume-card"><span>Unfinished quiz · Q${cur}/${s.queue.length} · ${s.fScore ?? 0} correct</span><div><button class="primary" id="fQuizResumeBtn">Resume</button><button class="secondary" id="fQuizDiscardBtn" style="margin-left:8px">Start from first</button></div></div>`;
+      }
+    } catch {}
+  }
+  $("foundationsSubContent").innerHTML = `
+    <p class="section-intro">Test your maths foundations knowledge across multiple levels. Choose scope and length, then start a quiz.</p>
+    ${resumeHtml}
+    <div class="filter-panel">
+      <div><div class="filter-title">TOPIC</div><div class="filter-buttons">${["All", ...levelIds].map((id) => {
+        const label = id === "All" ? "All" : FOUNDATIONS.find((l) => l.id === id).title;
+        return `<button class="filter-button ${state.foundationsQuizTopic === id ? "active" : ""}" data-fqtopic="${id}">${esc(label)}</button>`;
+      }).join("")}</div></div>
+      <div><div class="filter-title">EXAM LENGTH</div><div class="length-buttons">${EXAM_LENGTHS.map((count) => `<button class="length-button ${state.foundationsQuizLength === count ? "active" : ""}" data-flength="${count}">${count}</button>`).join("")}</div></div>
+      <button class="primary" id="startFoundQuiz">Start Exam (${state.foundationsQuizLength} questions) \u2192</button>
+    </div>`;
+  if (resumeHtml) {
+    $("fQuizResumeBtn").addEventListener("click", () => {
+      restoreFoundationSession();
+      renderFoundationQuestion();
+    });
+    $("fQuizDiscardBtn").addEventListener("click", () => {
+      clearFoundationSession();
+      renderFoundationsQuizSetup();
+    });
+  }
+  document.querySelectorAll("[data-fqtopic]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.foundationsQuizTopic = btn.dataset.fqtopic;
+      renderFoundationsQuizSetup();
+    });
+  });
+  document.querySelectorAll("[data-flength]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.foundationsQuizLength = Number(btn.dataset.flength);
+      saveProgress();
+      renderFoundationsQuizSetup();
+    });
+  });
+  $("startFoundQuiz").addEventListener("click", startFoundationsQuiz);
+}
+
+function startFoundationsQuiz() {
+  clearFoundationSession();
+  let pool = [];
+  if (state.foundationsQuizTopic === "All") {
+    for (let i = 0; i < FOUNDATIONS.length; i++) {
+      if (isFoundationLevelUnlocked(i)) pool = pool.concat(getFoundationPool(i, 999));
+    }
+  } else {
+    const idx = FOUNDATIONS.findIndex((l) => l.id === state.foundationsQuizTopic);
+    if (idx >= 0 && isFoundationLevelUnlocked(idx)) pool = getFoundationPool(idx, 999);
+  }
+  if (!pool.length) { renderFoundationsQuizSetup(); return; }
+  state.fQueue = shuffle(pool).slice(0, Math.min(state.foundationsQuizLength, pool.length));
+  state.fIdx = 0;
+  state.fInput = "";
+  state.fFeedback = null;
+  state.fShowHint = false;
+  state.fScore = 0;
+  state.foundationsView = "quiz";
+  saveFoundationSession();
+  renderFoundationQuestion();
 }
 
 function renderFoundationLevel(index) {
@@ -2012,9 +2107,13 @@ function renderFoundationQuestion() {
     return;
   }
   const q = state.fQueue[state.fIdx];
+  const fromQuiz = state.foundationsView === "quiz";
+  const title = fromQuiz ? "Foundations Quiz" : esc(FOUNDATIONS[state.foundationsCurrentLevel].title);
+  const backBtn = fromQuiz ? `<button class="back" id="cancelFoundQuiz">\u2190 Back to quiz setup</button>` : "";
   $("foundationsView").innerHTML = `
+    ${backBtn}
     <div class="quiz-box">
-      <div class="quiz-top"><span>Checkpoint: ${esc(FOUNDATIONS[state.foundationsCurrentLevel].title)}</span><span>${state.fScore} correct</span></div>
+      <div class="quiz-top"><span>${title}</span><span>${state.fScore} correct</span></div>
       <div class="dots">${state.fQueue.map((_, i) => `<div class="dot ${i < state.fIdx ? "done" : i === state.fIdx ? "current" : ""}"></div>`).join("")}</div>
       <div class="topic-badge">Question ${state.fIdx + 1} of ${state.fQueue.length}</div>
       <div class="question ${state.fFeedback || ""}">${esc(q.q)}</div>
@@ -2032,6 +2131,8 @@ function renderFoundationQuestion() {
     input.addEventListener("input", () => { state.fInput = input.value; });
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") submitFoundationAnswer(); });
   }
+  const cancelBtn = $("cancelFoundQuiz");
+  if (cancelBtn) cancelBtn.addEventListener("click", () => { clearFoundationSession(); renderFoundations(); });
   const hintBtn = $("fHintButton");
   if (hintBtn) hintBtn.addEventListener("click", () => { state.fShowHint = true; renderFoundationQuestion(); });
   const submitBtn = $("fSubmitAnswer");
@@ -2060,27 +2161,30 @@ function submitFoundationAnswer() {
 }
 
 function finishFoundationCheckpoint() {
+  const fromQuiz = state.foundationsView === "quiz";
+  if (!fromQuiz) {
+    const level = FOUNDATIONS[state.foundationsCurrentLevel];
+    const key = `${state.foundationsLevel}::found::${level.id}`;
+    const prevBest = state.foundationsScores[key] || 0;
+    const pct = Math.round((state.fScore / state.fQueue.length) * 100);
+    state.foundationsScores[key] = Math.max(prevBest, pct);
+    saveProgress();
+  }
   clearFoundationSession();
   const pct = Math.round((state.fScore / state.fQueue.length) * 100);
-  const level = FOUNDATIONS[state.foundationsCurrentLevel];
-  const key = `${state.foundationsLevel}::found::${level.id}`;
-  const prevBest = state.foundationsScores[key] || 0;
-  state.foundationsScores[key] = Math.max(prevBest, pct);
-  saveProgress();
-  const passed = pct >= 80;
-  const nextUnlocked = passed && state.foundationsCurrentLevel < FOUNDATIONS.length - 1;
+  const title = fromQuiz ? "Foundations Quiz" : esc(FOUNDATIONS[state.foundationsCurrentLevel].title);
   $("foundationsView").innerHTML = `
     <div class="result-card">
-      <h2>${passed ? "Level passed!" : "Keep studying."}</h2>
+      <h2>${pct >= 80 ? "Great job!" : "Keep studying."}</h2>
       <div class="result-score">${state.fScore}<span style="font-size:2rem;color:var(--dim)"> / ${state.fQueue.length}</span></div>
-      <p class="section-intro">${pct}% score on ${esc(level.title)}. ${passed ? (nextUnlocked ? "Level " + (state.foundationsCurrentLevel + 2) + " is now unlocked." : state.foundationsCurrentLevel >= FOUNDATIONS.length - 1 ? "You completed the foundations path!" : "Level mastered.") : "Score 80% or higher to unlock the next level."}</p>
+      <p class="section-intro">${pct}% score on ${title}.</p>
       <div class="result-actions">
-        <button class="primary" id="fBackToLevel">Back to level</button>
-        <button class="secondary" id="fBackToPath">All levels</button>
+        <button class="primary" id="fBackQuizHome">${fromQuiz ? "Back to quiz setup" : "Back to level"}</button>
+        <button class="secondary" id="fBackQuizAll">${fromQuiz ? "All levels" : "All levels"}</button>
       </div>
     </div>`;
-  $("fBackToLevel").addEventListener("click", () => renderFoundationLevel(state.foundationsCurrentLevel));
-  $("fBackToPath").addEventListener("click", renderFoundations);
+  $("fBackQuizHome").addEventListener("click", () => fromQuiz ? renderFoundations() : renderFoundationLevel(state.foundationsCurrentLevel));
+  $("fBackQuizAll").addEventListener("click", renderFoundations);
 }
 
 /* Cs50x TAB */
@@ -2098,7 +2202,23 @@ function getCS50WeekScore(id, level) {
 }
 
 function renderCS50() {
+  const sub = state.cs50SubTab;
   $("cs50View").innerHTML = `
+    <nav class="study-sub-tabs">
+      <button class="sub-tab ${sub === "weeks" ? "active" : ""}" data-csub="weeks">Weeks</button>
+      <button class="sub-tab ${sub === "quiz" ? "active" : ""}" data-csub="quiz">Quiz</button>
+    </nav>
+    <div id="cs50SubContent"></div>`;
+  document.querySelectorAll("[data-csub]").forEach((btn) => btn.addEventListener("click", () => {
+    state.cs50SubTab = btn.dataset.csub;
+    renderCS50();
+  }));
+  if (sub === "weeks") renderCS50Weeks();
+  else renderCS50QuizSetup();
+}
+
+function renderCS50Weeks() {
+  $("cs50SubContent").innerHTML = `
     <p class="section-intro">Harvard Cs50x: Introduction to Computer Science. Pass each week's checkpoint quiz (80%+) to unlock the next week. Easy opens first; Intermediate unlocks after all Easy weeks passed; Advanced after all Intermediate weeks passed.</p>
     <div class="track-switch" aria-label="cs50 difficulty">
       ${CS50_LEVELS.map((level) => {
@@ -2128,12 +2248,91 @@ function renderCS50() {
     btn.addEventListener("click", () => {
       if (!isCS50DifficultyUnlocked(btn.dataset.cs50track)) return;
       state.cs50Level = btn.dataset.cs50track;
-      renderCS50();
+      renderCS50Weeks();
     });
   });
   document.querySelectorAll(".cs50-card:not(.locked)").forEach((card) => {
     card.addEventListener("click", () => renderCS50Week(card.dataset.cs50));
   });
+}
+
+function renderCS50QuizSetup() {
+  const weekIds = CS50_WEEKS.map((w) => w.id);
+  const saved = localStorage.getItem("firmwareMathCS50Session");
+  let resumeHtml = "";
+  if (saved) {
+    try {
+      const s = JSON.parse(saved);
+      if (s.queue && s.queue.length && !s.cs50CurrentWeek) {
+        const cur = (s.cs50QIdx ?? 0) + 1;
+        resumeHtml = `<div class="resume-card"><span>Unfinished quiz · Q${cur}/${s.queue.length} · ${s.cs50Score ?? 0} correct</span><div><button class="primary" id="cs50QuizResumeBtn">Resume</button><button class="secondary" id="cs50QuizDiscardBtn" style="margin-left:8px">Start from first</button></div></div>`;
+      }
+    } catch {}
+  }
+  $("cs50SubContent").innerHTML = `
+    <p class="section-intro">Test your CS50x knowledge across multiple weeks. Choose scope and length, then start a quiz.</p>
+    ${resumeHtml}
+    <div class="filter-panel">
+      <div><div class="filter-title">TOPIC</div><div class="filter-buttons">${["All", ...weekIds].map((id) => {
+        const label = id === "All" ? "All" : CS50_WEEKS.find((w) => w.id === id).title;
+        return `<button class="filter-button ${state.cs50QuizTopic === id ? "active" : ""}" data-cqtopic="${id}">${esc(label)}</button>`;
+      }).join("")}</div></div>
+      <div><div class="filter-title">EXAM LENGTH</div><div class="length-buttons">${EXAM_LENGTHS.map((count) => `<button class="length-button ${state.cs50QuizLength === count ? "active" : ""}" data-clength="${count}">${count}</button>`).join("")}</div></div>
+      <button class="primary" id="startCS50QuizSetup">Start Exam (${state.cs50QuizLength} questions) \u2192</button>
+    </div>`;
+  if (resumeHtml) {
+    $("cs50QuizResumeBtn").addEventListener("click", () => {
+      restoreCS50Session();
+      renderCS50Question();
+    });
+    $("cs50QuizDiscardBtn").addEventListener("click", () => {
+      clearCS50Session();
+      renderCS50QuizSetup();
+    });
+  }
+  document.querySelectorAll("[data-cqtopic]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.cs50QuizTopic = btn.dataset.cqtopic;
+      renderCS50QuizSetup();
+    });
+  });
+  document.querySelectorAll("[data-clength]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.cs50QuizLength = Number(btn.dataset.clength);
+      localStorage.setItem("firmwareMathCS50Length", state.cs50QuizLength);
+      renderCS50QuizSetup();
+    });
+  });
+  $("startCS50QuizSetup").addEventListener("click", startCS50QuizFromSetup);
+}
+
+function startCS50QuizFromSetup() {
+  clearCS50Session();
+  let pool = [];
+  const difficulty = state.cs50Level;
+  if (state.cs50QuizTopic === "All") {
+    for (const week of CS50_WEEKS) {
+      const idx = CS50_WEEKS.indexOf(week);
+      if (isCS50WeekUnlocked(idx)) {
+        pool = pool.concat(getCS50Quiz(week.id, difficulty));
+      }
+    }
+  } else {
+    const idx = CS50_WEEKS.findIndex((w) => w.id === state.cs50QuizTopic);
+    if (idx >= 0 && isCS50WeekUnlocked(idx)) {
+      pool = getCS50Quiz(state.cs50QuizTopic, difficulty);
+    }
+  }
+  if (!pool.length) { renderCS50QuizSetup(); return; }
+  state.cs50Queue = shuffle(pool).slice(0, Math.min(state.cs50QuizLength, pool.length));
+  state.cs50QIdx = 0;
+  state.cs50Input = "";
+  state.cs50Feedback = null;
+  state.cs50ShowHint = false;
+  state.cs50Score = 0;
+  state.cs50CurrentWeek = null;
+  saveCS50Session();
+  renderCS50Question();
 }
 
 function renderCS50Week(id) {
@@ -2183,7 +2382,7 @@ function renderCS50Week(id) {
         ${passed && nextUnlocked && weekIndex < CS50_WEEKS.length - 1 ? '<p class="foundation-unlock-note">' + esc(CS50_WEEKS[weekIndex + 1].title) + ' unlocked.</p>' : ""}
       </div>
     </article>`;
-  $("backToCS50").addEventListener("click", () => { state.cs50CurrentWeek = null; state.cs50Queue = []; renderCS50(); });
+  $("backToCS50").addEventListener("click", () => { state.cs50CurrentWeek = null; state.cs50Queue = []; state.cs50SubTab = "weeks"; renderCS50(); });
   $("startCS50Quiz").addEventListener("click", () => startCS50Quiz(id));
   const cs50ResumeBtn = $("cs50ResumeBtn");
   if (cs50ResumeBtn) cs50ResumeBtn.addEventListener("click", () => {
@@ -2218,11 +2417,13 @@ function renderCS50Question() {
     return;
   }
   const q = state.cs50Queue[state.cs50QIdx];
-  const week = CS50_WEEKS.find((w) => w.id === state.cs50CurrentWeek);
+  const fromQuizSetup = state.cs50SubTab === "quiz" && !state.cs50CurrentWeek;
+  const week = fromQuizSetup ? null : CS50_WEEKS.find((w) => w.id === state.cs50CurrentWeek);
+  const label = fromQuizSetup ? "Back to quiz setup" : "Back to week";
   $("cs50View").innerHTML = `
-    <button class="back" id="cancelCS50Quiz">\u2190 Back to week</button>
+    <button class="back" id="cancelCS50Quiz">\u2190 ${label}</button>
     <div class="quiz-box">
-      <div class="quiz-top"><span>Quiz: ${esc(week ? week.title : "")}</span><span>${state.cs50Score} correct</span></div>
+      <div class="quiz-top"><span>Quiz: ${esc(week ? week.title : "CS50x")}</span><span>${state.cs50Score} correct</span></div>
       <div class="dots">${state.cs50Queue.map((_, i) => `<div class="dot ${i < state.cs50QIdx ? "done" : i === state.cs50QIdx ? "current" : ""}"></div>`).join("")}</div>
       <div class="topic-badge">Question ${state.cs50QIdx + 1} of ${state.cs50Queue.length}</div>
       <div class="question ${state.cs50Feedback || ""}">${esc(q.q)}</div>
@@ -2235,10 +2436,15 @@ function renderCS50Question() {
       </div>
     </div>`;
   $("cancelCS50Quiz").addEventListener("click", () => {
-    const weekId = state.cs50CurrentWeek;
-    state.cs50CurrentWeek = null;
-    state.cs50Queue = [];
-    renderCS50Week(weekId);
+    clearCS50Session();
+    if (fromQuizSetup) {
+      renderCS50();
+    } else {
+      const weekId = state.cs50CurrentWeek;
+      state.cs50CurrentWeek = null;
+      state.cs50Queue = [];
+      renderCS50Week(weekId);
+    }
   });
   const input = $("cs50AnswerInput");
   if (input) {
@@ -2279,6 +2485,7 @@ function finishCS50Quiz() {
   const pct = Math.round((state.cs50Score / totalQ) * 100);
   const weekId = state.cs50CurrentWeek;
   const week = CS50_WEEKS.find((w) => w.id === weekId);
+  const fromQuizSetup = !week;
   state.cs50CurrentWeek = null;
   state.cs50Queue = [];
   if (week) {
@@ -2294,13 +2501,13 @@ function finishCS50Quiz() {
     <div class="result-card">
       <h2>${passed ? "Week passed!" : "Keep studying."}</h2>
       <div class="result-score">${state.cs50Score}<span style="font-size:2rem;color:var(--dim)"> / ${totalQ}</span></div>
-      <p class="section-intro">${pct}% score${week ? " on " + esc(week.title) : ""}. ${passed ? (nextUnlocked ? esc(CS50_WEEKS[weekIndex + 1].title) + " is now unlocked." : weekIndex >= CS50_WEEKS.length - 1 ? "You completed all Cs50x weeks!" : "Week mastered.") : "Score 80% or higher to unlock the next week."}</p>
+      <p class="section-intro">${pct}% score${week ? " on " + esc(week.title) : " on CS50x quiz"}. ${passed ? (nextUnlocked ? esc(CS50_WEEKS[weekIndex + 1].title) + " is now unlocked." : weekIndex >= CS50_WEEKS.length - 1 ? "You completed all Cs50x weeks!" : "Week mastered.") : "Score 80% or higher to unlock the next week."}</p>
       <div class="result-actions">
-        <button class="primary" id="cs50BackToWeek">Back to week</button>
-        <button class="secondary" id="cs50BackToAll">All weeks</button>
+        <button class="primary" id="cs50BackToWeek">${fromQuizSetup ? "Back to quiz setup" : "Back to week"}</button>
+        <button class="secondary" id="cs50BackToAll">${fromQuizSetup ? "All weeks" : "All weeks"}</button>
       </div>
     </div>`;
-  $("cs50BackToWeek").addEventListener("click", () => renderCS50Week(weekId));
+  $("cs50BackToWeek").addEventListener("click", () => fromQuizSetup ? renderCS50() : renderCS50Week(weekId));
   $("cs50BackToAll").addEventListener("click", renderCS50);
 }
 
