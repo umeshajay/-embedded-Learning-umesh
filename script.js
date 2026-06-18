@@ -483,6 +483,140 @@ function makeGeneratedQuestion(id, topic, level, n) {
 
 const QUIZ_BANK = buildExpandedQuizBank(BASE_QUIZ_BANK);
 
+const RESOURCES = [
+  {
+    topic: "Number Systems",
+    videos: [
+      { title: "The Binary Number System", youtubeId: "sXxwr66Y79Y", channel: "Khan Academy Computing" },
+      { title: "Hexadecimal Number System", youtubeId: "hex", url: "https://www.khanacademy.org/math/pre-algebra/applying-math-reasoning-topic/alternate-number-bases/v/hexadecimal-number-system" },
+    ],
+    exerciseUrl: "https://www.khanacademy.org/math/pre-algebra/applying-math-reasoning-topic/alternate-number-bases/e/binary-to-decimal",
+    topicUrl: "https://www.khanacademy.org/math/pre-algebra/applying-math-reasoning-topic/alternate-number-bases",
+  },
+  {
+    topic: "Bit Manipulation",
+    videos: [
+      { title: "How Computers Store Data", youtubeId: "1GSjbWt0c9M", channel: "Crash Course Computer Science" },
+    ],
+    exerciseUrl: "https://www.khanacademy.org/computing/computers-and-internet/xcae6f4a7ff015e7d:digital-information/xcae6f4a7ff015e7d:storing-numbers/e/bits-and-bytes",
+    topicUrl: "https://www.khanacademy.org/computing/computers-and-internet/xcae6f4a7ff015e7d:digital-information",
+  },
+  {
+    topic: "Boolean Logic",
+    videos: [
+      { title: "Boolean Logic & Logic Gates", youtubeId: "gI-qXk7XojA", channel: "Crash Course Computer Science" },
+      { title: "Evaluating Compound Boolean Expressions", youtubeId: "p7pJMvD2sag", channel: "Khan Academy" },
+    ],
+    exerciseUrl: "https://www.khanacademy.org/computing/intro-to-python-fundamentals/x5279a44ae0ab15d6:designing-algorithms-with-conditionals/e/compound-boolean-expressions",
+    topicUrl: "https://www.khanacademy.org/computing/intro-to-python-fundamentals/x5279a44ae0ab15d6:designing-algorithms-with-conditionals",
+  },
+  {
+    topic: "Algebra",
+    videos: [
+      { title: "Algebra Basics: What Is Algebra?", youtubeId: "NybHckSEQBI", channel: "Math Antics" },
+    ],
+    exerciseUrl: "https://www.khanacademy.org/math/algebra-home/alg-basics/alg-basics-algebraic-expressions/e/algebraic-expressions",
+    topicUrl: "https://www.khanacademy.org/math/algebra-home",
+  },
+  {
+    topic: "Calculus Concepts",
+    videos: [
+      { title: "Derivative as a Concept", youtubeId: "N2PpRnFqnqY", channel: "Khan Academy" },
+      { title: "Introduction to Integrals", youtubeId: "_B56F9hEHg0", channel: "Khan Academy" },
+    ],
+    exerciseUrl: "https://www.khanacademy.org/math/ap-calculus-ab/ab-differentiation-1-new/ab-2-1/e/derivative-as-a-concept",
+    topicUrl: "https://www.khanacademy.org/math/ap-calculus-ab",
+  },
+  {
+    topic: "Fixed-Point",
+    videos: [
+      { title: "Floating Point Numbers (Fixed-point context)", youtubeId: "PZRI1IfLsY0", channel: "Computerphile" },
+    ],
+    topicUrl: "https://en.wikipedia.org/wiki/Fixed-point_arithmetic",
+  },
+  {
+    topic: "Modular Arithmetic",
+    videos: [
+      { title: "What Is Modular Arithmetic?", youtubeId: "Eg6CTCu8iio", channel: "Learn Math Tutorials" },
+    ],
+    exerciseUrl: "https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/e/modular-addition-and-subtraction",
+    topicUrl: "https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic",
+  },
+  {
+    topic: "Trigonometry & Signals",
+    videos: [
+      { title: "Basic Trigonometry", youtubeId: "Jsiy4TxgIME", channel: "Khan Academy" },
+      { title: "Introduction to the Unit Circle", youtubeId: "1m9p9iubMLU", channel: "Khan Academy" },
+    ],
+    exerciseUrl: "https://www.khanacademy.org/math/trigonometry/basic-trigonometry/basic_trig_ratios/e/trigonometry_0.5",
+    topicUrl: "https://www.khanacademy.org/math/trigonometry",
+  },
+  {
+    topic: "Statistics & Probability",
+    videos: [
+      { title: "Statistics Intro: Mean, Median, and Mode", youtubeId: "h8EYEJ32oQ8", channel: "Khan Academy" },
+      { title: "Finding Mean, Median, and Mode", youtubeId: "k3aKKasOmIw", channel: "Khan Academy" },
+    ],
+    exerciseUrl: "https://www.khanacademy.org/math/statistics-probability/summarizing-quantitative-data/mean-median-basics/e/mean_median_and_mode",
+    topicUrl: "https://www.khanacademy.org/math/statistics-probability",
+  },
+  {
+    topic: "Linear Algebra",
+    videos: [
+      { title: "Introduction to Matrices", youtubeId: "xyAuNHPsq-g", channel: "Khan Academy" },
+      { title: "Matrix Multiplication Intro", youtubeId: "kT4Mp9EdVqs", channel: "Khan Academy" },
+      { title: "Linear Transformations as Matrix Products", youtubeId: "PErhLkQcpZ8", channel: "Khan Academy" },
+    ],
+    exerciseUrl: "https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:matrices/x9e81a4f98389efdf:multiplying-matrices-by-matrices/e/matrix_multiplication",
+    topicUrl: "https://www.khanacademy.org/math/linear-algebra",
+  },
+  {
+    topic: "DSP & Feature Extraction",
+    videos: [
+      { title: "The Fourier Transform", youtubeId: "spUNpyF58BY", channel: "3Blue1Brown" },
+      { title: "Sampling & Quantization", youtubeId: "xPzH3E7P1tI", channel: "Khan Academy" },
+    ],
+    topicUrl: "https://www.khanacademy.org/computing/computer-science/informationtheory",
+  },
+  {
+    topic: "Control Systems Math",
+    videos: [
+      { title: "PID Control Introduction", youtubeId: "wkfEZmsQqiA", channel: "MATLAB" },
+    ],
+    topicUrl: "https://www.khanacademy.org/science/electrical-engineering",
+  },
+  {
+    topic: "ML Basics & Loss Functions",
+    videos: [
+      { title: "Gradient Descent (how neural nets learn)", youtubeId: "IHZwWFHWa-w", channel: "3Blue1Brown" },
+    ],
+    exerciseUrl: "https://www.khanacademy.org/computing/computer-science/algorithms",
+    topicUrl: "https://www.khanacademy.org/computing/computer-science/algorithms",
+  },
+  {
+    topic: "Neural Network Math",
+    videos: [
+      { title: "But What Is a Neural Network?", youtubeId: "aircAruvnKk", channel: "3Blue1Brown" },
+      { title: "Gradient Descent & Backpropagation", youtubeId: "IHZwWFHWa-w", channel: "3Blue1Brown" },
+    ],
+    topicUrl: "https://www.khanacademy.org/computing/computer-science/algorithms",
+  },
+  {
+    topic: "Quantization & Numeric Precision",
+    videos: [
+      { title: "Floating Point Numbers", youtubeId: "PZRI1IfLsY0", channel: "Computerphile" },
+    ],
+    topicUrl: "https://www.tensorflow.org/lite/performance/quantization_spec",
+  },
+  {
+    topic: "Model Evaluation & Deployment Math",
+    videos: [
+      { title: "Precision and Recall", youtubeId: "jJ7ffT3Z1bM", channel: "Khan Academy" },
+    ],
+    topicUrl: "https://www.khanacademy.org/math/ap-statistics/sampling-distribution-ap/what-is-sampling-distribution/v/introduction-to-sampling-distribution",
+  },
+];
+
 const TOPICS = ["All", ...new Set(QUIZ_BANK.map((q) => q.topic))];
 const LEVELS = ["Intermediate", "Advanced"];
 const EXAM_LENGTHS = [10, 25, 50, 75];
@@ -566,6 +700,7 @@ function switchTab(tab) {
   document.querySelectorAll(".panel").forEach((panel) => panel.classList.remove("active"));
   $(`${tab}Panel`).classList.add("active");
   if (tab === "progress") renderProgress();
+  if (tab === "resources") renderResources();
 }
 
 function renderGuideList() {
@@ -877,6 +1012,54 @@ function roadmapHtml() {
     ["Phase 9", "TinyML deployment: int8 quantization, precision, latency, RAM, flash, power"],
   ];
   return `<div class="label">YOUR LEARNING ROADMAP</div>${rows.map(([phase, task]) => `<div class="roadmap-row"><strong>${esc(phase)}</strong><span>${esc(task)}</span></div>`).join("")}`;
+}
+
+function renderResources() {
+  $("resourcesView").innerHTML = `
+    <p class="section-intro">Khan Academy videos and exercises mapped to each topic. <strong>All Khan Academy content is available for free at <a href="https://www.khanacademy.org" target="_blank" rel="noopener">www.khanacademy.org</a></strong>.</p>
+    <div class="resource-grid">
+      ${RESOURCES.map((res) => {
+        const guideTopic = STUDY_GUIDE.find((t) => GUIDE_TO_QUIZ_TOPIC[t.id] === res.topic);
+        const tag = guideTopic ? guideTopic.tag : "";
+        return `
+        <button class="card resource-card" data-resource="${esc(res.topic)}">
+          ${tag ? `<span class="tag ${tagClass(tag)}">${esc(tag)}</span>` : ""}
+          <h2>${esc(res.topic)}</h2>
+          <p>${res.videos.length} video${res.videos.length !== 1 ? "s" : ""}${res.exerciseUrl ? " + exercise" : ""}</p>
+          <div class="card-action">Open resources -></div>
+        </button>`;
+      }).join("")}
+    </div>`;
+  document.querySelectorAll("[data-resource]").forEach((button) => {
+    button.addEventListener("click", () => renderResourceDetail(button.dataset.resource));
+  });
+}
+
+function renderResourceDetail(topic) {
+  const res = RESOURCES.find((r) => r.topic === topic);
+  if (!res) { renderResources(); return; }
+  $("resourcesView").innerHTML = `
+    <button class="back" id="backToResources">← All Resources</button>
+    <div class="resource-detail">
+      <h2>${esc(res.topic)}</h2>
+      ${res.videos.map((v) => `
+        <div class="resource-video">
+          <h3>${esc(v.title)} <span class="muted">(${esc(v.channel || "YouTube")})</span></h3>
+          <div class="video-wrapper">
+            ${v.youtubeId && v.youtubeId !== "hex"
+              ? `<iframe src="https://www.youtube.com/embed/${v.youtubeId}" title="${esc(v.title)}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+              : v.url
+                ? `<p><a href="${v.url}" target="_blank" rel="noopener">Watch on Khan Academy →</a></p>`
+                : ""}
+          </div>
+        </div>`).join("")}
+      <div class="resource-links">
+        ${res.exerciseUrl ? `<a class="primary resource-link" href="${res.exerciseUrl}" target="_blank" rel="noopener">Practice on Khan Academy →</a>` : ""}
+        <a class="secondary resource-link" href="${res.topicUrl}" target="_blank" rel="noopener">${res.topic.includes("Fixed-Point") || res.topic.includes("Quantization") ? "Read more →" : "Khan Academy topic page →"}</a>
+      </div>
+      <p class="attribution">Note: All Khan Academy content is available for free at <a href="https://www.khanacademy.org" target="_blank" rel="noopener">www.khanacademy.org</a>.</p>
+    </div>`;
+  $("backToResources").addEventListener("click", renderResources);
 }
 
 document.querySelectorAll(".tab").forEach((button) => button.addEventListener("click", () => switchTab(button.dataset.tab)));
