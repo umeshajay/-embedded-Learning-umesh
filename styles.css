@@ -571,121 +571,104 @@ h2 span {
   line-height: 1;
 }
 
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-  margin-bottom: 28px;
-}
-
-.dash-card {
-  background: #181a1b;
-  border: 1px solid var(--line);
-  border-radius: 10px;
+.prog-overall {
+  background: linear-gradient(135deg, #1e1e3e, #1a1a2e);
+  border-radius: 12px;
   padding: 20px;
+  margin-bottom: 20px;
   text-align: center;
 }
-
-.dash-stat {
-  font-size: 2.6rem;
-  font-weight: 950;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.dash-label {
+.prog-overall-text {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--muted);
-  font-weight: 800;
-  font-size: 0.82rem;
-  letter-spacing: 0.06em;
-  margin-bottom: 10px;
 }
-
-.dash-bar {
-  height: 6px;
-  border-radius: 999px;
-  background: #24272b;
+.prog-overall-pct {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--blue);
+  line-height: 1.2;
+  margin: 4px 0;
+}
+.prog-overall-count {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.prog-bar-bg {
+  height: 8px;
+  background: #2a2a3e;
+  border-radius: 99px;
   overflow: hidden;
-  margin-bottom: 6px;
+  margin: 8px 0;
 }
-
-.dash-fill {
+.prog-bar-fill {
   height: 100%;
-  border-radius: 999px;
-  transition: width 0.3s ease;
+  border-radius: 99px;
+  transition: width 0.5s ease;
+  min-width: 0;
 }
-
-.dash-fill.green { background: var(--green); }
-.dash-fill.amber { background: var(--amber); }
-.dash-fill.violet { background: var(--violet); }
-
-.dash-sub {
-  font-size: 0.78rem;
-  color: var(--dim);
-  font-weight: 700;
+.prog-bar-huge {
+  height: 14px;
+  margin: 12px 0 4px;
 }
-
-.dash-section-title {
-  font-size: 0.76rem;
-  font-weight: 900;
-  letter-spacing: 0.13em;
-  color: var(--dim);
-  margin: 22px 0 10px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--line);
+.prog-bar-sm {
+  height: 5px;
+  margin: 0;
+  flex: 1;
 }
-
-.dash-track {
-  display: grid;
-  gap: 6px;
+.prog-section {
+  margin: 12px 0 4px;
 }
-
-.dash-item {
-  display: grid;
-  grid-template-columns: 28px 1fr minmax(100px, 200px) 80px;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #181a1b;
+.prog-section-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2px;
 }
-
-.dash-status {
-  font-size: 1rem;
-  text-align: center;
-  line-height: 1;
-}
-
-.dash-status.done { color: var(--green); }
-.dash-status.open { color: var(--blue); }
-.dash-status.locked { color: var(--dim); font-size: 0.85rem; }
-
-.dash-name {
-  font-weight: 700;
+.prog-section-label {
   font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.prog-section-count {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.prog-sub-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 2px 0 12px 12px;
+}
+.prog-sub-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+}
+.prog-sub-row:hover {
+  background: #1e1e2e;
+}
+.prog-sub-name {
+  flex: 0 0 140px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  color: var(--text);
 }
-
-.dash-pct {
-  font-weight: 800;
-  font-size: 0.85rem;
+.prog-sub-name.done {
+  color: var(--green);
+}
+.prog-sub-pct {
+  flex: 0 0 36px;
   text-align: right;
-}
-
-.dash-roadmap {
-  display: grid;
-  gap: 4px;
-}
-
-.dash-roadmap-row {
-  display: grid;
-  grid-template-columns: 90px 1fr;
-  gap: 10px;
-  padding: 8px 12px;
+  font-size: 0.78rem;
   color: var(--muted);
+}
   font-size: 0.9rem;
 }
 
@@ -698,12 +681,6 @@ h2 span {
   border-radius: 999px;
   background: #24272b;
   overflow: hidden;
-}
-
-.bar-fill {
-  height: 100%;
-  border-radius: 999px;
-  background: var(--blue);
 }
 
 .resource-grid {
@@ -1085,16 +1062,11 @@ h2 span {
     grid-template-columns: 1fr;
   }
 
-  .dashboard-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .prog-sub-name {
+    flex: 0 0 100px;
   }
-
-  .dash-item {
-    grid-template-columns: 28px 1fr 60px;
-  }
-
-  .dash-item .dash-bar {
-    display: none;
+  .prog-overall-pct {
+    font-size: 2rem;
   }
 
   .guide-card {

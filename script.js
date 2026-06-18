@@ -1317,109 +1317,74 @@ function finishQuiz() {
 function renderProgress() {
   const sgTotal = STUDY_GUIDE.length;
   const sgPassed = STUDY_GUIDE.filter((t) => getTopicScore(GUIDE_TO_QUIZ_TOPIC[t.id], "Intermediate") >= 90).length;
-  const sgAdvPassed = isAdvancedTrackUnlocked() ? STUDY_GUIDE.filter((t) => getTopicScore(GUIDE_TO_QUIZ_TOPIC[t.id], "Advanced") >= 90).length : 0;
-  const sgPct = Math.round((sgPassed / sgTotal) * 100);
-
   const fTotal = FOUNDATIONS.length;
   const fPassed = FOUNDATIONS.filter((l) => (state.foundationsScores[l.id] || 0) >= 80).length;
-  const fPct = Math.round((fPassed / fTotal) * 100);
-
   const cTotal = CS50_WEEKS.length;
   const cPassed = CS50_WEEKS.filter((w) => getCS50WeekScore(w.id) >= 80).length;
-  const cPct = Math.round((cPassed / cTotal) * 100);
+  const grand = sgTotal + fTotal + cTotal;
+  const grandDone = sgPassed + fPassed + cPassed;
+  const overall = grand ? Math.round((grandDone / grand) * 100) : 0;
 
-  const overall = Math.round((sgPassed + fPassed + cPassed) / (sgTotal + fTotal + cTotal) * 100);
+  const sectionBar = (pct, label, done, total, color) => `
+    <div class="prog-section">
+      <div class="prog-section-top">
+        <span class="prog-section-label">${label}</span>
+        <span class="prog-section-count">${done}/${total}</span>
+      </div>
+      <div class="prog-bar-bg">
+        <div class="prog-bar-fill" style="width:${pct}%;background:${color}"></div>
+      </div>
+    </div>`;
 
   $("progressView").innerHTML = `
-    <p class="section-intro">Your complete progress across all sections.</p>
-    <div class="dashboard-grid">
-      <div class="dash-card">
-        <div class="dash-stat" style="color:var(--blue)">${overall}%</div>
-        <div class="dash-label">Overall</div>
-        <div class="dash-bar"><div class="dash-fill" style="width:${overall}%;background:var(--blue)"></div></div>
+    <p class="section-intro">Your progress across all sections</p>
+    <div class="prog-overall">
+      <div class="prog-overall-text">Overall progress</div>
+      <div class="prog-overall-pct">${overall}%</div>
+      <div class="prog-bar-bg prog-bar-huge">
+        <div class="prog-bar-fill" style="width:${overall}%;background:var(--blue)"></div>
       </div>
-      <div class="dash-card">
-        <div class="dash-stat" style="color:var(--green)">${sgPct}%</div>
-        <div class="dash-label">Cs fundamentals</div>
-        <div class="dash-bar"><div class="dash-fill" style="width:${sgPct}%;background:var(--green)"></div></div>
-        <div class="dash-sub">${sgPassed}/${sgTotal} topics passed</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-stat" style="color:var(--amber)">${fPct}%</div>
-        <div class="dash-label">Maths Foundations</div>
-        <div class="dash-bar"><div class="dash-fill" style="width:${fPct}%;background:var(--amber)"></div></div>
-        <div class="dash-sub">${fPassed}/${fTotal} levels passed</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-stat" style="color:var(--violet)">${cPct}%</div>
-        <div class="dash-label">Cs50x</div>
-        <div class="dash-bar"><div class="dash-fill" style="width:${cPct}%;background:var(--violet)"></div></div>
-        <div class="dash-sub">${cPassed}/${cTotal} weeks passed</div>
-      </div>
+      <div class="prog-overall-count">${grandDone} of ${grand} items completed</div>
     </div>
-
-    <div class="dash-section-title">CS FUNDAMENTALS — INTERMEDIATE</div>
-    <div class="dash-track">
-      ${STUDY_GUIDE.map((topic) => {
-        const best = getTopicScore(GUIDE_TO_QUIZ_TOPIC[topic.id], "Intermediate");
-        const passed = best >= 90;
-        return `<div class="dash-item">
-          <span class="dash-status ${passed ? "done" : ""}">${passed ? "✓" : ""}</span>
-          <span class="dash-name">${esc(topic.title)}</span>
-          <div class="dash-bar"><div class="dash-fill ${passed ? "green" : ""}" style="width:${Math.min(best, 100)}%"></div></div>
-          <span class="dash-pct" style="color:${passed ? "var(--green)" : "var(--muted)"}">${best}%</span>
+    ${sectionBar(Math.round((sgPassed / sgTotal) * 100), "Cs fundamentals", sgPassed, sgTotal, "var(--green)")}
+    <div class="prog-sub-items">
+      ${STUDY_GUIDE.map((t) => {
+        const s = getTopicScore(GUIDE_TO_QUIZ_TOPIC[t.id], "Intermediate");
+        const p = s >= 90;
+        return `<div class="prog-sub-row">
+          <span class="prog-sub-name ${p ? "done" : ""}">${esc(t.title)}</span>
+          <div class="prog-bar-bg prog-bar-sm"><div class="prog-bar-fill" style="width:${s}%;background:${p ? "var(--green)" : "var(--dim)"}"></div></div>
+          <span class="prog-sub-pct">${s}%</span>
         </div>`;
       }).join("")}
     </div>
-
-    <div class="dash-section-title">MATHS FOUNDATIONS</div>
-    <div class="dash-track">
-      ${FOUNDATIONS.map((level, i) => {
-        const score = state.foundationsScores[level.id] || 0;
-        const unlocked = i === 0 || (state.foundationsScores[FOUNDATIONS[i - 1].id] || 0) >= 80;
-        const passed = score >= 80;
-        return `<div class="dash-item">
-          <span class="dash-status ${passed ? "done" : unlocked ? "open" : "locked"}">${passed ? "✓" : unlocked ? "→" : "🔒"}</span>
-          <span class="dash-name">${esc(level.title)}</span>
-          <div class="dash-bar"><div class="dash-fill ${passed ? "amber" : ""}" style="width:${Math.min(score, 100)}%"></div></div>
-          <span class="dash-pct" style="color:${passed ? "var(--green)" : unlocked ? "var(--muted)" : "var(--dim)"}">${unlocked ? (score > 0 ? score + "%" : "Not started") : "Locked"}</span>
+    ${sectionBar(Math.round((fPassed / fTotal) * 100), "Maths Foundations", fPassed, fTotal, "var(--amber)")}
+    <div class="prog-sub-items">
+      ${FOUNDATIONS.map((l, i) => {
+        const s = state.foundationsScores[l.id] || 0;
+        const u = i === 0 || (state.foundationsScores[FOUNDATIONS[i - 1].id] || 0) >= 80;
+        const p = s >= 80;
+        return `<div class="prog-sub-row">
+          <span class="prog-sub-name ${p ? "done" : ""}">${esc(l.title)}</span>
+          <div class="prog-bar-bg prog-bar-sm"><div class="prog-bar-fill" style="width:${s}%;background:${p ? "var(--amber)" : u ? "var(--dim)" : "none"}"></div></div>
+          <span class="prog-sub-pct">${u ? (s > 0 ? s + "%" : "0%") : "locked"}</span>
         </div>`;
       }).join("")}
     </div>
-
-    <div class="dash-section-title">CS50X</div>
-    <div class="dash-track">
-      ${CS50_WEEKS.map((week) => {
-        const score = getCS50WeekScore(week.id);
-        const idx = CS50_WEEKS.indexOf(week);
-        const unlocked = isCS50WeekUnlocked(idx);
-        const passed = score >= 80;
-        return `<div class="dash-item">
-          <span class="dash-status ${passed ? "done" : unlocked ? "open" : "locked"}">${passed ? "✓" : unlocked ? "→" : "🔒"}</span>
-          <span class="dash-name">${esc(week.title)}</span>
-          <div class="dash-bar"><div class="dash-fill ${passed ? "violet" : ""}" style="width:${Math.min(score, 100)}%"></div></div>
-          <span class="dash-pct" style="color:${passed ? "var(--green)" : unlocked ? "var(--muted)" : "var(--dim)"}">${unlocked ? (score > 0 ? score + "%" : "Not started") : "Locked"}</span>
+    ${sectionBar(Math.round((cPassed / cTotal) * 100), "Cs50x", cPassed, cTotal, "var(--violet)")}
+    <div class="prog-sub-items">
+      ${CS50_WEEKS.map((w) => {
+        const s = getCS50WeekScore(w.id);
+        const idx = CS50_WEEKS.indexOf(w);
+        const u = isCS50WeekUnlocked(idx);
+        const p = s >= 80;
+        return `<div class="prog-sub-row">
+          <span class="prog-sub-name ${p ? "done" : ""}">${esc(w.title)}</span>
+          <div class="prog-bar-bg prog-bar-sm"><div class="prog-bar-fill" style="width:${s}%;background:${p ? "var(--violet)" : u ? "var(--dim)" : "none"}"></div></div>
+          <span class="prog-sub-pct">${u ? (s > 0 ? s + "%" : "0%") : "locked"}</span>
         </div>`;
-      }).join("")}
-    </div>
-
-    <div class="dash-section-title">LEARNING ROADMAP</div>
-    <div class="dash-roadmap">
-      ${["Phase 1: Number systems, bit manipulation, Boolean logic, and register-level thinking",
-        "Phase 2: Algebra, fixed-point arithmetic, modular wraparound, and timer math",
-        "Phase 3: Calculus intuition, trigonometry, sampling, filters, and signal features",
-        "Phase 4: Control systems: feedback, PID, stability, update rates, and saturation",
-        "Phase 5: Statistics, probability, normalization, noise, and dataset quality",
-        "Phase 6: Linear algebra: vectors, matrices, dot products, tensor shapes, dense layers",
-        "Phase 7: ML fundamentals: labels, losses, gradient descent, batches, and evaluation",
-        "Phase 8: Neural networks: activations, convolutions, parameter counts, memory cost",
-        "Phase 9: TinyML deployment: int8 quantization, precision, latency, RAM, flash, power",
-      ].map((row) => {
-        const [phase, desc] = row.split(": ");
-        return `<div class="dash-roadmap-row"><strong>${esc(phase)}</strong><span>${esc(desc)}</span></div>`;
       }).join("")}
     </div>`;
-}
 
 function renderResources() {
   state.studySubTab = "resources";
