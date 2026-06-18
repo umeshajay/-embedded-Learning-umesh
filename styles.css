@@ -34,23 +34,23 @@ body.light {
   --panel: rgba(255,255,255,0.85);
   --panel-solid: #ffffff;
   --panel-2: #eef0f4;
-  --line: rgba(0,0,0,0.06);
-  --line-strong: rgba(0,0,0,0.10);
-  --text: #14161a;
-  --muted: #5b6575;
-  --dim: #8b95a5;
-  --blue: #3b82f6;
+  --line: rgba(0,0,0,0.1);
+  --line-strong: rgba(0,0,0,0.18);
+  --text: #0f1117;
+  --muted: #3b4555;
+  --dim: #6b7585;
+  --blue: #2563eb;
   --green: #16a34a;
   --red: #dc2626;
   --amber: #d97706;
   --violet: #7c3aed;
   --cyan: #0891b2;
-  --glow-blue: rgba(59,130,246,0.08);
+  --glow-blue: rgba(37,99,235,0.08);
   --glow-green: rgba(22,163,74,0.08);
   --glow-violet: rgba(124,58,237,0.08);
   --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.04);
-  --glass-border: rgba(0,0,0,0.06);
-  --glass-bg: rgba(0,0,0,0.02);
+  --glass-border: rgba(0,0,0,0.08);
+  --glass-bg: rgba(0,0,0,0.03);
 }
 
 * { box-sizing: border-box; }
@@ -873,6 +873,7 @@ body.light .sub-tab.active {
 
 .foundations-path {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 12px;
 }
 
@@ -974,6 +975,7 @@ body.light .sub-tab.active {
 
 .cs50-path {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 12px;
 }
 
