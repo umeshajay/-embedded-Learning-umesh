@@ -531,7 +531,7 @@ const RESOURCES = [
   {
     topic: "Fixed-Point",
     videos: [
-      { title: "Floating Point Numbers (Fixed-point context)", youtubeId: "PZRI1IfLsY0", channel: "Computerphile" },
+      { title: "Floating Point Numbers (Fixed-point context)", youtubeId: "PZRI1IfStY0", channel: "Computerphile" },
     ],
     topicUrl: "https://en.wikipedia.org/wiki/Fixed-point_arithmetic",
   },
@@ -577,7 +577,7 @@ const RESOURCES = [
     topic: "DSP & Feature Extraction",
     videos: [
       { title: "The Fourier Transform", youtubeId: "spUNpyF58BY", channel: "3Blue1Brown" },
-      { title: "Sampling & Quantization", youtubeId: "xPzH3E7P1tI", channel: "Khan Academy" },
+      { title: "Digital and Analog Information", youtubeId: "oSZNQ1LZjHg", channel: "Khan Academy" },
     ],
     topicUrl: "https://www.khanacademy.org/computing/computer-science/informationtheory",
   },
@@ -609,14 +609,14 @@ const RESOURCES = [
   {
     topic: "Quantization & Numeric Precision",
     videos: [
-      { title: "Floating Point Numbers", youtubeId: "PZRI1IfLsY0", channel: "Computerphile" },
+      { title: "Floating Point Numbers", youtubeId: "PZRI1IfStY0", channel: "Computerphile" },
     ],
     topicUrl: "https://www.tensorflow.org/lite/performance/quantization_spec",
   },
   {
     topic: "Model Evaluation & Deployment Math",
     videos: [
-      { title: "Precision and Recall", youtubeId: "jJ7ffT3Z1bM", channel: "Khan Academy" },
+      { title: "Precision, Recall, & F1 Score", youtubeId: "khykvGo-Yjc", channel: "TensorTeach" },
     ],
     topicUrl: "https://www.khanacademy.org/math/ap-statistics/sampling-distribution-ap/what-is-sampling-distribution/v/introduction-to-sampling-distribution",
   },
