@@ -350,7 +350,7 @@ const CS50_WEEKS = [
     pset: "Create an interactive story, game, or animation in Scratch",
     lectureUrl: "https://cs50.harvard.edu/college/2026/spring/weeks/0/",
     psetUrl: "https://cs50.harvard.edu/college/2026/spring/psets/0/",
-    videoUrl: "https://www.youtube.com/watch?v=3oFAVvU5L5A&list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+    videoUrl: "https://youtube.com/playlist?list=PLhQjrBD2T380hlTqAU8HfvVepCcjCqTg6",
   },
   {
     id: "week1",
@@ -367,7 +367,7 @@ const CS50_WEEKS = [
     pset: "Hello (print), Mario (pyramids), Cash/Credit (algorithm implementation in C)",
     lectureUrl: "https://cs50.harvard.edu/college/2026/spring/weeks/1/",
     psetUrl: "https://cs50.harvard.edu/college/2026/spring/psets/1/",
-    videoUrl: "https://www.youtube.com/watch?v=ix5jPkxsrIQ&list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+    videoUrl: "https://youtube.com/playlist?list=PLhQjrBD2T380hlTqAU8HfvVepCcjCqTg6",
   },
   {
     id: "week2",
@@ -384,7 +384,7 @@ const CS50_WEEKS = [
     pset: "Readability (grade level), Caesar (shift cipher), Substitution (substitution cipher)",
     lectureUrl: "https://cs50.harvard.edu/college/2026/spring/weeks/2/",
     psetUrl: "https://cs50.harvard.edu/college/2026/spring/psets/2/",
-    videoUrl: "https://www.youtube.com/watch?v=tI_tIZFyRhw&list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+    videoUrl: "https://youtube.com/playlist?list=PLhQjrBD2T380hlTqAU8HfvVepCcjCqTg6",
   },
   {
     id: "week3",
@@ -401,7 +401,7 @@ const CS50_WEEKS = [
     pset: "Plurality (election simulation), Runoff/Tideman (ranked-choice voting)",
     lectureUrl: "https://cs50.harvard.edu/college/2026/spring/weeks/3/",
     psetUrl: "https://cs50.harvard.edu/college/2026/spring/psets/3/",
-    videoUrl: "https://www.youtube.com/watch?v=4GPdGsB3JDc&list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+    videoUrl: "https://youtube.com/playlist?list=PLhQjrBD2T380hlTqAU8HfvVepCcjCqTg6",
   },
   {
     id: "week4",
@@ -418,7 +418,7 @@ const CS50_WEEKS = [
     pset: "Filter (image filters: grayscale, blur, edges), Recover (recover JPEGs from raw data)",
     lectureUrl: "https://cs50.harvard.edu/college/2026/spring/weeks/4/",
     psetUrl: "https://cs50.harvard.edu/college/2026/spring/psets/4/",
-    videoUrl: "https://www.youtube.com/watch?v=XYKUeFWQ_zc&list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+    videoUrl: "https://youtube.com/playlist?list=PLhQjrBD2T380hlTqAU8HfvVepCcjCqTg6",
   },
   {
     id: "week5",
@@ -435,7 +435,7 @@ const CS50_WEEKS = [
     pset: "Speller: implement a fast spell checker using a hash table",
     lectureUrl: "https://cs50.harvard.edu/college/2026/spring/weeks/5/",
     psetUrl: "https://cs50.harvard.edu/college/2026/spring/psets/5/",
-    videoUrl: "https://www.youtube.com/watch?v=2zUZgO8h-HA&list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+    videoUrl: "https://youtube.com/playlist?list=PLhQjrBD2T380hlTqAU8HfvVepCcjCqTg6",
   },
 ];
 
@@ -1636,7 +1636,7 @@ function renderCS50Week(id) {
       <div class="cs50-resources">
         <a class="resource-link primary" href="${week.lectureUrl}" target="_blank" rel="noopener">CS50 Lecture Notes \u2192</a>
         <a class="resource-link primary" href="${week.psetUrl}" target="_blank" rel="noopener">Problem Set Page \u2192</a>
-        <a class="resource-link secondary" href="${week.videoUrl}" target="_blank" rel="noopener">Watch on YouTube \u2192</a>
+        <a class="resource-link secondary" href="${week.videoUrl}" target="_blank" rel="noopener">YouTube Playlist (Weeks 0\u20135) \u2192</a>
       </div>
       <div class="cs50-progress-area">
         <button class="primary" id="toggleCS50Progress">
