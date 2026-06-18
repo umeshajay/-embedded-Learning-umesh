@@ -822,6 +822,13 @@ h2 span {
   font-weight: 600;
 }
 
+.foundation-resources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
 .foundation-checkpoint-area {
   display: grid;
   gap: 12px;

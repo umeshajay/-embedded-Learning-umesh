@@ -189,6 +189,10 @@ const FOUNDATIONS = [
       { q: "7/8 of 24 = ?", a: 21, hint: "First find 1/8 of 24 which is 3, then multiply by 7." },
       { q: "100 - 3 x 7 = ?", a: 79, hint: "Multiply before subtracting: 3x7=21, 100-21=79." },
     ],
+    resources: [
+      { name: "Khan Academy: Arithmetic", url: "https://www.khanacademy.org/math/arithmetic" },
+      { name: "Brilliant: Algebra Fundamentals", url: "https://brilliant.org/courses/becoming-a-better-mathematician/" },
+    ],
   },
   {
     id: "prealgebra",
@@ -207,6 +211,10 @@ const FOUNDATIONS = [
       { q: "2(x + 3) = 14, x = ?", a: 4, hint: "Divide both sides by 2 first: x+3=7, then x=4." },
       { q: "If y = 3x + 2 and x = 5, y = ?", a: 17, hint: "Substitute: y = 3(5) + 2 = 15 + 2." },
       { q: "4x - 3 = 13, x = ?", a: 4, hint: "Add 3 to both sides: 4x=16, then divide by 4." },
+    ],
+    resources: [
+      { name: "Khan Academy: Pre-Algebra", url: "https://www.khanacademy.org/math/pre-algebra" },
+      { name: "Brilliant: Equations & Inequalities", url: "https://brilliant.org/courses/equations-and-inequalities/" },
     ],
   },
   {
@@ -227,6 +235,10 @@ const FOUNDATIONS = [
       { q: "y-intercept of y = 3x + 5 is ?", a: 5, hint: "The y-intercept is the constant term when x=0." },
       { q: "2x + 3 = 11, x = ?", a: 4, hint: "Subtract 3, then divide by 2." },
     ],
+    resources: [
+      { name: "Khan Academy: Algebra 1", url: "https://www.khanacademy.org/math/algebra" },
+      { name: "Brilliant: Algebra Fundamentals", url: "https://brilliant.org/courses/algebra-fundamentals/" },
+    ],
   },
   {
     id: "geometry",
@@ -245,6 +257,10 @@ const FOUNDATIONS = [
       { q: "Pi rounded to nearest integer = ?", a: 3, hint: "Pi is approximately 3.14159." },
       { q: "Volume of a 2x2x2 cube = ?", a: 8, hint: "Volume = side^3 = 2^3." },
       { q: "1 meter = ? centimeters", a: 100, hint: "Centi means one hundredth." },
+    ],
+    resources: [
+      { name: "Khan Academy: Geometry", url: "https://www.khanacademy.org/math/geometry" },
+      { name: "Brilliant: Geometry Basics", url: "https://brilliant.org/courses/geometry-basics/" },
     ],
   },
   {
@@ -265,6 +281,10 @@ const FOUNDATIONS = [
       { q: "A full circle has how many degrees?", a: 360, hint: "One complete rotation." },
       { q: "The three angles of a triangle sum to how many degrees?", a: 180, hint: "Triangle angle sum theorem." },
     ],
+    resources: [
+      { name: "Khan Academy: Trigonometry", url: "https://www.khanacademy.org/math/trigonometry" },
+      { name: "Brilliant: Trigonometry", url: "https://brilliant.org/courses/trigonometry/" },
+    ],
   },
   {
     id: "precalc",
@@ -284,6 +304,10 @@ const FOUNDATIONS = [
       { q: "Next value in sequence: 3, 6, 12, 24, ?", a: 48, hint: "Each term is doubled." },
       { q: "2^3 x 2^4 = 2 raised to what power?", a: 7, hint: "When multiplying same bases, add the exponents: 3+4." },
     ],
+    resources: [
+      { name: "Khan Academy: Precalculus", url: "https://www.khanacademy.org/math/precalculus" },
+      { name: "Brilliant: Exponents", url: "https://brilliant.org/courses/exponents/" },
+    ],
   },
   {
     id: "calculus",
@@ -302,6 +326,10 @@ const FOUNDATIONS = [
       { q: "A 100 Hz signal has period in ms = ?", a: 10, hint: "Period = 1000/100 ms." },
       { q: "If f(t) = 3t and t=3, f(3) = ?", a: 9, hint: "Substitute: f(3) = 3 x 3." },
       { q: "Slope of y = 2x + 1 is ?", a: 2, hint: "In y = mx + b, m is the slope." },
+    ],
+    resources: [
+      { name: "Khan Academy: Calculus AB", url: "https://www.khanacademy.org/math/ap-calculus-ab" },
+      { name: "3Blue1Brown: Essence of Calculus", url: "https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr" },
     ],
   },
 ];
@@ -784,6 +812,7 @@ const state = {
   allResults: JSON.parse(localStorage.getItem("firmwareMathProgress") || "{}"),
   topicScores: JSON.parse(localStorage.getItem("firmwareMathTopicScores") || "{}"),
   foundationsScores: JSON.parse(localStorage.getItem("firmwareMathFoundationsScores") || "{}"),
+  foundationsQuizLength: Number(localStorage.getItem("firmwareMathFoundationsLength") || 5),
   foundationsView: "overview",
   foundationsCurrentLevel: 0,
   fQueue: [],
@@ -807,6 +836,7 @@ function saveProgress() {
   localStorage.setItem("firmwareMathProgress", JSON.stringify(state.allResults));
   localStorage.setItem("firmwareMathTopicScores", JSON.stringify(state.topicScores));
   localStorage.setItem("firmwareMathFoundationsScores", JSON.stringify(state.foundationsScores));
+  localStorage.setItem("firmwareMathFoundationsLength", String(state.foundationsQuizLength));
   localStorage.setItem("firmwareMathQuizLength", String(state.quizLength));
 }
 
@@ -1265,6 +1295,7 @@ function renderFoundationLevel(index) {
   state.foundationsCurrentLevel = index;
   const score = state.foundationsScores[level.id] || 0;
   const passed = score >= 80;
+  const lengths = [5, 10, 25, 50, 75];
   $("foundationsView").innerHTML = `
     <button class="back" id="backToFoundations">\u2190 All Levels</button>
     <article class="foundation-detail">
@@ -1275,8 +1306,16 @@ function renderFoundationLevel(index) {
       <div class="foundation-topics">
         ${level.topics.map((t) => `<div class="foundation-topic-item">${esc(t)}</div>`).join("")}
       </div>
+      <div class="label">LEARN & PRACTICE</div>
+      <div class="foundation-resources">
+        ${level.resources.map((r) => `<a class="resource-link primary" href="${r.url}" target="_blank" rel="noopener">${esc(r.name)}</a>`).join("")}
+      </div>
       <div class="foundation-checkpoint-area">
         ${score > 0 ? `<div class="foundation-score-badge">Best checkpoint score: <strong style="color:${passed ? "var(--green)" : "var(--amber)"}">${score}%</strong> ${passed ? "Passed" : "Keep trying for 80%"}</div>` : ""}
+        <div class="filter-title">CHECKPOINT LENGTH</div>
+        <div class="length-buttons">
+          ${lengths.map((len) => `<button class="length-button ${state.foundationsQuizLength === len ? "active" : ""}" data-flength="${len}">${len}</button>`).join("")}
+        </div>
         <button class="primary" id="startFoundationCheckpoint">
           ${score > 0 ? "Retry checkpoint \u2192" : "Take checkpoint \u2192"}
         </button>
@@ -1286,12 +1325,79 @@ function renderFoundationLevel(index) {
       </div>
     </article>`;
   $("backToFoundations").addEventListener("click", renderFoundations);
+  document.querySelectorAll("[data-flength]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.foundationsQuizLength = Number(btn.dataset.flength);
+      saveProgress();
+      renderFoundationLevel(index);
+    });
+  });
   $("startFoundationCheckpoint").addEventListener("click", startFoundationCheckpoint);
 }
 
+function makeFoundationQuestion(id, levelIndex, n) {
+  const a = (n % 9) + 2;
+  const b = ((n * 3) % 11) + 1;
+  const c = ((n * 5) % 13) + 2;
+  switch (levelIndex) {
+    case 0:
+      if (n % 5 === 0) return { id, q: `${a * 10} + ${b * 10} = ?`, a: a * 10 + b * 10, hint: "Add the tens." };
+      if (n % 5 === 1) return { id, q: `${a} x ${b} = ?`, a: a * b, hint: "Multiply the numbers." };
+      if (n % 5 === 2) return { id, q: `${a * 5} percent of ${b * 20} = ?`, a: a * b, hint: "Percent means per hundred." };
+      if (n % 5 === 3) return { id, q: `${a} + ${b} x ${c} = ?`, a: a + b * c, hint: "Multiply before adding." };
+      return { id, q: `${a * b * 2} / ${b * 2} = ?`, a: a, hint: "Division cancels multiplication." };
+    case 1:
+      if (n % 5 === 0) return { id, q: `x + ${a} = ${a + b}, x = ?`, a: b, hint: `Subtract ${a} from both sides.` };
+      if (n % 5 === 1) return { id, q: `${a}x = ${a * b}, x = ?`, a: b, hint: `Divide both sides by ${a}.` };
+      if (n % 5 === 2) return { id, q: `${a}(x + ${b}) = ${a * (b + 1)}, x = ?`, a: 1, hint: `Divide by ${a} first, then subtract ${b}.` };
+      if (n % 5 === 3) return { id, q: `y = ${a}x + ${b}, if x = ${c}, y = ?`, a: a * c + b, hint: `Substitute: y = ${a}(${c}) + ${b}.` };
+      return { id, q: `${a}x - ${b} = ${a * (b + 1) - b}, x = ?`, a: b + 1, hint: `Add ${b} first, then divide by ${a}.` };
+    case 2:
+      if (n % 5 === 0) return { id, q: `Slope (0,0) to (${a}, ${a * b}) = ?`, a: b, hint: `Slope = (${a*b})/(${a}).` };
+      if (n % 5 === 1) return { id, q: `f(x) = ${a}x^2, f(${b}) = ?`, a: a * b * b, hint: `f(${b}) = ${a} x ${b}^2.` };
+      if (n % 5 === 2) return { id, q: `x^2 = ${(a + 2) * (a + 2)}, positive x = ?`, a: a + 2, hint: "What positive number squared?" };
+      if (n % 5 === 3) return { id, q: `y-intercept of y = ${a}x + ${b} = ?`, a: b, hint: "y-intercept is the constant term." };
+      return { id, q: `${a}x + ${b} = ${a * c + b}, x = ?`, a: c, hint: `Subtract ${b}, then divide by ${a}.` };
+    case 3:
+      if (n % 5 === 0) return { id, q: `Area of ${a} x ${b} rectangle = ?`, a: a * b, hint: "Area = length x width." };
+      if (n % 5 === 1) return { id, q: `Perimeter of ${a} x ${a} square = ?`, a: a * 4, hint: "Perimeter = 4 x side." };
+      if (n % 5 === 2) return { id, q: `Volume of ${a} x ${a} x ${a} cube = ?`, a: a * a * a, hint: "Volume = side^3." };
+      if (n % 5 === 3) return { id, q: `${a} meters = ? centimeters`, a: a * 100, hint: "1 meter = 100 cm." };
+      return { id, q: `Area of ${a * 2} x ${b} rectangle = ?`, a: a * 2 * b, hint: "Area = length x width." };
+    case 4:
+      if (n % 3 === 0) return { id, q: `sin(0 degrees) = ?`, a: 0, hint: "Sine starts at zero." };
+      if (n % 3 === 1) return { id, q: `cos(0 degrees) = ?`, a: 1, hint: "Cosine at 0 is maximum." };
+      return { id, q: `A right angle measures how many degrees?`, a: 90, hint: "Right angle = 90 degrees." };
+    case 5:
+      if (n % 5 === 0) return { id, q: `2^${a} = ?`, a: 2 ** a, hint: `2 to the power ${a}.` };
+      if (n % 5 === 1) return { id, q: `log2(${2 ** a}) = ?`, a: a, hint: `2^${a} = ${2 ** a}.` };
+      if (n % 5 === 2) return { id, q: `10^${a} = ?`, a: 10 ** a, hint: `10 to the power ${a}.` };
+      if (n % 5 === 3) return { id, q: `Next: ${a}, ${a * 2}, ${a * 4}, ${a * 8}, ?`, a: a * 16, hint: "Each term doubles." };
+      return { id, q: `2^${a} x 2^${b} = 2^?`, a: a + b, hint: "Add exponents." };
+    case 6:
+      if (n % 5 === 0) return { id, q: `Value ${a} to ${a * 6} in ${a}s. Avg rate = ?`, a: 5, hint: `Rate = (${a * 6} - ${a}) / ${a}.` };
+      if (n % 5 === 1) return { id, q: `Area of ${a} x ${b} rectangle = ?`, a: a * b, hint: "Area = base x height." };
+      if (n % 5 === 2) return { id, q: `A ${a * 10} Hz signal period in ms = ?`, a: Math.round(1000 / (a * 10)), hint: "Period = 1000/f." };
+      if (n % 5 === 3) return { id, q: `f(t) = ${a}t, f(${b}) = ?`, a: a * b, hint: `f(${b}) = ${a} x ${b}.` };
+      return { id, q: `Slope of y = ${a}x + ${b} = ?`, a: a, hint: "Slope is the coefficient of x." };
+    default:
+      return { id, q: `${a} + ${b} = ?`, a: a + b, hint: "Add the two numbers." };
+  }
+}
+
+function getFoundationPool(levelIndex, count) {
+  const level = FOUNDATIONS[levelIndex];
+  const core = level.checkpoint.map((q, i) => ({ ...q, id: `f-core-${levelIndex}-${i}` }));
+  if (count <= core.length) return shuffle(core).slice(0, count);
+  const generated = [];
+  for (let i = 1; generated.length + core.length < count; i++) {
+    generated.push(makeFoundationQuestion(20000 + i, levelIndex, i));
+  }
+  return shuffle([...core, ...generated]);
+}
+
 function startFoundationCheckpoint() {
-  const level = FOUNDATIONS[state.foundationsCurrentLevel];
-  state.fQueue = shuffle(level.checkpoint);
+  state.fQueue = getFoundationPool(state.foundationsCurrentLevel, state.foundationsQuizLength);
   state.fIdx = 0;
   state.fInput = "";
   state.fFeedback = null;
