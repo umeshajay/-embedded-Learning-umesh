@@ -632,199 +632,6 @@ function isCS50DifficultyUnlocked(difficulty) {
   });
 }
 
-const FIRMWARE_CHALLENGES = [
-  {
-    id: "flash-budget",
-    title: "Flash Budget Check",
-    description: "You are deploying a TinyML model on a Cortex-M4 MCU with 256 KB flash. The bootloader takes 16 KB, the RTOS kernel takes 32 KB, your application code is 85 KB, and the quantized int8 model is 90 KB.",
-    constraints: ["Flash: 256 KB", "Bootloader: 16 KB", "RTOS: 32 KB", "App code: 85 KB", "Model: 90 KB"],
-    difficulty: "Easy",
-    q: "How many KB of flash remain free?",
-    a: 33,
-    hint: "Add up all used flash, then subtract from total.",
-  },
-  {
-    id: "baud-rate",
-    title: "UART Baud Rate",
-    description: "Your UART peripheral is clocked at 16 MHz. You need to configure it for 115200 baud. The formula is: baud = f_clk / (16 &times; (UBRR + 1)).",
-    constraints: ["f_clk: 16 MHz", "Target baud: 115200", "Formula: baud = f_clk / (16 &times; (UBRR+1))"],
-    difficulty: "Easy",
-    q: "What UBRR integer value gives the closest baud rate to 115200?",
-    a: 8,
-    hint: "UBRR = f_clk / (16 &times; baud) - 1. Solve and round to nearest integer.",
-  },
-  {
-    id: "adc-resolution",
-    title: "ADC Voltage per Count",
-    description: "A 12-bit ADC with a 3.3V reference voltage is used to read a potentiometer. You need to convert raw ADC counts to millivolts.",
-    constraints: ["Resolution: 12 bits", "Vref: 3.3 V", "12-bit max count: 4095"],
-    difficulty: "Easy",
-    q: "What is the voltage per count in mV? (Round to nearest 0.1 mV)",
-    a: 0.8,
-    hint: "3300 mV / 4096 counts. Each count represents Vref / 2^12 volts.",
-  },
-  {
-    id: "pwm-duty",
-    title: "PWM Duty Cycle",
-    description: "A timer is configured for PWM output. The period register is set to 1999 (so period = 2000 timer ticks). The compare register is set to 500.",
-    constraints: ["Period register: 1999", "Compare register: 500", "Period = 2000 ticks"],
-    difficulty: "Easy",
-    q: "What is the duty cycle percentage?",
-    a: 25,
-    hint: "Duty % = (compare + 1) / (period + 1) x 100",
-  },
-  {
-    id: "power-budget",
-    title: "Battery Life Estimation",
-    description: "A sensor node draws 50 mA when active and 5 µA in sleep mode. It is active 20% of the time. Powered by a 500 mAh battery.",
-    constraints: ["Active current: 50 mA", "Sleep current: 5 &micro;A", "Duty: 20% active", "Battery: 500 mAh"],
-    difficulty: "Medium",
-    q: "Estimated battery life in hours? (Round down)",
-    a: 50,
-    hint: "Average current = (0.2 x 50 mA) + (0.8 x 0.005 mA). Then life = capacity / average.",
-  },
-  {
-    id: "buffer-sizing",
-    title: "Sensor Buffer Size",
-    description: "A 3-axis accelerometer is sampled at 100 Hz. You need a 2-second buffer to perform FFT analysis. Each axis reading is a 16-bit signed integer.",
-    constraints: ["Sample rate: 100 Hz", "Axes: 3", "Sample size: 2 bytes per axis", "Buffer duration: 2 seconds"],
-    difficulty: "Easy",
-    q: "How many bytes are needed for the buffer?",
-    a: 1200,
-    hint: "Samples = 100 Hz x 2 s. Each sample = 3 axes x 2 bytes.",
-  },
-  {
-    id: "ring-buffer",
-    title: "Ring Buffer Occupancy",
-    description: "A ring buffer has 256 slots. The head pointer is at index 200 and the tail pointer is at index 50. The head is ahead of tail (no wraparound case).",
-    constraints: ["Buffer size: 256", "Head: 200", "Tail: 50"],
-    difficulty: "Easy",
-    q: "How many items are currently in the buffer?",
-    a: 150,
-    hint: "Items = (head - tail) when head > tail and no wraparound.",
-  },
-  {
-    id: "quantization",
-    title: "Model Quantization Savings",
-    description: "A floating-point model is 2.4 MB. You quantize it from float32 to int8, which shrinks each weight from 4 bytes to 1 byte. The model structure (layers, metadata) adds 50 KB overhead.",
-    constraints: ["Float32 model: 2.4 MB", "Target: int8", "Overhead: 50 KB", "Compression: 4x weights"],
-    difficulty: "Medium",
-    q: "What is the total int8 model size in KB?",
-    a: 664,
-    hint: "Weights go from 2.4 MB to 0.6 MB = 614 KB. Add 50 KB overhead.",
-  },
-  {
-    id: "timer-interrupt",
-    title: "Timer Interrupt Frequency",
-    description: "A timer is clocked at 1 MHz with a prescaler of 64. The auto-reload register (ARR) is set to 249, so the counter runs 0 to 249 (250 ticks).",
-    constraints: ["Timer clock: 1 MHz", "Prescaler: 64", "ARR: 249", "Counter: 250 ticks"],
-    difficulty: "Medium",
-    q: "What is the interrupt frequency in Hz?",
-    a: 62,
-    hint: "Output f = f_timer / (prescaler x (ARR + 1)). Round to nearest integer.",
-  },
-  {
-    id: "oversampling",
-    title: "ADC Oversampling for Higher Resolution",
-    description: "Your ADC has 10-bit resolution. You need 13 effective bits for a precision measurement. Each additional bit of resolution requires 4x oversampling and averaging.",
-    constraints: ["ADC: 10 bits", "Target: 13 bits", "Extra bits needed: 3", "Factor per bit: 4x"],
-    difficulty: "Medium",
-    q: "How many samples must be averaged to achieve 13 effective bits?",
-    a: 64,
-    hint: "Need 3 extra bits. Samples = 4^3 = 64.",
-  },
-  {
-    id: "memory-alignment",
-    title: "Struct Memory Layout",
-    description: "A firmware engineer defines a struct with: uint8_t flags (1 byte), uint32_t timestamp (4 bytes), uint16_t value (2 bytes). The compiler aligns each field to its natural boundary and pads to the largest alignment requirement.",
-    constraints: ["uint8_t: 1 byte", "uint32_t: 4 bytes (4-byte aligned)", "uint16_t: 2 bytes (2-byte aligned)", "Largest alignment: 4 bytes"],
-    difficulty: "Medium",
-    q: "What is the total sizeof() this struct in bytes including padding?",
-    a: 12,
-    hint: "uint8_t at 0, pad 3 bytes, uint32_t at 4, uint16_t at 8, pad 2 bytes to 12 total.",
-  },
-  {
-    id: "dma-throughput",
-    title: "DMA Transfer Throughput",
-    description: "A DMA controller transfers data from an ADC to RAM. Each sample is 16 bits. The DMA runs at 48 MHz and takes 2 clock cycles per transfer (setup + move). The ADC produces samples at 200 kHz.",
-    constraints: ["DMA clock: 48 MHz", "Cycles per transfer: 2", "Sample size: 16 bits", "ADC rate: 200 kHz"],
-    difficulty: "Hard",
-    q: "What percentage of DMA bandwidth does the ADC transfer consume?",
-    a: 0.8,
-    hint: "DMA throughput = 48 MHz / 2 = 24 M transfers/s. ADC needs 200k transfers/s. (200k / 24M) x 100.",
-  },
-  {
-    id: "watchdog",
-    title: "Watchdog Timer Refresh",
-    description: "A watchdog timer (IWDG) runs from a 40 kHz LSI oscillator with a prescaler of 32. The counter reload value is 1250. You must refresh the watchdog before it reaches 0.",
-    constraints: ["LSI: 40 kHz", "Prescaler: 32", "Counter reload: 1250"],
-    difficulty: "Medium",
-    q: "What is the watchdog timeout period in milliseconds?",
-    a: 1000,
-    hint: "Timer frequency = 40000 / 32 = 1250 Hz. Each tick = 0.8 ms. Timeout = 1250 x 0.8 ms.",
-  },
-  {
-    id: "iir-filter",
-    title: "Simple IIR Filter Coefficient",
-    description: "You design a first-order low-pass IIR filter for a sensor signal sampled at 100 Hz. The cutoff frequency is 10 Hz. The coefficient alpha for a simple exponential smoother is: alpha = dt / (tau + dt) where tau = 1 / (2 x pi x fc).",
-    constraints: ["Sample rate: 100 Hz (dt = 0.01 s)", "Cutoff fc: 10 Hz", "tau = 1 / (2 x pi x fc)", "alpha = dt / (tau + dt)"],
-    difficulty: "Hard",
-    q: "Compute alpha to two decimal places. Round to nearest 0.01. (Use pi = 3.14)",
-    a: 0.39,
-    hint: "tau = 1 / (6.28 x 10) = 0.0159. alpha = 0.01 / (0.0159 + 0.01) = 0.01 / 0.0259.",
-  },
-  {
-    id: "fft-bins",
-    title: "FFT Frequency Bin Resolution",
-    description: "A 256-point FFT is computed on a signal sampled at 800 Hz. You need to distinguish two tones that are 5 Hz apart.",
-    constraints: ["FFT size N: 256", "Sample rate fs: 800 Hz", "Bin spacing: fs / N"],
-    difficulty: "Medium",
-    q: "What is the frequency resolution (Hz) of each FFT bin?",
-    a: 3,
-    hint: "Bin spacing = fs / N = 800 / 256 = 3.125 Hz. Enter integer part.",
-  },
-  {
-    id: "binary-protocol",
-    title: "Binary Protocol Packet Efficiency",
-    description: "You design a binary protocol. Each packet has: 2-byte sync (0xAA55), 1-byte length field, 1-byte type field, N bytes of payload, 2-byte CRC16. The length field counts everything after it (including itself).",
-    constraints: ["Sync: 2 bytes", "Length: 1 byte", "Type: 1 byte", "CRC: 2 bytes", "Length field counts bytes after sync"],
-    difficulty: "Medium",
-    q: "For a 32-byte payload, what is the total packet overhead in bytes (excluding payload)?",
-    a: 6,
-    hint: "Overhead = sync(2) + length(1) + type(1) + CRC(2) = 6 bytes. Length field value = 1 + 1 + 32 + 2 = 36.",
-  },
-  {
-    id: "interrupt-latency",
-    title: "Interrupt Latency Budget",
-    description: "A real-time system has two interrupt sources: Timer A fires every 1 ms and takes 40 µs to service. A UART RX interrupt fires at 115200 baud (8N1) every byte received, and the UART ISR takes 20 µs.",
-    constraints: ["Timer A: 1 ms period, 40 &micro;s ISR", "UART: 115200 baud, 86.8 &micro;s per byte", "UART ISR: 20 &micro;s"],
-    difficulty: "Hard",
-    q: "What is the combined CPU load percentage from both ISRs?",
-    a: 27,
-    hint: "Timer load = 40/1000 = 4%. UART load = 20/86.8 ≈ 23%. Total ≈ 27%.",
-  },
-  {
-    id: "eeprom-wear",
-    title: "EEPROM Wear Leveling",
-    description: "An EEPROM is rated for 100,000 write cycles. A device logs a counter value every minute, updating the same EEPROM location each time. You implement wear leveling across 16 EEPROM slots.",
-    constraints: ["EEPROM endurance: 100,000 writes", "Write interval: every minute", "Wear leveling slots: 16", "Device runs: 24/7"],
-    difficulty: "Medium",
-    q: "How many days until the EEPROM wears out (first slot failure)?",
-    a: 1111,
-    hint: "With 16 slots, each slot is written every 16 minutes: 100,000 writes x 16 min / 60 / 24 ≈ 1111 days.",
-  },
-  {
-    id: "temperature-linearization",
-    title: "Thermistor Linearization",
-    description: "An NTC thermistor's resistance-temperature relationship is: R = R0 x e^(B x (1/T - 1/T0)). At 25 deg C (298 K), R0 = 10 kOhm. B = 3950. The reading at 50 deg C (323 K) gives resistance.",
-    constraints: ["R0 = 10 kOhm at 25 deg C", "B = 3950", "T = 50 deg C = 323 K", "T0 = 298 K"],
-    difficulty: "Hard",
-    q: "What is the thermistor resistance in kOhm at 50 deg C? (Round to nearest kOhm)",
-    a: 4,
-    hint: "R = 10 x e^(3950 x (1/323 - 1/298)) = 10 x e^(-1.026) = 10 x 0.358 = 3.58 kOhm. Rounded to 4.",
-  },
-];
-
 function makeCS50GeneratedQuestion(id, weekId, difficulty, n) {
   const easy = difficulty === "Easy";
   const a = (n % 5) + 1;
@@ -1730,12 +1537,6 @@ const state = {
   cs50Level: "Easy",
   studySubTab: "guide",
   theme: localStorage.getItem("firmwareMathTheme") || "dark",
-  challengeView: "list",
-  challengeCurrentId: null,
-  challengeInput: "",
-  challengeFeedback: null,
-  challengeShowHint: false,
-  challengeCompleted: JSON.parse(localStorage.getItem("firmwareMathChallengeDone") || "[]"),
 };
 
 if (![25, 50, 75].includes(state.foundationsQuizLength)) state.foundationsQuizLength = 25;
@@ -1930,7 +1731,6 @@ function switchTab(tab) {
   if (tab === "progress") renderProgress();
   if (tab === "foundations") renderFoundations();
   if (tab === "cs50") renderCS50();
-  if (tab === "challenge") renderChallengeList();
 }
 
 function renderStudy() {
@@ -3234,112 +3034,6 @@ function finishCS50Quiz() {
   $("cs50BackToAll").addEventListener("click", renderCS50);
 }
 
-function renderChallengeList() {
-  state.challengeView = "list";
-  state.challengeCurrentId = null;
-  localStorage.removeItem("firmwareMathChallengeId");
-  $("challengeView").innerHTML = `
-    <p class="section-intro">Real-world firmware engineering constraint challenges. Read the scenario and constraints, then solve the constraint problem. Each challenge has a numeric answer.</p>
-    <div class="challenge-grid">
-      ${FIRMWARE_CHALLENGES.map((ch) => {
-        const done = state.challengeCompleted.includes(ch.id);
-        return `
-        <button class="card challenge-card ${done ? "completed" : ""}" data-challenge="${ch.id}">
-          <span class="tag difficulty-${ch.difficulty.toLowerCase()}">${ch.difficulty}</span>
-          <h3>${esc(ch.title)}</h3>
-          <p class="challenge-desc-preview">${esc(ch.description.slice(0, 90))}...</p>
-          <div class="card-action">${done ? "Completed" : "Solve challenge"}</div>
-        </button>
-      `;
-      }).join("")}
-    </div>`;
-  document.querySelectorAll("[data-challenge]").forEach((btn) => {
-    btn.addEventListener("click", () => renderChallenge(btn.dataset.challenge));
-  });
-}
-
-function renderChallenge(id) {
-  state.challengeCurrentId = id;
-  state.challengeInput = "";
-  state.challengeFeedback = null;
-  state.challengeShowHint = false;
-  localStorage.setItem("firmwareMathChallengeId", id);
-  const ch = FIRMWARE_CHALLENGES.find((c) => c.id === id);
-  if (!ch) { renderChallengeList(); return; }
-  const done = state.challengeCompleted.includes(id);
-  $("challengeView").innerHTML = `
-    <button class="back" id="backToChallenges">\u2190 All Challenges</button>
-    <article class="challenge-detail">
-      <div class="challenge-header">
-        <span class="tag difficulty-${ch.difficulty.toLowerCase()}">${ch.difficulty}</span>
-        <h2>${esc(ch.title)}</h2>
-      </div>
-      <div class="why-box"><div class="label">SCENARIO</div><p>${esc(ch.description)}</p></div>
-      <div class="label">CONSTRAINTS</div>
-      <ul class="constraint-list">
-        ${ch.constraints.map((c) => `<li>\u2022 ${c}</li>`).join("")}
-      </ul>
-      <div class="challenge-question">
-        <div class="label">QUESTION</div>
-        <p>${ch.q}</p>
-      </div>
-      ${done ? '<p style="color:var(--green);font-weight:700;margin:1rem 0">Challenge completed!</p>' : `
-      <div class="quiz-input-area">
-        <input type="number" id="challengeAnswerInput" inputmode="numeric" placeholder="Enter numeric answer..." value="${state.challengeInput}" ${state.challengeFeedback ? "disabled" : ""} autofocus>
-        <button class="primary" id="challengeSubmitAnswer" ${state.challengeFeedback ? "disabled" : ""}>Submit \u2192</button>
-        <button class="secondary" id="challengeHintButton">Hint</button>
-      </div>
-      ${state.challengeShowHint ? `<div class="hint"><strong>Hint:</strong> ${esc(ch.hint)}</div>` : ""}
-      <div id="challengeFeedbackArea"></div>
-      `}
-    </article>`;
-  $("backToChallenges").addEventListener("click", renderChallengeList);
-  if (done) return;
-  const input = $("challengeAnswerInput");
-  if (input) {
-    input.focus();
-    input.addEventListener("input", () => { state.challengeInput = input.value; });
-    input.addEventListener("keydown", (e) => { if (e.key === "Enter") submitChallengeAnswer(); });
-  }
-  $("challengeHintButton").addEventListener("click", () => { state.challengeShowHint = true; renderChallenge(id); });
-  $("challengeSubmitAnswer").addEventListener("click", submitChallengeAnswer);
-  if (state.challengeFeedback) displayChallengeFeedback();
-}
-
-function displayChallengeFeedback() {
-  const area = $("challengeFeedbackArea");
-  if (!area) return;
-  const correct = state.challengeFeedback === "correct";
-  area.innerHTML = `<div class="feedback ${correct ? "correct" : "wrong"}">${correct ? "Correct!" : "Incorrect. Try again."}</div>`;
-}
-
-function submitChallengeAnswer() {
-  if (state.challengeFeedback || state.challengeInput === "") return;
-  const ch = FIRMWARE_CHALLENGES.find((c) => c.id === state.challengeCurrentId);
-  if (!ch) return;
-  const parsed = Number.parseFloat(state.challengeInput);
-  if (Number.isNaN(parsed)) return;
-  const correct = parsed === ch.a;
-  state.challengeFeedback = correct ? "correct" : "wrong";
-  if (correct && !state.challengeCompleted.includes(ch.id)) {
-    state.challengeCompleted.push(ch.id);
-    localStorage.setItem("firmwareMathChallengeDone", JSON.stringify(state.challengeCompleted));
-  }
-  renderChallenge(ch.id);
-  if (correct) {
-    window.setTimeout(() => {
-      renderChallengeList();
-    }, 1200);
-  } else {
-    window.setTimeout(() => {
-      state.challengeFeedback = null;
-      state.challengeShowHint = false;
-      state.challengeInput = "";
-      renderChallenge(ch.id);
-    }, 1200);
-  }
-}
-
 document.querySelectorAll(".tab").forEach((button) => button.addEventListener("click", () => switchTab(button.dataset.tab)));
 $("resetProgress").addEventListener("click", () => {
   if (!confirm("Reset saved quiz progress?")) return;
@@ -3372,12 +3066,11 @@ renderProgress();
 const hasQuizSession = localStorage.getItem("firmwareMathQuizSession");
 const hasFoundSession = localStorage.getItem("firmwareMathFoundSession");
 const hasCS50Session = localStorage.getItem("firmwareMathCS50Session");
-const hasChallengeSession = localStorage.getItem("firmwareMathChallengeId");
-if (hasQuizSession || hasFoundSession || hasCS50Session || hasChallengeSession) {
+if (hasQuizSession || hasFoundSession || hasCS50Session) {
   const banner = document.createElement("div");
   banner.id = "resumeBanner";
   let label = "Unfinished quiz found — ";
-  const count = [hasQuizSession, hasFoundSession, hasCS50Session, hasChallengeSession].filter(Boolean).length;
+  const count = [hasQuizSession, hasFoundSession, hasCS50Session].filter(Boolean).length;
   if (count > 1) label = "Unfinished quizzes found — ";
   banner.innerHTML = `${label}<a href="#" id="resumeBannerLink">Resume now</a> <span id="resumeBannerClose" style="cursor:pointer;margin-left:12px;opacity:.6">✕</span>`;
   document.body.prepend(banner);
@@ -3429,12 +3122,6 @@ if (hasQuizSession || hasFoundSession || hasCS50Session || hasChallengeSession) 
             renderFoundations();
           }
         } catch { renderFoundations(); }
-      }
-    } else if (hasChallengeSession) {
-      switchTab("challenge");
-      const savedId = localStorage.getItem("firmwareMathChallengeId");
-      if (savedId) {
-        renderChallenge(savedId);
       }
     }
   });
