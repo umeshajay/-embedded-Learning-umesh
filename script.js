@@ -812,7 +812,7 @@ const state = {
   allResults: JSON.parse(localStorage.getItem("firmwareMathProgress") || "{}"),
   topicScores: JSON.parse(localStorage.getItem("firmwareMathTopicScores") || "{}"),
   foundationsScores: JSON.parse(localStorage.getItem("firmwareMathFoundationsScores") || "{}"),
-  foundationsQuizLength: Number(localStorage.getItem("firmwareMathFoundationsLength") || 10),
+  foundationsQuizLength: Number(localStorage.getItem("firmwareMathFoundationsLength") || 25),
   foundationsView: "overview",
   foundationsCurrentLevel: 0,
   fQueue: [],
@@ -823,7 +823,7 @@ const state = {
   fScore: 0,
 };
 
-if (![10, 25, 50, 75].includes(state.foundationsQuizLength)) state.foundationsQuizLength = 10;
+if (![25, 50, 75].includes(state.foundationsQuizLength)) state.foundationsQuizLength = 25;
 
 for (const key of Object.keys(state.topicScores)) {
   if (!key.includes("::")) delete state.topicScores[key];
@@ -1297,7 +1297,7 @@ function renderFoundationLevel(index) {
   state.foundationsCurrentLevel = index;
   const score = state.foundationsScores[level.id] || 0;
   const passed = score >= 80;
-  const lengths = [10, 25, 50, 75];
+  const lengths = [25, 50, 75];
   $("foundationsView").innerHTML = `
     <button class="back" id="backToFoundations">\u2190 All Levels</button>
     <article class="foundation-detail">
