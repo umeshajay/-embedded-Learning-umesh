@@ -947,7 +947,7 @@ const TOPICS = ["All", ...new Set(QUIZ_BANK.map((q) => q.topic))];
 const LEVELS = ["Intermediate", "Advanced"];
 const EXAM_LENGTHS = [10, 25, 50, 75];
 const state = {
-  tab: "guide",
+  tab: "study",
   guideTopic: null,
   quizTopic: "All",
   quizLevel: "Intermediate",
@@ -979,6 +979,7 @@ const state = {
   cs50ShowHint: false,
   cs50Score: 0,
   cs50CurrentWeek: null,
+  studySubTab: "guide",
 };
 
 if (![25, 50, 75].includes(state.foundationsQuizLength)) state.foundationsQuizLength = 25;
@@ -1052,17 +1053,34 @@ function switchTab(tab) {
   document.querySelectorAll(".tab").forEach((button) => button.classList.toggle("active", button.dataset.tab === tab));
   document.querySelectorAll(".panel").forEach((panel) => panel.classList.remove("active"));
   $(`${tab}Panel`).classList.add("active");
+  if (tab === "study") { renderStudy(); return; }
   if (tab === "progress") renderProgress();
-  if (tab === "resources") renderResources();
   if (tab === "foundations") renderFoundations();
   if (tab === "cs50") renderCS50();
 }
 
+function renderStudy() {
+  const sub = state.studySubTab;
+  $("studyView").innerHTML = `
+    <nav class="study-sub-tabs">
+      <button class="sub-tab ${sub === "guide" ? "active" : ""}" data-sub="guide">Study Guide</button>
+      <button class="sub-tab ${sub === "quiz" ? "active" : ""}" data-sub="quiz">Quiz</button>
+      <button class="sub-tab ${sub === "resources" ? "active" : ""}" data-sub="resources">Resources</button>
+    </nav>
+    <div id="studySubContent"></div>`;
+  document.querySelectorAll(".sub-tab").forEach((btn) => btn.addEventListener("click", () => {
+    state.studySubTab = btn.dataset.sub;
+    renderStudy();
+  }));
+  if (sub === "guide") renderGuideList();
+  else if (sub === "quiz") renderQuizSetup();
+  else renderResources();
+}
+
 function renderGuideList() {
   if (!isLevelUnlocked(state.quizLevel)) state.quizLevel = "Intermediate";
-  $("guideDetail").hidden = true;
-  $("guideList").hidden = false;
-  $("guideList").innerHTML = `
+  state.studySubTab = "guide";
+  $("studySubContent").innerHTML = `
     <p class="section-intro">${STUDY_GUIDE.length} topics unlock in order from embedded foundations to TinyML deployment. Intermediate opens first; Advanced opens after every Intermediate topic is mastered at 90% or higher.</p>
     ${trackSelectorHtml("guide")}
     <div class="guide-grid">
@@ -1102,7 +1120,6 @@ function bindTrackSelectors(afterChange) {
       state.quizLevel = button.dataset.track;
       state.quizTopic = "All";
       afterChange();
-      renderQuizSetup();
       renderProgress();
     });
   });
@@ -1115,9 +1132,7 @@ function renderGuideDetail(id) {
     renderGuideList();
     return;
   }
-  $("guideList").hidden = true;
-  $("guideDetail").hidden = false;
-  $("guideDetail").innerHTML = `
+  $("studySubContent").innerHTML = `
     <button class="back" id="backToGuides">← All Topics</button>
     <article class="detail">
       <span class="tag ${tagClass(topic.tag)}">${esc(topic.tag)}</span>
@@ -1143,8 +1158,8 @@ function renderGuideDetail(id) {
     state.quizTopic = guideTitleToQuizTopic(topic.title);
     state.quizLevel = "Intermediate";
     state.quizDone = false;
-    renderQuizSetup();
-    switchTab("quiz");
+    state.studySubTab = "quiz";
+    switchTab("study");
   });
 }
 
@@ -1165,10 +1180,8 @@ function guideTitleToQuizTopic(title) {
 function renderQuizSetup() {
   if (!isLevelUnlocked(state.quizLevel)) state.quizLevel = "Intermediate";
   if (!isQuizTopicUnlocked(state.quizTopic)) state.quizTopic = "All";
-  $("quizActive").hidden = true;
-  $("quizDone").hidden = true;
-  $("quizSetup").hidden = false;
-  $("quizSetup").innerHTML = `
+  state.studySubTab = "quiz";
+  $("studySubContent").innerHTML = `
     <p class="section-intro">${QUIZ_BANK.length} questions across embedded software and TinyML math. Choose exam length, then run a focused mastery quiz.</p>
     <div class="filter-panel">
       <div><div class="filter-title">TRACK</div>${trackSelectorHtml("quiz")}</div>
@@ -1214,9 +1227,6 @@ function startQuiz() {
   state.showHint = false;
   state.score = 0;
   state.quizDone = false;
-  $("quizSetup").hidden = true;
-  $("quizDone").hidden = true;
-  $("quizActive").hidden = false;
   renderQuestion();
 }
 
@@ -1226,7 +1236,7 @@ function shuffle(items) {
 
 function renderQuestion() {
   const q = state.quizQueue[state.qIdx];
-  $("quizActive").innerHTML = `
+  $("studySubContent").innerHTML = `
     <div class="quiz-box">
       <div class="quiz-top"><span>Exam: ${state.quizLevel} · ${state.quizQueue.length} questions</span><span>Question ${state.qIdx + 1} / ${state.quizQueue.length} · ${state.score} correct</span></div>
       <div class="dots">${state.quizQueue.map((_, i) => `<div class="dot ${i < state.qIdx ? "done" : i === state.qIdx ? "current" : ""}"></div>`).join("")}</div>
@@ -1290,21 +1300,18 @@ function finishQuiz() {
     saveProgress();
     renderGuideList();
   }
-  $("quizSetup").hidden = true;
-  $("quizActive").hidden = true;
-  $("quizDone").hidden = false;
-  $("quizDone").innerHTML = `
+  $("studySubContent").innerHTML = `
     <div class="result-card">
       <h2>${pct >= 80 ? "Solid work!" : pct >= 60 ? "Getting there!" : "Keep studying."}</h2>
       <div class="result-score">${state.score}<span style="font-size:2rem;color:var(--dim)"> / ${state.quizQueue.length}</span></div>
       <p class="section-intro">${pct}% score on ${state.quizLevel}. ${topicWasSpecific ? (pct >= 90 ? (unlockedNext ? `Next ${state.quizLevel} topic unlocked.` : (state.quizLevel === "Intermediate" && isAdvancedTrackUnlocked() ? "Intermediate mastered. Advanced track unlocked." : "Topic mastered.")) : `Score 90% or higher on this ${state.quizLevel} topic to unlock the next one.`) : "Topic unlocking only happens on a specific topic quiz, not All."}</p>
       <div class="result-actions">
         <button class="primary" id="retryQuiz">Change filters & retry</button>
-        <button class="secondary" id="backGuide">Back to Study Guide</button>
+        <button class="secondary" id="backGuide">Back to Guide</button>
       </div>
     </div>`;
   $("retryQuiz").addEventListener("click", renderQuizSetup);
-  $("backGuide").addEventListener("click", () => switchTab("guide"));
+  $("backGuide").addEventListener("click", () => { state.studySubTab = "guide"; switchTab("study"); });
 }
 
 function renderProgress() {
@@ -1376,7 +1383,8 @@ function roadmapHtml() {
 }
 
 function renderResources() {
-  $("resourcesView").innerHTML = `
+  state.studySubTab = "resources";
+  $("studySubContent").innerHTML = `
     <p class="section-intro">Khan Academy videos and exercises mapped to each topic. <strong>All Khan Academy content is available for free at <a href="https://www.khanacademy.org" target="_blank" rel="noopener">www.khanacademy.org</a></strong>.</p>
     <div class="resource-grid">
       ${RESOURCES.map((res) => {
@@ -1399,7 +1407,7 @@ function renderResources() {
 function renderResourceDetail(topic) {
   const res = RESOURCES.find((r) => r.topic === topic);
   if (!res) { renderResources(); return; }
-  $("resourcesView").innerHTML = `
+  $("studySubContent").innerHTML = `
     <button class="back" id="backToResources">← All Resources</button>
     <div class="resource-detail">
       <h2>${esc(res.topic)}</h2>
@@ -1839,11 +1847,10 @@ $("resetProgress").addEventListener("click", () => {
   state.topicScores = {};
   state.quizTopic = "All";
   saveProgress();
-  renderGuideList();
-  renderQuizSetup();
+  state.studySubTab = "guide";
+  switchTab("study");
   renderProgress();
 });
 
-renderGuideList();
-renderQuizSetup();
+renderStudy();
 renderProgress();
