@@ -1314,7 +1314,7 @@ function renderProgress() {
   const unlockedCount = highestUnlockedGuideIndex("Intermediate") + 1;
   const advancedUnlockedCount = isAdvancedTrackUnlocked() ? highestUnlockedGuideIndex("Advanced") + 1 : 0;
   if (!attempted) {
-    $("progressView").innerHTML = `<p class="section-intro">Your quiz history and topic unlocks are saved in this browser on this computer.</p><div class="empty">No attempts yet. Take a quiz or CS50x checkpoint first.</div>${roadmapHtml()}`;
+    $("progressView").innerHTML = `<p class="section-intro">Your quiz history and topic unlocks are saved in this browser on this computer.</p><div class="empty">No attempts yet. Take a quiz or Cs50x checkpoint first.</div>${roadmapHtml()}`;
     return;
   }
   $("progressView").innerHTML = `
@@ -1340,7 +1340,7 @@ function renderProgress() {
       const unlocked = isGuideTopicUnlocked(index, "Advanced");
       return `<div class="topic-progress-row"><strong>${esc(topic.title)}</strong><div class="bar"><div class="bar-fill" style="width:${best}%"></div></div><span>${unlocked ? `${best}%` : "Locked"}</span></div>`;
     }).join("")}
-    <div class="label">CS50x WEEK SCORES</div>
+    <div class="label">Cs50x WEEK SCORES</div>
     ${CS50_WEEKS.map((week) => {
       const score = getCS50WeekScore(week.id);
       const unlocked = isCS50WeekUnlocked(CS50_WEEKS.indexOf(week));
@@ -1434,7 +1434,7 @@ function isFoundationLevelUnlocked(index) {
 function renderFoundations() {
   state.foundationsView = "overview";
   $("foundationsView").innerHTML = `
-    <p class="section-intro">A progressive math foundation from basic arithmetic to calculus, built for the embedded TinyML engineer. Each level unlocks after scoring 80% or higher on its checkpoint quiz.</p>
+    <p class="section-intro">A progressive maths foundation from basic arithmetic to calculus, built for the embedded TinyML engineer. Each level unlocks after scoring 80% or higher on its checkpoint quiz.</p>
     <div class="foundations-path">
       ${FOUNDATIONS.map((level, index) => {
         const unlocked = isFoundationLevelUnlocked(index);
@@ -1653,7 +1653,7 @@ function finishFoundationCheckpoint() {
   $("fBackToPath").addEventListener("click", renderFoundations);
 }
 
-/* CS50x TAB */
+/* Cs50x TAB */
 
 function isCS50WeekUnlocked(index) {
   if (index <= 0) return true;
@@ -1667,7 +1667,7 @@ function getCS50WeekScore(id) {
 
 function renderCS50() {
   $("cs50View").innerHTML = `
-    <p class="section-intro">Harvard CS50x: Introduction to Computer Science. Pass each week's checkpoint quiz (80%+) to unlock the next week.</p>
+    <p class="section-intro">Harvard Cs50x: Introduction to Computer Science. Pass each week's checkpoint quiz (80%+) to unlock the next week.</p>
     <div class="cs50-path">
       ${CS50_WEEKS.map((week, index) => {
         const score = getCS50WeekScore(week.id);
@@ -1722,7 +1722,7 @@ function renderCS50Week(id) {
           ${score > 0 ? "Retry quiz \u2192" : "Take checkpoint quiz \u2192"}
         </button>
         ${!passed && weekIndex < CS50_WEEKS.length - 1 ? `<p class="foundation-unlock-note">Score 80% to unlock ${esc(CS50_WEEKS[weekIndex + 1].title)}</p>` : ""}
-        ${passed && weekIndex >= CS50_WEEKS.length - 1 ? '<p class="foundation-unlock-note">All CS50x weeks completed!</p>' : ""}
+        ${passed && weekIndex >= CS50_WEEKS.length - 1 ? '<p class="foundation-unlock-note">All Cs50x weeks completed!</p>' : ""}
         ${passed && nextUnlocked && weekIndex < CS50_WEEKS.length - 1 ? '<p class="foundation-unlock-note">' + esc(CS50_WEEKS[weekIndex + 1].title) + ' unlocked.</p>' : ""}
       </div>
     </article>`;
@@ -1822,7 +1822,7 @@ function finishCS50Quiz() {
     <div class="result-card">
       <h2>${passed ? "Week passed!" : "Keep studying."}</h2>
       <div class="result-score">${state.cs50Score}<span style="font-size:2rem;color:var(--dim)"> / ${totalQ}</span></div>
-      <p class="section-intro">${pct}% score${week ? " on " + esc(week.title) : ""}. ${passed ? (nextUnlocked ? esc(CS50_WEEKS[weekIndex + 1].title) + " is now unlocked." : weekIndex >= CS50_WEEKS.length - 1 ? "You completed all CS50x weeks!" : "Week mastered.") : "Score 80% or higher to unlock the next week."}</p>
+      <p class="section-intro">${pct}% score${week ? " on " + esc(week.title) : ""}. ${passed ? (nextUnlocked ? esc(CS50_WEEKS[weekIndex + 1].title) + " is now unlocked." : weekIndex >= CS50_WEEKS.length - 1 ? "You completed all Cs50x weeks!" : "Week mastered.") : "Score 80% or higher to unlock the next week."}</p>
       <div class="result-actions">
         <button class="primary" id="cs50BackToWeek">Back to week</button>
         <button class="secondary" id="cs50BackToAll">All weeks</button>
