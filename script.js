@@ -334,6 +334,111 @@ const FOUNDATIONS = [
   },
 ];
 
+const CS50_WEEKS = [
+  {
+    id: "week0",
+    title: "Week 0: Scratch",
+    why: "Scratch introduces computational thinking without syntax. You learn to break problems into steps, think algorithmically, and understand how computers represent information.",
+    topics: [
+      "Computational thinking & problem solving",
+      "Binary, decimal, hexadecimal, ASCII, Unicode",
+      "Algorithms, pseudocode, running times",
+      "Scratch: functions, arguments, return values",
+      "Variables, boolean expressions, conditionals",
+      "Loops, events, threads",
+    ],
+    pset: "Create an interactive story, game, or animation in Scratch",
+    lectureUrl: "https://cs50.harvard.edu/college/2026/spring/weeks/0/",
+    psetUrl: "https://cs50.harvard.edu/college/2026/spring/psets/0/",
+    videoUrl: "https://www.youtube.com/watch?v=3oFAVvU5L5A&list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+  },
+  {
+    id: "week1",
+    title: "Week 1: C",
+    why: "C teaches how computers actually work under the hood. Memory, types, and compilation are essential for embedded systems, operating systems, and high-performance code.",
+    topics: [
+      "C syntax: variables, types, operators",
+      "Conditionals, loops, and expressions",
+      "Compilers: source code to machine code",
+      "Command-line interface (CLI) & Linux",
+      "Integer overflow & floating-point imprecision",
+      "Manual pages, header files, libraries",
+    ],
+    pset: "Hello (print), Mario (pyramids), Cash/Credit (algorithm implementation in C)",
+    lectureUrl: "https://cs50.harvard.edu/college/2026/spring/weeks/1/",
+    psetUrl: "https://cs50.harvard.edu/college/2026/spring/psets/1/",
+    videoUrl: "https://www.youtube.com/watch?v=ix5jPkxsrIQ&list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+  },
+  {
+    id: "week2",
+    title: "Week 2: Arrays",
+    why: "Arrays, strings, and debugging are fundamental to every programming language. Understanding the compilation process helps you write correct, efficient code.",
+    topics: [
+      "Preprocessing, compiling, assembling, linking",
+      "Debugging with debuggers and print statements",
+      "Arrays: contiguous memory, indexing",
+      "Strings as char arrays (null-terminated)",
+      "Command-line arguments (argc, argv)",
+      "Cryptography basics: ciphers and keys",
+    ],
+    pset: "Readability (grade level), Caesar (shift cipher), Substitution (substitution cipher)",
+    lectureUrl: "https://cs50.harvard.edu/college/2026/spring/weeks/2/",
+    psetUrl: "https://cs50.harvard.edu/college/2026/spring/psets/2/",
+    videoUrl: "https://www.youtube.com/watch?v=tI_tIZFyRhw&list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+  },
+  {
+    id: "week3",
+    title: "Week 3: Algorithms",
+    why: "Algorithm design and analysis is the core of computer science. Big O notation, searching, and sorting teach you how to write efficient code that scales.",
+    topics: [
+      "Linear search & binary search",
+      "Bubble sort, selection sort, merge sort",
+      "Asymptotic notation: O, Omega, Theta",
+      "Recursion: functions calling themselves",
+      "Comparing algorithm running times",
+      "Algorithmic thinking and problem decomposition",
+    ],
+    pset: "Plurality (election simulation), Runoff/Tideman (ranked-choice voting)",
+    lectureUrl: "https://cs50.harvard.edu/college/2026/spring/weeks/3/",
+    psetUrl: "https://cs50.harvard.edu/college/2026/spring/psets/3/",
+    videoUrl: "https://www.youtube.com/watch?v=4GPdGsB3JDc&list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+  },
+  {
+    id: "week4",
+    title: "Week 4: Memory",
+    why: "Pointers and memory management are what separate C from higher-level languages. Understanding the stack, heap, and file I/O is essential for systems programming.",
+    topics: [
+      "Pointers: addresses, dereferencing, pointer arithmetic",
+      "Segmentation faults and memory errors",
+      "Dynamic memory allocation: malloc, free",
+      "Stack vs heap memory layout",
+      "Buffer overflow and security implications",
+      "File I/O: reading and writing files, images (BMP)",
+    ],
+    pset: "Filter (image filters: grayscale, blur, edges), Recover (recover JPEGs from raw data)",
+    lectureUrl: "https://cs50.harvard.edu/college/2026/spring/weeks/4/",
+    psetUrl: "https://cs50.harvard.edu/college/2026/spring/psets/4/",
+    videoUrl: "https://www.youtube.com/watch?v=XYKUeFWQ_zc&list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+  },
+  {
+    id: "week5",
+    title: "Week 5: Data Structures",
+    why: "Data structures are the building blocks of efficient programs. Hash tables, linked lists, and trees appear in databases, operating systems, and every large-scale application.",
+    topics: [
+      "Abstract data types (ADTs)",
+      "Queues and stacks: FIFO and LIFO",
+      "Singly and doubly linked lists",
+      "Trees and binary search trees (BSTs)",
+      "Hash tables: hash functions, collisions",
+      "Tries: prefix trees for string storage",
+    ],
+    pset: "Speller: implement a fast spell checker using a hash table",
+    lectureUrl: "https://cs50.harvard.edu/college/2026/spring/weeks/5/",
+    psetUrl: "https://cs50.harvard.edu/college/2026/spring/psets/5/",
+    videoUrl: "https://www.youtube.com/watch?v=2zUZgO8h-HA&list=PLhQjrBD2T381WAHyx1pq-sBfykqMBI7V4",
+  },
+];
+
 const GUIDE_TO_QUIZ_TOPIC = {
   numbers: "Number Systems",
   bitwise: "Bit Manipulation",
@@ -813,6 +918,7 @@ const state = {
   topicScores: JSON.parse(localStorage.getItem("firmwareMathTopicScores") || "{}"),
   foundationsScores: JSON.parse(localStorage.getItem("firmwareMathFoundationsScores") || "{}"),
   foundationsQuizLength: Number(localStorage.getItem("firmwareMathFoundationsLength") || 25),
+  cs50Progress: JSON.parse(localStorage.getItem("firmwareMathCS50Progress") || "{}"),
   foundationsView: "overview",
   foundationsCurrentLevel: 0,
   fQueue: [],
@@ -839,6 +945,7 @@ function saveProgress() {
   localStorage.setItem("firmwareMathTopicScores", JSON.stringify(state.topicScores));
   localStorage.setItem("firmwareMathFoundationsScores", JSON.stringify(state.foundationsScores));
   localStorage.setItem("firmwareMathFoundationsLength", String(state.foundationsQuizLength));
+  localStorage.setItem("firmwareMathCS50Progress", JSON.stringify(state.cs50Progress));
   localStorage.setItem("firmwareMathQuizLength", String(state.quizLength));
 }
 
@@ -892,6 +999,7 @@ function switchTab(tab) {
   if (tab === "progress") renderProgress();
   if (tab === "resources") renderResources();
   if (tab === "foundations") renderFoundations();
+  if (tab === "cs50") renderCS50();
 }
 
 function renderGuideList() {
@@ -1481,6 +1589,71 @@ function finishFoundationCheckpoint() {
     </div>`;
   $("fBackToLevel").addEventListener("click", () => renderFoundationLevel(state.foundationsCurrentLevel));
   $("fBackToPath").addEventListener("click", renderFoundations);
+}
+
+/* CS50 TAB */
+
+function renderCS50() {
+  $("cs50View").innerHTML = `
+    <p class="section-intro">Harvard CS50: Introduction to Computer Science. Track your progress through Weeks 0\u20135 (Scratch through Data Structures).</p>
+    <div class="cs50-path">
+      ${CS50_WEEKS.map((week, index) => {
+        const done = state.cs50Progress[week.id];
+        return `
+        <div class="cs50-card ${done ? "done" : ""}" data-cs50="${week.id}">
+          <div class="cs50-card-top">
+            <span class="cs50-week-num">Week ${index}</span>
+            ${done ? '<span class="cs50-check">Completed</span>' : '<span class="cs50-check pending">Not started</span>'}
+          </div>
+          <h3>${esc(week.title)}</h3>
+          <p>${esc(week.topics.slice(0, 3).join(" \u00b7 "))} \u00b7\u00b7\u00b7</p>
+          <div class="cs50-card-action">Open week \u2192</div>
+        </div>`;
+      }).join("")}
+    </div>`;
+  document.querySelectorAll("[data-cs50]").forEach((card) => {
+    card.addEventListener("click", () => renderCS50Week(card.dataset.cs50));
+  });
+}
+
+function renderCS50Week(id) {
+  const week = CS50_WEEKS.find((w) => w.id === id);
+  if (!week) { renderCS50(); return; }
+  const done = state.cs50Progress[week.id];
+  $("cs50View").innerHTML = `
+    <button class="back" id="backToCS50">\u2190 All Weeks</button>
+    <article class="cs50-detail">
+      <div class="cs50-week-num">${esc(week.title)}</div>
+      <h2>${esc(week.title)}</h2>
+      <div class="why-box"><div class="label" style="margin-top:0">WHY THIS MATTERS</div><p>${esc(week.why)}</p></div>
+      <div class="label">TOPICS COVERED</div>
+      <div class="cs50-topics">
+        ${week.topics.map((t) => `<div class="cs50-topic-item">${esc(t)}</div>`).join("")}
+      </div>
+      <div class="label">PROBLEM SET</div>
+      <div class="cs50-pset">${esc(week.pset)}</div>
+      <div class="label">RESOURCES</div>
+      <div class="cs50-resources">
+        <a class="resource-link primary" href="${week.lectureUrl}" target="_blank" rel="noopener">CS50 Lecture Notes \u2192</a>
+        <a class="resource-link primary" href="${week.psetUrl}" target="_blank" rel="noopener">Problem Set Page \u2192</a>
+        <a class="resource-link secondary" href="${week.videoUrl}" target="_blank" rel="noopener">Watch on YouTube \u2192</a>
+      </div>
+      <div class="cs50-progress-area">
+        <button class="primary" id="toggleCS50Progress">
+          ${done ? "Mark as incomplete" : "Mark as completed \u2192"}
+        </button>
+      </div>
+    </article>`;
+  $("backToCS50").addEventListener("click", renderCS50);
+  $("toggleCS50Progress").addEventListener("click", () => {
+    if (state.cs50Progress[week.id]) {
+      delete state.cs50Progress[week.id];
+    } else {
+      state.cs50Progress[week.id] = true;
+    }
+    saveProgress();
+    renderCS50Week(id);
+  });
 }
 
 document.querySelectorAll(".tab").forEach((button) => button.addEventListener("click", () => switchTab(button.dataset.tab)));
