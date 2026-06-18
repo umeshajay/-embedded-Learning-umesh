@@ -171,6 +171,141 @@ const TOPIC_ORDER_IDS = [
 ];
 STUDY_GUIDE.sort((a, b) => TOPIC_ORDER_IDS.indexOf(a.id) - TOPIC_ORDER_IDS.indexOf(b.id));
 
+const FOUNDATIONS = [
+  {
+    id: "arithmetic",
+    title: "Arithmetic & Number Sense",
+    why: "Every embedded calculation starts here. Place value, fractions, percentages, and order of operations are used daily when converting sensor readings, computing scaling factors, and avoiding off-by-one errors.",
+    topics: [
+      "Place value & decimal system",
+      "Order of operations (PEMDAS)",
+      "Fractions, decimals, and percentages",
+      "Rounding, truncation, and estimation",
+    ],
+    checkpoint: [
+      { q: "15 + 27 = ?", a: 42, hint: "Add tens first (10+20=30), then ones (5+7=12), then total them." },
+      { q: "3 x (4 + 6) = ?", a: 30, hint: "Parentheses first: 4+6=10, then 3x10=30." },
+      { q: "25 percent of 200 = ?", a: 50, hint: "Percent means per hundred: 25/100 x 200 = 1/4 x 200." },
+      { q: "7/8 of 24 = ?", a: 21, hint: "First find 1/8 of 24 which is 3, then multiply by 7." },
+      { q: "100 - 3 x 7 = ?", a: 79, hint: "Multiply before subtracting: 3x7=21, 100-21=79." },
+    ],
+  },
+  {
+    id: "prealgebra",
+    title: "Pre-Algebra & Equations",
+    why: "Rearranging formulas and solving for unknowns is the most common embedded math task. Baud rates, PWM duty cycles, voltage dividers, and timer frequencies all require equation skills.",
+    topics: [
+      "Solving simple equations (x + a = b)",
+      "Solving multiplication equations (ax = b)",
+      "Using parentheses and distribution",
+      "Substituting values into formulas",
+      "Two-step equations (ax + b = c)",
+    ],
+    checkpoint: [
+      { q: "x + 7 = 15, x = ?", a: 8, hint: "Subtract 7 from both sides." },
+      { q: "3x = 24, x = ?", a: 8, hint: "Divide both sides by 3." },
+      { q: "2(x + 3) = 14, x = ?", a: 4, hint: "Divide both sides by 2 first: x+3=7, then x=4." },
+      { q: "If y = 3x + 2 and x = 5, y = ?", a: 17, hint: "Substitute: y = 3(5) + 2 = 15 + 2." },
+      { q: "4x - 3 = 13, x = ?", a: 4, hint: "Add 3 to both sides: 4x=16, then divide by 4." },
+    ],
+  },
+  {
+    id: "algebra",
+    title: "Algebra I & Functions",
+    why: "Linear functions, slopes, and quadratics appear in sensor calibration, ADC transfer functions, and acceleration curves. Function notation is the language of ML models.",
+    topics: [
+      "Linear equations and slope",
+      "Function notation f(x)",
+      "Quadratic equations (x^2)",
+      "Intercepts and graphing",
+      "Systems of equations",
+    ],
+    checkpoint: [
+      { q: "Slope of line through (0,0) and (2,6) = ?", a: 3, hint: "Slope = (6-0)/(2-0) = 6/2." },
+      { q: "f(x) = 2x^2, if x=3 then f(3) = ?", a: 18, hint: "2 x 3^2 = 2 x 9." },
+      { q: "If x^2 = 49, positive x = ?", a: 7, hint: "What number times itself equals 49?" },
+      { q: "y-intercept of y = 3x + 5 is ?", a: 5, hint: "The y-intercept is the constant term when x=0." },
+      { q: "2x + 3 = 11, x = ?", a: 4, hint: "Subtract 3, then divide by 2." },
+    ],
+  },
+  {
+    id: "geometry",
+    title: "Geometry & Measurement",
+    why: "Area, perimeter, and volume calculations are used for PCB space budgeting, enclosure design, and memory layout. Unit conversions are essential for sensor data.",
+    topics: [
+      "Area and perimeter of rectangles",
+      "Volume of cubes and rectangular prisms",
+      "Pi and circle basics",
+      "Unit conversion (metric)",
+      "Coordinate geometry basics",
+    ],
+    checkpoint: [
+      { q: "Area of a 3 x 4 rectangle = ?", a: 12, hint: "Area = length x width = 3 x 4." },
+      { q: "Perimeter of a 5 x 5 square = ?", a: 20, hint: "Perimeter = 4 x side = 4 x 5." },
+      { q: "Pi rounded to nearest integer = ?", a: 3, hint: "Pi is approximately 3.14159." },
+      { q: "Volume of a 2x2x2 cube = ?", a: 8, hint: "Volume = side^3 = 2^3." },
+      { q: "1 meter = ? centimeters", a: 100, hint: "Centi means one hundredth." },
+    ],
+  },
+  {
+    id: "trig",
+    title: "Trigonometry & Angles",
+    why: "Trig functions describe AC signals, motor control angles, IMU orientation, and 3D rotations. Understanding sine, cosine, and angle measures is critical for sensor fusion.",
+    topics: [
+      "Sine and cosine at key angles",
+      "Right angle measures",
+      "Angle sum of triangles",
+      "Degrees in a full circle",
+      "Angle relationships",
+    ],
+    checkpoint: [
+      { q: "sin(0 degrees) = ?", a: 0, hint: "At 0 degrees, the sine wave starts at 0." },
+      { q: "cos(0 degrees) = ?", a: 1, hint: "At 0 degrees, cosine equals its maximum value." },
+      { q: "A right angle is how many degrees?", a: 90, hint: "A right angle forms a perfect L shape." },
+      { q: "A full circle has how many degrees?", a: 360, hint: "One complete rotation." },
+      { q: "The three angles of a triangle sum to how many degrees?", a: 180, hint: "Triangle angle sum theorem." },
+    ],
+  },
+  {
+    id: "precalc",
+    title: "Pre-Calculus & Patterns",
+    why: "Exponents, logarithms, sequences, and scientific notation are used for signal scaling, decibel calculations, sensor dynamic range, and understanding model complexity growth.",
+    topics: [
+      "Exponents and powers of 2",
+      "Scientific notation",
+      "Logarithms as inverse of exponents",
+      "Number sequences and patterns",
+      "Exponent rules (product of powers)",
+    ],
+    checkpoint: [
+      { q: "2 to the power of 10 (2^10) = ?", a: 1024, hint: "2^10 = 1024. Powers of 2 show up everywhere in computing." },
+      { q: "log base 2 of 64 (log2 64) = ?", a: 6, hint: "2 raised to what power equals 64?" },
+      { q: "10 to the power of 6 (10^6) = ?", a: 1000000, hint: "One followed by 6 zeros." },
+      { q: "Next value in sequence: 3, 6, 12, 24, ?", a: 48, hint: "Each term is doubled." },
+      { q: "2^3 x 2^4 = 2 raised to what power?", a: 7, hint: "When multiplying same bases, add the exponents: 3+4." },
+    ],
+  },
+  {
+    id: "calculus",
+    title: "Calculus Foundations",
+    why: "Calculus intuition powers PID control, filter design, gradient descent for ML training, and understanding rate-of-change in sensor data. You need the concepts, not just the computation.",
+    topics: [
+      "Average rate of change",
+      "Area under a curve (integral intuition)",
+      "Frequency and period relationship",
+      "Evaluating simple functions",
+      "Slope and linear rate of change",
+    ],
+    checkpoint: [
+      { q: "If a value changes from 2 to 12 in 2 seconds, average rate = ?", a: 5, hint: "Rate = (12-2)/2 = 10/2." },
+      { q: "Area of a 4 x 5 rectangle = ?", a: 20, hint: "Area = base x height." },
+      { q: "A 100 Hz signal has period in ms = ?", a: 10, hint: "Period = 1000/100 ms." },
+      { q: "If f(t) = 3t and t=3, f(3) = ?", a: 9, hint: "Substitute: f(3) = 3 x 3." },
+      { q: "Slope of y = 2x + 1 is ?", a: 2, hint: "In y = mx + b, m is the slope." },
+    ],
+  },
+];
+
 const GUIDE_TO_QUIZ_TOPIC = {
   numbers: "Number Systems",
   bitwise: "Bit Manipulation",
@@ -648,6 +783,15 @@ const state = {
   quizDone: false,
   allResults: JSON.parse(localStorage.getItem("firmwareMathProgress") || "{}"),
   topicScores: JSON.parse(localStorage.getItem("firmwareMathTopicScores") || "{}"),
+  foundationsScores: JSON.parse(localStorage.getItem("firmwareMathFoundationsScores") || "{}"),
+  foundationsView: "overview",
+  foundationsCurrentLevel: 0,
+  fQueue: [],
+  fIdx: 0,
+  fInput: "",
+  fFeedback: null,
+  fShowHint: false,
+  fScore: 0,
 };
 
 for (const key of Object.keys(state.topicScores)) {
@@ -662,6 +806,7 @@ const esc = (value) => String(value).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;"
 function saveProgress() {
   localStorage.setItem("firmwareMathProgress", JSON.stringify(state.allResults));
   localStorage.setItem("firmwareMathTopicScores", JSON.stringify(state.topicScores));
+  localStorage.setItem("firmwareMathFoundationsScores", JSON.stringify(state.foundationsScores));
   localStorage.setItem("firmwareMathQuizLength", String(state.quizLength));
 }
 
@@ -714,6 +859,7 @@ function switchTab(tab) {
   $(`${tab}Panel`).classList.add("active");
   if (tab === "progress") renderProgress();
   if (tab === "resources") renderResources();
+  if (tab === "foundations") renderFoundations();
 }
 
 function renderGuideList() {
@@ -1074,6 +1220,159 @@ function renderResourceDetail(topic) {
       <p class="attribution">Note: All Khan Academy content is available for free at <a href="https://www.khanacademy.org" target="_blank" rel="noopener">www.khanacademy.org</a>.</p>
     </div>`;
   $("backToResources").addEventListener("click", renderResources);
+}
+
+/* FOUNDATIONS TAB */
+
+function isFoundationLevelUnlocked(index) {
+  if (index <= 0) return true;
+  return (state.foundationsScores[FOUNDATIONS[index - 1].id] || 0) >= 80;
+}
+
+function renderFoundations() {
+  state.foundationsView = "overview";
+  $("foundationsView").innerHTML = `
+    <p class="section-intro">A progressive math foundation from basic arithmetic to calculus, built for the embedded TinyML engineer. Each level unlocks after scoring 80% or higher on its checkpoint quiz.</p>
+    <div class="foundations-path">
+      ${FOUNDATIONS.map((level, index) => {
+        const unlocked = isFoundationLevelUnlocked(index);
+        const score = state.foundationsScores[level.id] || 0;
+        const attempted = score > 0;
+        return `
+        <div class="foundation-card ${unlocked ? "unlocked" : "locked"}" data-level="${index}">
+          <div class="foundation-level-num">Level ${index + 1}</div>
+          <h3>${esc(level.title)}</h3>
+          <p>${esc(level.topics.join(" \u00b7 "))}</p>
+          <div class="foundation-status">
+            ${unlocked
+              ? (attempted
+                ? `<span class="foundation-score" style="color:${score >= 80 ? "var(--green)" : "var(--amber)"}">Best: ${score}%</span><span class="foundation-cta">Open \u2192</span>`
+                : `<span class="foundation-cta">Start checkpoint \u2192</span>`)
+              : `<span class="foundation-locked-msg">Score 80% on Level ${index} to unlock</span>`}
+          </div>
+        </div>`;
+      }).join("")}
+    </div>`;
+  document.querySelectorAll(".foundation-card.unlocked").forEach((card) => {
+    card.addEventListener("click", () => renderFoundationLevel(Number(card.dataset.level)));
+  });
+}
+
+function renderFoundationLevel(index) {
+  if (!isFoundationLevelUnlocked(index)) { renderFoundations(); return; }
+  const level = FOUNDATIONS[index];
+  state.foundationsView = "level";
+  state.foundationsCurrentLevel = index;
+  const score = state.foundationsScores[level.id] || 0;
+  const passed = score >= 80;
+  $("foundationsView").innerHTML = `
+    <button class="back" id="backToFoundations">\u2190 All Levels</button>
+    <article class="foundation-detail">
+      <div class="foundation-level-num">Level ${index + 1}</div>
+      <h2>${esc(level.title)}</h2>
+      <div class="why-box"><div class="label" style="margin-top:0">WHY THIS MATTERS</div><p>${esc(level.why)}</p></div>
+      <div class="label">TOPICS TO MASTER</div>
+      <div class="foundation-topics">
+        ${level.topics.map((t) => `<div class="foundation-topic-item">${esc(t)}</div>`).join("")}
+      </div>
+      <div class="foundation-checkpoint-area">
+        ${score > 0 ? `<div class="foundation-score-badge">Best checkpoint score: <strong style="color:${passed ? "var(--green)" : "var(--amber)"}">${score}%</strong> ${passed ? "Passed" : "Keep trying for 80%"}</div>` : ""}
+        <button class="primary" id="startFoundationCheckpoint">
+          ${score > 0 ? "Retry checkpoint \u2192" : "Take checkpoint \u2192"}
+        </button>
+        ${index < FOUNDATIONS.length - 1
+          ? `<p class="foundation-unlock-note">${passed ? (isFoundationLevelUnlocked(index + 1) ? "Next level already unlocked." : "") : "Score 80% to unlock Level " + (index + 2)}</p>`
+          : '<p class="foundation-unlock-note">Final level -- you completed the foundations path.</p>'}
+      </div>
+    </article>`;
+  $("backToFoundations").addEventListener("click", renderFoundations);
+  $("startFoundationCheckpoint").addEventListener("click", startFoundationCheckpoint);
+}
+
+function startFoundationCheckpoint() {
+  const level = FOUNDATIONS[state.foundationsCurrentLevel];
+  state.fQueue = shuffle(level.checkpoint);
+  state.fIdx = 0;
+  state.fInput = "";
+  state.fFeedback = null;
+  state.fShowHint = false;
+  state.fScore = 0;
+  state.foundationsView = "checkpoint";
+  renderFoundationQuestion();
+}
+
+function renderFoundationQuestion() {
+  if (!state.fQueue.length || state.fIdx >= state.fQueue.length) {
+    finishFoundationCheckpoint();
+    return;
+  }
+  const q = state.fQueue[state.fIdx];
+  $("foundationsView").innerHTML = `
+    <div class="quiz-box">
+      <div class="quiz-top"><span>Checkpoint: ${esc(FOUNDATIONS[state.foundationsCurrentLevel].title)}</span><span>${state.fScore} correct</span></div>
+      <div class="dots">${state.fQueue.map((_, i) => `<div class="dot ${i < state.fIdx ? "done" : i === state.fIdx ? "current" : ""}"></div>`).join("")}</div>
+      <div class="topic-badge">Question ${state.fIdx + 1} of ${state.fQueue.length}</div>
+      <div class="question ${state.fFeedback || ""}">${esc(q.q)}</div>
+      ${state.fFeedback ? `<div class="feedback ${state.fFeedback}">${state.fFeedback === "correct" ? "Correct." : "Answer: " + q.a}</div>` : ""}
+      ${state.fShowHint && !state.fFeedback ? `<div class="hint">Hint: ${esc(q.hint)}</div>` : ""}
+      <input id="fAnswerInput" class="answer-input" type="number" inputmode="numeric" placeholder="Enter numeric answer..." value="${esc(state.fInput)}" ${state.fFeedback ? "disabled" : ""} autofocus />
+      <div class="quiz-actions">
+        <button class="secondary" id="fHintButton" ${state.fShowHint || state.fFeedback ? "disabled" : ""}>Show hint</button>
+        <button class="primary" id="fSubmitAnswer" ${state.fFeedback ? "disabled" : ""}>Submit \u2192</button>
+      </div>
+    </div>`;
+  const input = $("fAnswerInput");
+  if (input) {
+    input.focus();
+    input.addEventListener("input", () => { state.fInput = input.value; });
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") submitFoundationAnswer(); });
+  }
+  const hintBtn = $("fHintButton");
+  if (hintBtn) hintBtn.addEventListener("click", () => { state.fShowHint = true; renderFoundationQuestion(); });
+  const submitBtn = $("fSubmitAnswer");
+  if (submitBtn) submitBtn.addEventListener("click", submitFoundationAnswer);
+}
+
+function submitFoundationAnswer() {
+  if (state.fFeedback || state.fInput === "") return;
+  const q = state.fQueue[state.fIdx];
+  const correct = Number.parseInt(state.fInput, 10) === q.a;
+  state.fFeedback = correct ? "correct" : "wrong";
+  if (correct) state.fScore += 1;
+  renderFoundationQuestion();
+  window.setTimeout(() => {
+    state.fFeedback = null;
+    state.fShowHint = false;
+    state.fInput = "";
+    state.fIdx += 1;
+    if (state.fIdx >= state.fQueue.length) {
+      finishFoundationCheckpoint();
+    } else {
+      renderFoundationQuestion();
+    }
+  }, 900);
+}
+
+function finishFoundationCheckpoint() {
+  const pct = Math.round((state.fScore / state.fQueue.length) * 100);
+  const level = FOUNDATIONS[state.foundationsCurrentLevel];
+  const prevBest = state.foundationsScores[level.id] || 0;
+  state.foundationsScores[level.id] = Math.max(prevBest, pct);
+  saveProgress();
+  const passed = pct >= 80;
+  const nextUnlocked = passed && state.foundationsCurrentLevel < FOUNDATIONS.length - 1;
+  $("foundationsView").innerHTML = `
+    <div class="result-card">
+      <h2>${passed ? "Level passed!" : "Keep studying."}</h2>
+      <div class="result-score">${state.fScore}<span style="font-size:2rem;color:var(--dim)"> / ${state.fQueue.length}</span></div>
+      <p class="section-intro">${pct}% score on ${esc(level.title)}. ${passed ? (nextUnlocked ? "Level " + (state.foundationsCurrentLevel + 2) + " is now unlocked." : state.foundationsCurrentLevel >= FOUNDATIONS.length - 1 ? "You completed the foundations path!" : "Level mastered.") : "Score 80% or higher to unlock the next level."}</p>
+      <div class="result-actions">
+        <button class="primary" id="fBackToLevel">Back to level</button>
+        <button class="secondary" id="fBackToPath">All levels</button>
+      </div>
+    </div>`;
+  $("fBackToLevel").addEventListener("click", () => renderFoundationLevel(state.foundationsCurrentLevel));
+  $("fBackToPath").addEventListener("click", renderFoundations);
 }
 
 document.querySelectorAll(".tab").forEach((button) => button.addEventListener("click", () => switchTab(button.dataset.tab)));
