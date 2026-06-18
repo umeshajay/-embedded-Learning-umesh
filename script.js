@@ -1315,110 +1315,71 @@ function finishQuiz() {
 }
 
 function renderProgress() {
-  const sgTotal = STUDY_GUIDE.length;
-  const sgPassed = STUDY_GUIDE.filter((t) => getTopicScore(GUIDE_TO_QUIZ_TOPIC[t.id], "Intermediate") >= 90).length;
-  const sgAdvPassed = isAdvancedTrackUnlocked() ? STUDY_GUIDE.filter((t) => getTopicScore(GUIDE_TO_QUIZ_TOPIC[t.id], "Advanced") >= 90).length : 0;
-  const sgPct = Math.round((sgPassed / sgTotal) * 100);
-
-  const fTotal = FOUNDATIONS.length;
-  const fPassed = FOUNDATIONS.filter((l) => (state.foundationsScores[l.id] || 0) >= 80).length;
-  const fPct = Math.round((fPassed / fTotal) * 100);
-
-  const cTotal = CS50_WEEKS.length;
-  const cPassed = CS50_WEEKS.filter((w) => getCS50WeekScore(w.id) >= 80).length;
-  const cPct = Math.round((cPassed / cTotal) * 100);
-
-  const overall = Math.round((sgPassed + fPassed + cPassed) / (sgTotal + fTotal + cTotal) * 100);
-
+  const attemptedIds = Object.keys(state.allResults);
+  const correct = Object.values(state.allResults).filter(Boolean).length;
+  const attempted = attemptedIds.length;
+  const unlockedCount = highestUnlockedGuideIndex("Intermediate") + 1;
+  const advancedUnlockedCount = isAdvancedTrackUnlocked() ? highestUnlockedGuideIndex("Advanced") + 1 : 0;
+  if (!attempted) {
+    $("progressView").innerHTML = `<p class="section-intro">Your quiz history and topic unlocks are saved in this browser on this computer.</p><div class="empty">No attempts yet. Take a quiz or Cs50x checkpoint first.</div>${roadmapHtml()}`;
+    return;
+  }
   $("progressView").innerHTML = `
-    <p class="section-intro">Your complete progress across all sections.</p>
-    <div class="dashboard-grid">
-      <div class="dash-card">
-        <div class="dash-stat" style="color:var(--blue)">${overall}%</div>
-        <div class="dash-label">Overall</div>
-        <div class="dash-bar"><div class="dash-fill" style="width:${overall}%;background:var(--blue)"></div></div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-stat" style="color:var(--green)">${sgPct}%</div>
-        <div class="dash-label">Cs fundamentals</div>
-        <div class="dash-bar"><div class="dash-fill" style="width:${sgPct}%;background:var(--green)"></div></div>
-        <div class="dash-sub">${sgPassed}/${sgTotal} topics passed</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-stat" style="color:var(--amber)">${fPct}%</div>
-        <div class="dash-label">Maths Foundations</div>
-        <div class="dash-bar"><div class="dash-fill" style="width:${fPct}%;background:var(--amber)"></div></div>
-        <div class="dash-sub">${fPassed}/${fTotal} levels passed</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-stat" style="color:var(--violet)">${cPct}%</div>
-        <div class="dash-label">Cs50x</div>
-        <div class="dash-bar"><div class="dash-fill" style="width:${cPct}%;background:var(--violet)"></div></div>
-        <div class="dash-sub">${cPassed}/${cTotal} weeks passed</div>
-      </div>
+    <p class="section-intro">Saved quiz history for this offline app.</p>
+    <div class="progress-grid">
+      <div class="stat"><strong style="color:var(--green)">${correct}</strong><span>Correct</span></div>
+      <div class="stat"><strong style="color:var(--red)">${attempted - correct}</strong><span>Wrong</span></div>
+      <div class="stat"><strong style="color:var(--blue)">${Math.round((correct / attempted) * 100)}%</strong><span>Accuracy</span></div>
+      <div class="stat"><strong style="color:var(--amber)">${unlockedCount}/${STUDY_GUIDE.length}</strong><span>Intermediate</span></div>
+      <div class="stat"><strong style="color:var(--violet)">${advancedUnlockedCount}/${STUDY_GUIDE.length}</strong><span>Advanced</span></div>
     </div>
+    <div class="label">INTERMEDIATE BEST SCORES</div>
+    ${STUDY_GUIDE.map((topic, index) => {
+      const quizTopic = GUIDE_TO_QUIZ_TOPIC[topic.id];
+      const best = getTopicScore(quizTopic, "Intermediate");
+      const unlocked = isGuideTopicUnlocked(index, "Intermediate");
+      return `<div class="topic-progress-row"><strong>${esc(topic.title)}</strong><div class="bar"><div class="bar-fill" style="width:${best}%"></div></div><span>${unlocked ? `${best}%` : "Locked"}</span></div>`;
+    }).join("")}
+    <div class="label">ADVANCED BEST SCORES</div>
+    ${STUDY_GUIDE.map((topic, index) => {
+      const quizTopic = GUIDE_TO_QUIZ_TOPIC[topic.id];
+      const best = getTopicScore(quizTopic, "Advanced");
+      const unlocked = isGuideTopicUnlocked(index, "Advanced");
+      return `<div class="topic-progress-row"><strong>${esc(topic.title)}</strong><div class="bar"><div class="bar-fill" style="width:${best}%"></div></div><span>${unlocked ? `${best}%` : "Locked"}</span></div>`;
+    }).join("")}
+    <div class="label">Cs50x WEEK SCORES</div>
+    ${CS50_WEEKS.map((week) => {
+      const score = getCS50WeekScore(week.id);
+      const unlocked = isCS50WeekUnlocked(CS50_WEEKS.indexOf(week));
+      return `<div class="topic-progress-row"><strong>${esc(week.title)}</strong><div class="bar"><div class="bar-fill" style="width:${score}%"></div></div><span>${unlocked ? (score > 0 ? score + "%" : "Not started") : "Locked"}</span></div>`;
+    }).join("")}
+    <div class="label">BY TOPIC</div>
+    ${TOPICS.filter((t) => t !== "All").map(topicProgressHtml).join("")}
+    ${roadmapHtml()}`;
+}
 
-    <div class="dash-section-title">CS FUNDAMENTALS — INTERMEDIATE</div>
-    <div class="dash-track">
-      ${STUDY_GUIDE.map((topic) => {
-        const best = getTopicScore(GUIDE_TO_QUIZ_TOPIC[topic.id], "Intermediate");
-        const passed = best >= 90;
-        return `<div class="dash-item">
-          <span class="dash-status ${passed ? "done" : ""}">${passed ? "✓" : ""}</span>
-          <span class="dash-name">${esc(topic.title)}</span>
-          <div class="dash-bar"><div class="dash-fill ${passed ? "green" : ""}" style="width:${Math.min(best, 100)}%"></div></div>
-          <span class="dash-pct" style="color:${passed ? "var(--green)" : "var(--muted)"}">${best}%</span>
-        </div>`;
-      }).join("")}
-    </div>
+function topicProgressHtml(topic) {
+  const questions = QUIZ_BANK.filter((q) => q.topic === topic);
+  const attempted = questions.filter((q) => state.allResults[q.id] !== undefined);
+  if (!attempted.length) return "";
+  const correct = attempted.filter((q) => state.allResults[q.id]).length;
+  const pct = Math.round((correct / attempted.length) * 100);
+  return `<div class="topic-progress-row"><strong>${esc(topic)}</strong><div class="bar"><div class="bar-fill" style="width:${pct}%"></div></div><span>${pct}%</span></div>`;
+}
 
-    <div class="dash-section-title">MATHS FOUNDATIONS</div>
-    <div class="dash-track">
-      ${FOUNDATIONS.map((level, i) => {
-        const score = state.foundationsScores[level.id] || 0;
-        const unlocked = i === 0 || (state.foundationsScores[FOUNDATIONS[i - 1].id] || 0) >= 80;
-        const passed = score >= 80;
-        return `<div class="dash-item">
-          <span class="dash-status ${passed ? "done" : unlocked ? "open" : "locked"}">${passed ? "✓" : unlocked ? "→" : "🔒"}</span>
-          <span class="dash-name">${esc(level.title)}</span>
-          <div class="dash-bar"><div class="dash-fill ${passed ? "amber" : ""}" style="width:${Math.min(score, 100)}%"></div></div>
-          <span class="dash-pct" style="color:${passed ? "var(--green)" : unlocked ? "var(--muted)" : "var(--dim)"}">${unlocked ? (score > 0 ? score + "%" : "Not started") : "Locked"}</span>
-        </div>`;
-      }).join("")}
-    </div>
-
-    <div class="dash-section-title">CS50X</div>
-    <div class="dash-track">
-      ${CS50_WEEKS.map((week) => {
-        const score = getCS50WeekScore(week.id);
-        const idx = CS50_WEEKS.indexOf(week);
-        const unlocked = isCS50WeekUnlocked(idx);
-        const passed = score >= 80;
-        return `<div class="dash-item">
-          <span class="dash-status ${passed ? "done" : unlocked ? "open" : "locked"}">${passed ? "✓" : unlocked ? "→" : "🔒"}</span>
-          <span class="dash-name">${esc(week.title)}</span>
-          <div class="dash-bar"><div class="dash-fill ${passed ? "violet" : ""}" style="width:${Math.min(score, 100)}%"></div></div>
-          <span class="dash-pct" style="color:${passed ? "var(--green)" : unlocked ? "var(--muted)" : "var(--dim)"}">${unlocked ? (score > 0 ? score + "%" : "Not started") : "Locked"}</span>
-        </div>`;
-      }).join("")}
-    </div>
-
-    <div class="dash-section-title">LEARNING ROADMAP</div>
-    <div class="dash-roadmap">
-      ${["Phase 1: Number systems, bit manipulation, Boolean logic, and register-level thinking",
-        "Phase 2: Algebra, fixed-point arithmetic, modular wraparound, and timer math",
-        "Phase 3: Calculus intuition, trigonometry, sampling, filters, and signal features",
-        "Phase 4: Control systems: feedback, PID, stability, update rates, and saturation",
-        "Phase 5: Statistics, probability, normalization, noise, and dataset quality",
-        "Phase 6: Linear algebra: vectors, matrices, dot products, tensor shapes, dense layers",
-        "Phase 7: ML fundamentals: labels, losses, gradient descent, batches, and evaluation",
-        "Phase 8: Neural networks: activations, convolutions, parameter counts, memory cost",
-        "Phase 9: TinyML deployment: int8 quantization, precision, latency, RAM, flash, power",
-      ].map((row) => {
-        const [phase, desc] = row.split(": ");
-        return `<div class="dash-roadmap-row"><strong>${esc(phase)}</strong><span>${esc(desc)}</span></div>`;
-      }).join("")}
-    </div>`;
+function roadmapHtml() {
+  const rows = [
+    ["Phase 1", "Number systems, bit manipulation, Boolean logic, and register-level thinking"],
+    ["Phase 2", "Algebra, fixed-point arithmetic, modular wraparound, and timer math"],
+    ["Phase 3", "Calculus intuition, trigonometry, sampling, filters, and signal features"],
+    ["Phase 4", "Control systems: feedback, PID, stability, update rates, and saturation"],
+    ["Phase 5", "Statistics, probability, normalization, noise, and dataset quality"],
+    ["Phase 6", "Linear algebra: vectors, matrices, dot products, tensor shapes, dense layers"],
+    ["Phase 7", "ML fundamentals: labels, losses, gradient descent, batches, and evaluation"],
+    ["Phase 8", "Neural networks: activations, convolutions, parameter counts, memory cost"],
+    ["Phase 9", "TinyML deployment: int8 quantization, precision, latency, RAM, flash, power"],
+  ];
+  return `<div class="label">YOUR LEARNING ROADMAP</div>${rows.map(([phase, task]) => `<div class="roadmap-row"><strong>${esc(phase)}</strong><span>${esc(task)}</span></div>`).join("")}`;
 }
 
 function renderResources() {
