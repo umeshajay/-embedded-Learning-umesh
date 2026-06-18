@@ -403,8 +403,9 @@ function makeGeneratedQuestion(id, topic, level, n) {
       return item(`Convert ${a} MHz to Hz.`, a * 1000000, "MHz means million hertz.");
     }
     case "Fixed-Point": {
+      const singleB = ((n * 3) % 9) + 1;
       if (n % 4 === 0) return item(`Q8.8 representation of ${a}.0 equals?`, a * 256, "Q8.8 scale is 2^8.");
-      if (n % 4 === 1) return item(`Store ${a}.${b} using scale 100. Rounded integer = ?`, a * 100 + b * 10, "Move two decimal places.");
+      if (n % 4 === 1) return item(`Store ${a}.${singleB} using scale 100. Rounded integer = ?`, a * 100 + singleB * 10, "Move two decimal places.");
       if (n % 4 === 2) return item(`Signed ${a + 8}-bit max value is?`, 2 ** (a + 7) - 1, "Signed max is 2^(bits-1)-1.");
       return item(`Unsigned ${a + 8}-bit value wraps after how many distinct values?`, 2 ** (a + 8), "Unsigned range size is 2^bits.");
     }
@@ -650,7 +651,7 @@ function renderGuideDetail(id) {
   $("backToGuides").addEventListener("click", renderGuideList);
   $("practiceTopic").addEventListener("click", () => {
     state.quizTopic = guideTitleToQuizTopic(topic.title);
-    state.quizLevel = "All";
+    state.quizLevel = "Intermediate";
     state.quizDone = false;
     renderQuizSetup();
     switchTab("quiz");
