@@ -1234,6 +1234,42 @@ function restoreQuizSession() {
   } catch { clearQuizSession(); return false; }
 }
 
+function saveCS50Session() {
+  if (!state.cs50Queue.length) return;
+  localStorage.setItem("firmwareMathCS50Session", JSON.stringify({
+    queue: state.cs50Queue,
+    cs50QIdx: state.cs50QIdx,
+    cs50Score: state.cs50Score,
+    cs50Input: state.cs50Input,
+    cs50Feedback: state.cs50Feedback,
+    cs50ShowHint: state.cs50ShowHint,
+    cs50CurrentWeek: state.cs50CurrentWeek,
+    cs50Level: state.cs50Level,
+  }));
+}
+
+function clearCS50Session() {
+  localStorage.removeItem("firmwareMathCS50Session");
+}
+
+function restoreCS50Session() {
+  const saved = localStorage.getItem("firmwareMathCS50Session");
+  if (!saved) return false;
+  try {
+    const session = JSON.parse(saved);
+    if (!session.queue || !session.queue.length) { clearCS50Session(); return false; }
+    state.cs50Queue = session.queue;
+    state.cs50QIdx = session.cs50QIdx ?? 0;
+    state.cs50Score = session.cs50Score ?? 0;
+    state.cs50Input = session.cs50Input ?? "";
+    state.cs50Feedback = session.cs50Feedback ?? null;
+    state.cs50ShowHint = session.cs50ShowHint ?? false;
+    state.cs50CurrentWeek = session.cs50CurrentWeek ?? null;
+    state.cs50Level = session.cs50Level ?? "Easy";
+    return true;
+  } catch { clearCS50Session(); return false; }
+}
+
 function saveFoundationSession() {
   if (!state.fQueue.length) return;
   localStorage.setItem("firmwareMathFoundSession", JSON.stringify({
@@ -2107,6 +2143,17 @@ function renderCS50Week(id) {
   const passed = score >= 80;
   const weekIndex = CS50_WEEKS.indexOf(week);
   const nextUnlocked = isCS50WeekUnlocked(weekIndex + 1);
+  const cs50Saved = localStorage.getItem("firmwareMathCS50Session");
+  let cs50ResumeHtml = "";
+  if (cs50Saved) {
+    try {
+      const s = JSON.parse(cs50Saved);
+      if (s.queue && s.queue.length && s.cs50CurrentWeek === id) {
+        const cur = (s.cs50QIdx ?? 0) + 1;
+        cs50ResumeHtml = `<div class="resume-card"><span>Unfinished quiz · Q${cur}/${s.queue.length} · ${s.cs50Score ?? 0} correct</span><div><button class="primary" id="cs50ResumeBtn">Resume</button><button class="secondary" id="cs50DiscardBtn" style="margin-left:8px">Start from first</button></div></div>`;
+      }
+    } catch {}
+  }
   $("cs50View").innerHTML = `
     <button class="back" id="backToCS50">\u2190 All Weeks</button>
     <article class="cs50-detail">
@@ -2126,6 +2173,7 @@ function renderCS50Week(id) {
         <a class="resource-link secondary" href="${week.videoUrl}" target="_blank" rel="noopener">YouTube Playlist (Weeks 0\u20135) \u2192</a>
       </div>
       <div class="cs50-progress-area">
+        ${cs50ResumeHtml}
         ${score > 0 ? `<div class="foundation-score-badge">Best quiz score: <strong style="color:${passed ? "var(--green)" : "var(--amber)"}">${score}%</strong> ${passed ? "Passed" : "Keep trying for 80%"}</div>` : ""}
         <button class="primary" id="startCS50Quiz">
           ${score > 0 ? "Retry quiz \u2192" : "Take checkpoint quiz \u2192"}
@@ -2137,9 +2185,20 @@ function renderCS50Week(id) {
     </article>`;
   $("backToCS50").addEventListener("click", () => { state.cs50CurrentWeek = null; state.cs50Queue = []; renderCS50(); });
   $("startCS50Quiz").addEventListener("click", () => startCS50Quiz(id));
+  const cs50ResumeBtn = $("cs50ResumeBtn");
+  if (cs50ResumeBtn) cs50ResumeBtn.addEventListener("click", () => {
+    restoreCS50Session();
+    renderCS50Question();
+  });
+  const cs50DiscardBtn = $("cs50DiscardBtn");
+  if (cs50DiscardBtn) cs50DiscardBtn.addEventListener("click", () => {
+    clearCS50Session();
+    renderCS50Week(id);
+  });
 }
 
 function startCS50Quiz(id) {
+  clearCS50Session();
   const quiz = getCS50Quiz(id, state.cs50Level);
   if (!quiz || !quiz.length) { renderCS50Week(id); return; }
   state.cs50Queue = shuffle(quiz);
@@ -2149,6 +2208,7 @@ function startCS50Quiz(id) {
   state.cs50ShowHint = false;
   state.cs50Score = 0;
   state.cs50CurrentWeek = id;
+  saveCS50Session();
   renderCS50Question();
 }
 
@@ -2198,6 +2258,7 @@ function submitCS50Answer() {
   const correct = Number.parseInt(state.cs50Input, 10) === q.a;
   state.cs50Feedback = correct ? "correct" : "wrong";
   if (correct) state.cs50Score += 1;
+  saveCS50Session();
   renderCS50Question();
   window.setTimeout(() => {
     state.cs50Feedback = null;
@@ -2213,6 +2274,7 @@ function submitCS50Answer() {
 }
 
 function finishCS50Quiz() {
+  clearCS50Session();
   const totalQ = state.cs50Queue.length;
   const pct = Math.round((state.cs50Score / totalQ) * 100);
   const weekId = state.cs50CurrentWeek;
@@ -2273,11 +2335,13 @@ renderProgress();
 
 const hasQuizSession = localStorage.getItem("firmwareMathQuizSession");
 const hasFoundSession = localStorage.getItem("firmwareMathFoundSession");
-if (hasQuizSession || hasFoundSession) {
+const hasCS50Session = localStorage.getItem("firmwareMathCS50Session");
+if (hasQuizSession || hasFoundSession || hasCS50Session) {
   const banner = document.createElement("div");
   banner.id = "resumeBanner";
   let label = "Unfinished quiz found — ";
-  if (hasQuizSession && hasFoundSession) label = "Unfinished quizzes found — ";
+  const count = [hasQuizSession, hasFoundSession, hasCS50Session].filter(Boolean).length;
+  if (count > 1) label = "Unfinished quizzes found — ";
   banner.innerHTML = `${label}<a href="#" id="resumeBannerLink">Resume now</a> <span id="resumeBannerClose" style="cursor:pointer;margin-left:12px;opacity:.6">✕</span>`;
   document.body.prepend(banner);
   $("resumeBannerLink").addEventListener("click", (e) => {
@@ -2299,6 +2363,21 @@ if (hasQuizSession || hasFoundSession) {
           }
         } catch { renderQuizSetup(); }
       }
+    } else if (hasCS50Session) {
+      switchTab("cs50");
+      const saved = localStorage.getItem("firmwareMathCS50Session");
+      if (saved) {
+        try {
+          const session = JSON.parse(saved);
+          if (session.queue && session.queue.length) {
+            restoreCS50Session();
+            renderCS50Question();
+          } else {
+            clearCS50Session();
+            renderCS50();
+          }
+        } catch { renderCS50(); }
+      }
     } else if (hasFoundSession) {
       switchTab("foundations");
       const saved = localStorage.getItem("firmwareMathFoundSession");
@@ -2306,7 +2385,6 @@ if (hasQuizSession || hasFoundSession) {
         try {
           const session = JSON.parse(saved);
           if (session.queue && session.queue.length) {
-            const lvl = session.fLevel ?? 0;
             restoreFoundationSession();
             renderFoundationQuestion();
           } else {
