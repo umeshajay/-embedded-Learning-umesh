@@ -1234,6 +1234,43 @@ function restoreQuizSession() {
   } catch { clearQuizSession(); return false; }
 }
 
+function saveFoundationSession() {
+  if (!state.fQueue.length) return;
+  localStorage.setItem("firmwareMathFoundSession", JSON.stringify({
+    queue: state.fQueue,
+    fIdx: state.fIdx,
+    fScore: state.fScore,
+    fInput: state.fInput,
+    fFeedback: state.fFeedback,
+    fShowHint: state.fShowHint,
+    fLevel: state.foundationsCurrentLevel,
+    fLength: state.foundationsQuizLength,
+  }));
+}
+
+function clearFoundationSession() {
+  localStorage.removeItem("firmwareMathFoundSession");
+}
+
+function restoreFoundationSession() {
+  const saved = localStorage.getItem("firmwareMathFoundSession");
+  if (!saved) return false;
+  try {
+    const session = JSON.parse(saved);
+    if (!session.queue || !session.queue.length) { clearFoundationSession(); return false; }
+    state.fQueue = session.queue;
+    state.fIdx = session.fIdx ?? 0;
+    state.fScore = session.fScore ?? 0;
+    state.fInput = session.fInput ?? "";
+    state.fFeedback = session.fFeedback ?? null;
+    state.fShowHint = session.fShowHint ?? false;
+    state.foundationsCurrentLevel = session.fLevel ?? 0;
+    state.foundationsQuizLength = session.fLength ?? 25;
+    state.foundationsView = "checkpoint";
+    return true;
+  } catch { clearFoundationSession(); return false; }
+}
+
 function scoreKey(topic, level = state.quizLevel) {
   return `${level}::${topic}`;
 }
@@ -1781,6 +1818,17 @@ function renderFoundationLevel(index) {
   const score = getFoundationScore(level.id);
   const passed = score >= 80;
   const lengths = [25, 50, 75];
+  const foundSaved = localStorage.getItem("firmwareMathFoundSession");
+  let foundResumeHtml = "";
+  if (foundSaved && parseInt(JSON.parse(foundSaved).fLevel) === index) {
+    try {
+      const s = JSON.parse(foundSaved);
+      if (s.queue && s.queue.length) {
+        const cur = (s.fIdx ?? 0) + 1;
+        foundResumeHtml = `<div class="resume-card"><span>Unfinished checkpoint · Q${cur}/${s.queue.length} · ${s.fScore ?? 0} correct</span><div><button class="primary" id="fResumeBtn">Resume</button><button class="secondary" id="fDiscardBtn" style="margin-left:8px">Start from first</button></div></div>`;
+      }
+    } catch {}
+  }
   $("foundationsView").innerHTML = `
     <button class="back" id="backToFoundations">\u2190 All Levels</button>
     <article class="foundation-detail">
@@ -1796,6 +1844,7 @@ function renderFoundationLevel(index) {
         ${level.resources.map((r, ri) => `<button class="card resource-card" data-fres="${ri}"><h2>${esc(r.name)}</h2><p>${esc(r.subtitle || "")}</p><div class="card-action">Open resource →</div></button>`).join("")}
       </div>
       <div class="foundation-checkpoint-area">
+        ${foundResumeHtml}
         ${score > 0 ? `<div class="foundation-score-badge">Best checkpoint score: <strong style="color:${passed ? "var(--green)" : "var(--amber)"}">${score}%</strong> ${passed ? "Passed" : "Keep trying for 80%"}</div>` : ""}
         <div class="filter-title">CHECKPOINT LENGTH</div>
         <div class="length-buttons">
@@ -1818,6 +1867,16 @@ function renderFoundationLevel(index) {
     });
   });
   $("startFoundationCheckpoint").addEventListener("click", startFoundationCheckpoint);
+  const fResumeBtn = $("fResumeBtn");
+  if (fResumeBtn) fResumeBtn.addEventListener("click", () => {
+    restoreFoundationSession();
+    renderFoundationQuestion();
+  });
+  const fDiscardBtn = $("fDiscardBtn");
+  if (fDiscardBtn) fDiscardBtn.addEventListener("click", () => {
+    clearFoundationSession();
+    renderFoundationLevel(index);
+  });
   document.querySelectorAll("[data-fres]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const ri = Number(btn.dataset.fres);
@@ -1899,6 +1958,7 @@ function getFoundationPool(levelIndex, count) {
 }
 
 function startFoundationCheckpoint() {
+  clearFoundationSession();
   state.fQueue = getFoundationPool(state.foundationsCurrentLevel, state.foundationsQuizLength);
   state.fIdx = 0;
   state.fInput = "";
@@ -1906,6 +1966,7 @@ function startFoundationCheckpoint() {
   state.fShowHint = false;
   state.fScore = 0;
   state.foundationsView = "checkpoint";
+  saveFoundationSession();
   renderFoundationQuestion();
 }
 
@@ -1947,6 +2008,7 @@ function submitFoundationAnswer() {
   const correct = Number.parseInt(state.fInput, 10) === q.a;
   state.fFeedback = correct ? "correct" : "wrong";
   if (correct) state.fScore += 1;
+  saveFoundationSession();
   renderFoundationQuestion();
   window.setTimeout(() => {
     state.fFeedback = null;
@@ -1962,6 +2024,7 @@ function submitFoundationAnswer() {
 }
 
 function finishFoundationCheckpoint() {
+  clearFoundationSession();
   const pct = Math.round((state.fScore / state.fQueue.length) * 100);
   const level = FOUNDATIONS[state.foundationsCurrentLevel];
   const key = `${state.foundationsLevel}::found::${level.id}`;
@@ -2208,28 +2271,50 @@ applyTheme(state.theme);
 renderStudy();
 renderProgress();
 
-if (localStorage.getItem("firmwareMathQuizSession")) {
+const hasQuizSession = localStorage.getItem("firmwareMathQuizSession");
+const hasFoundSession = localStorage.getItem("firmwareMathFoundSession");
+if (hasQuizSession || hasFoundSession) {
   const banner = document.createElement("div");
   banner.id = "resumeBanner";
-  banner.innerHTML = `Unfinished quiz found — <a href="#" id="resumeBannerLink">Resume now</a> <span id="resumeBannerClose" style="cursor:pointer;margin-left:12px;opacity:.6">✕</span>`;
+  let label = "Unfinished quiz found — ";
+  if (hasQuizSession && hasFoundSession) label = "Unfinished quizzes found — ";
+  banner.innerHTML = `${label}<a href="#" id="resumeBannerLink">Resume now</a> <span id="resumeBannerClose" style="cursor:pointer;margin-left:12px;opacity:.6">✕</span>`;
   document.body.prepend(banner);
   $("resumeBannerLink").addEventListener("click", (e) => {
     e.preventDefault();
     banner.remove();
-    state.studySubTab = "quiz";
-    switchTab("study");
-    const saved = localStorage.getItem("firmwareMathQuizSession");
-    if (saved) {
-      try {
-        const session = JSON.parse(saved);
-        if (session.queue && session.queue.length) {
-          restoreQuizSession();
-          renderQuestion();
-        } else {
-          clearQuizSession();
-          renderQuizSetup();
-        }
-      } catch { renderQuizSetup(); }
+    if (hasQuizSession) {
+      state.studySubTab = "quiz";
+      switchTab("study");
+      const saved = localStorage.getItem("firmwareMathQuizSession");
+      if (saved) {
+        try {
+          const session = JSON.parse(saved);
+          if (session.queue && session.queue.length) {
+            restoreQuizSession();
+            renderQuestion();
+          } else {
+            clearQuizSession();
+            renderQuizSetup();
+          }
+        } catch { renderQuizSetup(); }
+      }
+    } else if (hasFoundSession) {
+      switchTab("foundations");
+      const saved = localStorage.getItem("firmwareMathFoundSession");
+      if (saved) {
+        try {
+          const session = JSON.parse(saved);
+          if (session.queue && session.queue.length) {
+            const lvl = session.fLevel ?? 0;
+            restoreFoundationSession();
+            renderFoundationQuestion();
+          } else {
+            clearFoundationSession();
+            renderFoundations();
+          }
+        } catch { renderFoundations(); }
+      }
     }
   });
   $("resumeBannerClose").addEventListener("click", () => banner.remove());
