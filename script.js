@@ -524,6 +524,7 @@ const RESOURCES = [
       { title: "The Essence of Calculus (Ch1)", youtubeId: "WUvTyaaNkzM", channel: "3Blue1Brown" },
       { title: "The Paradox of the Derivative (Ch2)", youtubeId: "9vKqVkMQHKk", channel: "3Blue1Brown" },
       { title: "Derivative as a Concept", youtubeId: "N2PpRnFqnqY", channel: "Khan Academy" },
+      { title: "Definite Integrals Intro", youtubeId: "0dDIPzqKgYk", channel: "Khan Academy" },
     ],
     exerciseUrl: "https://www.khanacademy.org/math/ap-calculus-ab/ab-differentiation-1-new/ab-2-1/e/derivative-as-a-concept",
     topicUrl: "https://www.khanacademy.org/math/ap-calculus-ab",
@@ -532,8 +533,10 @@ const RESOURCES = [
     topic: "Fixed-Point",
     videos: [
       { title: "Floating Point Numbers (Fixed-point context)", youtubeId: "PZRI1IfStY0", channel: "Computerphile" },
+      { title: "IEEE 754 Standard for Floating-Point Arithmetic", youtubeId: "_NFaYk9R9jI", channel: "Neso Academy" },
     ],
-    topicUrl: "https://en.wikipedia.org/wiki/Fixed-point_arithmetic",
+    topicUrl: "https://www.nesoacademy.org/cs/03-computer-organization-and-architecture",
+    courseUrl: "https://www.youtube.com/playlist?list=PLBlnK6fEyqRgLLlzdgiTUKULKJPYc0A4q",
   },
   {
     topic: "Modular Arithmetic",
@@ -578,6 +581,8 @@ const RESOURCES = [
     videos: [
       { title: "The Fourier Transform", youtubeId: "spUNpyF58BY", channel: "3Blue1Brown" },
       { title: "Digital and Analog Information", youtubeId: "oSZNQ1LZjHg", channel: "Khan Academy" },
+      { title: "Nyquist Rate (Solved Problem 1)", youtubeId: "hRH9edUACcI", channel: "Neso Academy" },
+      { title: "Sampling, Aliasing & Nyquist Theorem", youtubeId: "yWqrx08UeUs", channel: "0612 TV w/ NERDfirst" },
     ],
     topicUrl: "https://www.khanacademy.org/computing/computer-science/informationtheory",
   },
@@ -610,6 +615,7 @@ const RESOURCES = [
     topic: "Quantization & Numeric Precision",
     videos: [
       { title: "Floating Point Numbers", youtubeId: "PZRI1IfStY0", channel: "Computerphile" },
+      { title: "IEEE 754 - Single and Double Precision", youtubeId: "TaDrBnRS0_Q", channel: "Neso Academy" },
     ],
     topicUrl: "https://www.tensorflow.org/lite/performance/quantization_spec",
   },
@@ -617,8 +623,10 @@ const RESOURCES = [
     topic: "Model Evaluation & Deployment Math",
     videos: [
       { title: "Precision, Recall, & F1 Score", youtubeId: "khykvGo-Yjc", channel: "TensorTeach" },
+      { title: "Precision, Recall, F1 score", youtubeId: "2osIZ-dSPGE", channel: "codebasics" },
     ],
     topicUrl: "https://www.khanacademy.org/math/ap-statistics/sampling-distribution-ap/what-is-sampling-distribution/v/introduction-to-sampling-distribution",
+    courseUrl: "https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall",
   },
 ];
 
@@ -1060,7 +1068,8 @@ function renderResourceDetail(topic) {
         </div>`).join("")}
       <div class="resource-links">
         ${res.exerciseUrl ? `<a class="primary resource-link" href="${res.exerciseUrl}" target="_blank" rel="noopener">Practice on Khan Academy →</a>` : ""}
-        <a class="secondary resource-link" href="${res.topicUrl}" target="_blank" rel="noopener">${res.topic.includes("Fixed-Point") || res.topic.includes("Quantization") ? "Read more →" : "Khan Academy topic page →"}</a>
+        ${res.courseUrl ? `<a class="primary resource-link" href="${res.courseUrl}" target="_blank" rel="noopener">Free Course Playlist →</a>` : ""}
+        <a class="secondary resource-link" href="${res.topicUrl}" target="_blank" rel="noopener">Topic Resources →</a>
       </div>
       <p class="attribution">Note: All Khan Academy content is available for free at <a href="https://www.khanacademy.org" target="_blank" rel="noopener">www.khanacademy.org</a>.</p>
     </div>`;
