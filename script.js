@@ -191,7 +191,7 @@ const FOUNDATIONS = [
     ],
     resources: [
       { name: "Khan Academy: Arithmetic", url: "https://www.khanacademy.org/math/arithmetic", subtitle: "Place value, addition, subtraction, multiplication, division, and fractions — the building blocks of embedded math." },
-      { name: "Brilliant: Algebra Fundamentals", url: "https://brilliant.org/courses/becoming-a-better-mathematician/", subtitle: "Interactive puzzles that build number sense, logic, and algebraic thinking through hands-on practice." },
+      { name: "Khan Academy: Place Value", url: "https://www.khanacademy.org/math/cc-fourth-grade-math/imp-place-value-and-rounding", subtitle: "Deep-dive into place value, rounding, and the decimal system used in number representations." },
     ],
   },
   {
@@ -214,7 +214,7 @@ const FOUNDATIONS = [
     ],
     resources: [
       { name: "Khan Academy: Pre-Algebra", url: "https://www.khanacademy.org/math/pre-algebra", subtitle: "Variables, expressions, equations, and inequalities — everything you need to rearrange formulas with confidence." },
-      { name: "Brilliant: Equations & Inequalities", url: "https://brilliant.org/courses/equations-and-inequalities/", subtitle: "Master equation-solving through interactive challenges designed to build intuition." },
+      { name: "Khan Academy: Algebraic Equations Basics", url: "https://www.khanacademy.org/math/algebra-basics/alg-basics-linear-equations-and-inequalities", subtitle: "Master solving one-step and two-step equations through structured practice." },
     ],
   },
   {
@@ -237,7 +237,7 @@ const FOUNDATIONS = [
     ],
     resources: [
       { name: "Khan Academy: Algebra 1", url: "https://www.khanacademy.org/math/algebra", subtitle: "Linear equations, functions, graphs, quadratics, and systems — the math behind sensor calibration and ML." },
-      { name: "Brilliant: Algebra Fundamentals", url: "https://brilliant.org/courses/algebra-fundamentals/", subtitle: "Algebraic reasoning through interactive discovery, from basic equations to advanced functions." },
+      { name: "Khan Academy: Linear Equations & Graphs", url: "https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:linear-equations-graphs", subtitle: "Understand slope, intercepts, and graphing — essential for sensor transfer functions." },
     ],
   },
   {
@@ -260,7 +260,7 @@ const FOUNDATIONS = [
     ],
     resources: [
       { name: "Khan Academy: Geometry", url: "https://www.khanacademy.org/math/geometry", subtitle: "Area, volume, angles, transformations, and coordinate geometry for physical design intuition." },
-      { name: "Brilliant: Geometry Basics", url: "https://brilliant.org/courses/geometry-basics/", subtitle: "Build geometric intuition through interactive visual puzzles and real-world applications." },
+      { name: "Khan Academy: Basic Geometry", url: "https://www.khanacademy.org/math/basic-geo", subtitle: "Foundational geometry concepts — area, perimeter, volume, and circles for embedded hardware layouts." },
     ],
   },
   {
@@ -283,7 +283,7 @@ const FOUNDATIONS = [
     ],
     resources: [
       { name: "Khan Academy: Trigonometry", url: "https://www.khanacademy.org/math/trigonometry", subtitle: "Sine, cosine, tangent, the unit circle, and trigonometric identities for signal processing." },
-      { name: "Brilliant: Trigonometry", url: "https://brilliant.org/courses/trigonometry/", subtitle: "Master trigonometric concepts through interactive visualizations and real-world problems." },
+      { name: "Khan Academy: Trigonometry Basics", url: "https://www.khanacademy.org/math/trigonometry/unit-circle-trig-func", subtitle: "Master the unit circle and understand how sine and cosine describe oscillating signals." },
     ],
   },
   {
@@ -306,7 +306,7 @@ const FOUNDATIONS = [
     ],
     resources: [
       { name: "Khan Academy: Precalculus", url: "https://www.khanacademy.org/math/precalculus", subtitle: "Exponents, logarithms, sequences, and matrices — the math that connects algebra to calculus and embedded ML." },
-      { name: "Brilliant: Exponents", url: "https://brilliant.org/courses/exponents/", subtitle: "Master exponent rules and logarithmic thinking through interactive challenges." },
+      { name: "Khan Academy: Exponents & Radicals", url: "https://www.khanacademy.org/math/algebra2/x2ec2f6f830c9fb89:exp", subtitle: "Master exponent rules, scientific notation, and powers of 2 used everywhere in computing." },
     ],
   },
   {
@@ -329,7 +329,7 @@ const FOUNDATIONS = [
     ],
     resources: [
       { name: "Khan Academy: Calculus AB", url: "https://www.khanacademy.org/math/ap-calculus-ab", subtitle: "Derivatives, integrals, limits, and the Fundamental Theorem — the calculus concepts behind PID and gradient descent." },
-      { name: "3Blue1Brown: Essence of Calculus", url: "https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr", subtitle: "A visual, intuitive walkthrough of calculus that makes the connections between derivatives, integrals, and real-world change." },
+      { name: "Khan Academy: Differential Calculus", url: "https://www.khanacademy.org/math/differential-calculus", subtitle: "Rate of change, derivatives, and optimization — the math behind gradient descent and control systems." },
     ],
   },
 ];
