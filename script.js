@@ -190,8 +190,8 @@ const FOUNDATIONS = [
       { q: "100 - 3 x 7 = ?", a: 79, hint: "Multiply before subtracting: 3x7=21, 100-21=79." },
     ],
     resources: [
-      { name: "Khan Academy: Arithmetic", url: "https://www.khanacademy.org/math/arithmetic" },
-      { name: "Brilliant: Algebra Fundamentals", url: "https://brilliant.org/courses/becoming-a-better-mathematician/" },
+      { name: "Khan Academy: Arithmetic", url: "https://www.khanacademy.org/math/arithmetic", subtitle: "Place value, addition, subtraction, multiplication, division, and fractions — the building blocks of embedded math." },
+      { name: "Brilliant: Algebra Fundamentals", url: "https://brilliant.org/courses/becoming-a-better-mathematician/", subtitle: "Interactive puzzles that build number sense, logic, and algebraic thinking through hands-on practice." },
     ],
   },
   {
@@ -213,8 +213,8 @@ const FOUNDATIONS = [
       { q: "4x - 3 = 13, x = ?", a: 4, hint: "Add 3 to both sides: 4x=16, then divide by 4." },
     ],
     resources: [
-      { name: "Khan Academy: Pre-Algebra", url: "https://www.khanacademy.org/math/pre-algebra" },
-      { name: "Brilliant: Equations & Inequalities", url: "https://brilliant.org/courses/equations-and-inequalities/" },
+      { name: "Khan Academy: Pre-Algebra", url: "https://www.khanacademy.org/math/pre-algebra", subtitle: "Variables, expressions, equations, and inequalities — everything you need to rearrange formulas with confidence." },
+      { name: "Brilliant: Equations & Inequalities", url: "https://brilliant.org/courses/equations-and-inequalities/", subtitle: "Master equation-solving through interactive challenges designed to build intuition." },
     ],
   },
   {
@@ -236,8 +236,8 @@ const FOUNDATIONS = [
       { q: "2x + 3 = 11, x = ?", a: 4, hint: "Subtract 3, then divide by 2." },
     ],
     resources: [
-      { name: "Khan Academy: Algebra 1", url: "https://www.khanacademy.org/math/algebra" },
-      { name: "Brilliant: Algebra Fundamentals", url: "https://brilliant.org/courses/algebra-fundamentals/" },
+      { name: "Khan Academy: Algebra 1", url: "https://www.khanacademy.org/math/algebra", subtitle: "Linear equations, functions, graphs, quadratics, and systems — the math behind sensor calibration and ML." },
+      { name: "Brilliant: Algebra Fundamentals", url: "https://brilliant.org/courses/algebra-fundamentals/", subtitle: "Algebraic reasoning through interactive discovery, from basic equations to advanced functions." },
     ],
   },
   {
@@ -259,8 +259,8 @@ const FOUNDATIONS = [
       { q: "1 meter = ? centimeters", a: 100, hint: "Centi means one hundredth." },
     ],
     resources: [
-      { name: "Khan Academy: Geometry", url: "https://www.khanacademy.org/math/geometry" },
-      { name: "Brilliant: Geometry Basics", url: "https://brilliant.org/courses/geometry-basics/" },
+      { name: "Khan Academy: Geometry", url: "https://www.khanacademy.org/math/geometry", subtitle: "Area, volume, angles, transformations, and coordinate geometry for physical design intuition." },
+      { name: "Brilliant: Geometry Basics", url: "https://brilliant.org/courses/geometry-basics/", subtitle: "Build geometric intuition through interactive visual puzzles and real-world applications." },
     ],
   },
   {
@@ -282,8 +282,8 @@ const FOUNDATIONS = [
       { q: "The three angles of a triangle sum to how many degrees?", a: 180, hint: "Triangle angle sum theorem." },
     ],
     resources: [
-      { name: "Khan Academy: Trigonometry", url: "https://www.khanacademy.org/math/trigonometry" },
-      { name: "Brilliant: Trigonometry", url: "https://brilliant.org/courses/trigonometry/" },
+      { name: "Khan Academy: Trigonometry", url: "https://www.khanacademy.org/math/trigonometry", subtitle: "Sine, cosine, tangent, the unit circle, and trigonometric identities for signal processing." },
+      { name: "Brilliant: Trigonometry", url: "https://brilliant.org/courses/trigonometry/", subtitle: "Master trigonometric concepts through interactive visualizations and real-world problems." },
     ],
   },
   {
@@ -305,8 +305,8 @@ const FOUNDATIONS = [
       { q: "2^3 x 2^4 = 2 raised to what power?", a: 7, hint: "When multiplying same bases, add the exponents: 3+4." },
     ],
     resources: [
-      { name: "Khan Academy: Precalculus", url: "https://www.khanacademy.org/math/precalculus" },
-      { name: "Brilliant: Exponents", url: "https://brilliant.org/courses/exponents/" },
+      { name: "Khan Academy: Precalculus", url: "https://www.khanacademy.org/math/precalculus", subtitle: "Exponents, logarithms, sequences, and matrices — the math that connects algebra to calculus and embedded ML." },
+      { name: "Brilliant: Exponents", url: "https://brilliant.org/courses/exponents/", subtitle: "Master exponent rules and logarithmic thinking through interactive challenges." },
     ],
   },
   {
@@ -328,8 +328,8 @@ const FOUNDATIONS = [
       { q: "Slope of y = 2x + 1 is ?", a: 2, hint: "In y = mx + b, m is the slope." },
     ],
     resources: [
-      { name: "Khan Academy: Calculus AB", url: "https://www.khanacademy.org/math/ap-calculus-ab" },
-      { name: "3Blue1Brown: Essence of Calculus", url: "https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr" },
+      { name: "Khan Academy: Calculus AB", url: "https://www.khanacademy.org/math/ap-calculus-ab", subtitle: "Derivatives, integrals, limits, and the Fundamental Theorem — the calculus concepts behind PID and gradient descent." },
+      { name: "3Blue1Brown: Essence of Calculus", url: "https://www.youtube.com/playlist?list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr", subtitle: "A visual, intuitive walkthrough of calculus that makes the connections between derivatives, integrals, and real-world change." },
     ],
   },
 ];
@@ -1727,7 +1727,7 @@ function renderFoundationLevel(index) {
       </div>
       <div class="label">LEARN & PRACTICE</div>
       <div class="foundation-resources">
-        ${level.resources.map((r) => `<a class="resource-link primary" href="${r.url}" target="_blank" rel="noopener">${esc(r.name)}</a>`).join("")}
+        ${level.resources.map((r, ri) => `<button class="card resource-card" data-fres="${ri}"><h2>${esc(r.name)}</h2><p>${esc(r.subtitle || "")}</p><div class="card-action">Open resource →</div></button>`).join("")}
       </div>
       <div class="foundation-checkpoint-area">
         ${score > 0 ? `<div class="foundation-score-badge">Best checkpoint score: <strong style="color:${passed ? "var(--green)" : "var(--amber)"}">${score}%</strong> ${passed ? "Passed" : "Keep trying for 80%"}</div>` : ""}
@@ -1752,6 +1752,23 @@ function renderFoundationLevel(index) {
     });
   });
   $("startFoundationCheckpoint").addEventListener("click", startFoundationCheckpoint);
+  document.querySelectorAll("[data-fres]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const ri = Number(btn.dataset.fres);
+      const r = level.resources[ri];
+      $("foundationsView").innerHTML = `
+        <button class="back" id="backToResources">← Back to ${esc(level.title)}</button>
+        <article class="foundation-detail">
+          <h2>${esc(r.name)}</h2>
+          <div class="why-box"><p>${esc(r.subtitle || "")}</p></div>
+          <div class="label">RESOURCE LINK</div>
+          <div style="display:flex;gap:10px">
+            <a class="resource-link primary" href="${r.url}" target="_blank" rel="noopener">Open in new tab →</a>
+          </div>
+        </article>`;
+      $("backToResources").addEventListener("click", () => renderFoundationLevel(index));
+    });
+  });
 }
 
 function makeFoundationQuestion(id, levelIndex, n) {

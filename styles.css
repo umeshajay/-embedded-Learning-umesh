@@ -975,9 +975,9 @@ body.light .sub-tab.active {
 }
 
 .foundation-resources {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
   margin-bottom: 20px;
 }
 
