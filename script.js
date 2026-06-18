@@ -1810,6 +1810,30 @@ function getFoundationScore(levelId, difficulty) {
   return state.foundationsScores[`${lvl}::found::${levelId}`] || 0;
 }
 
+function isFoundationQuizDifficultyUnlocked(levelId, difficulty) {
+  if (difficulty === "Easy") return true;
+  const prev = difficulty === "Advanced" ? "Intermediate" : "Easy";
+  return (state.foundationsScores[`${prev}::found::${levelId}`] || 0) >= 80;
+}
+
+function isFoundationQuizChapterUnlocked(index) {
+  if (index <= 0) return true;
+  const prevId = FOUNDATIONS[index - 1].id;
+  return (state.foundationsScores[`Advanced::found::${prevId}`] || 0) >= 80;
+}
+
+function isCS50QuizDifficultyUnlocked(weekId, difficulty) {
+  if (difficulty === "Easy") return true;
+  const prev = difficulty === "Advanced" ? "Intermediate" : "Easy";
+  return (state.cs50Progress[`${prev}::cs50::${weekId}`] || 0) >= 80;
+}
+
+function isCS50QuizWeekUnlocked(index) {
+  if (index <= 0) return true;
+  const prevId = CS50_WEEKS[index - 1].id;
+  return (state.cs50Progress[`Advanced::cs50::${prevId}`] || 0) >= 80;
+}
+
 function renderFoundations() {
   const sub = state.foundationsSubTab;
   $("foundationsView").innerHTML = `
@@ -1869,7 +1893,17 @@ function renderFoundationsLevels() {
 }
 
 function renderFoundationsQuizSetup() {
+  const onAll = state.foundationsQuizTopic === "All";
+  const currentId = onAll ? null : state.foundationsQuizTopic;
+  if (currentId && !isFoundationQuizDifficultyUnlocked(currentId, state.foundationsLevel)) {
+    const fallback = FOUNDATIONS_LEVELS.find((l) => isFoundationQuizDifficultyUnlocked(currentId, l)) || "Easy";
+    state.foundationsLevel = fallback;
+  } else if (onAll && !isFoundationDifficultyUnlocked(state.foundationsLevel)) {
+    const fallback = FOUNDATIONS_LEVELS.find((l) => isFoundationDifficultyUnlocked(l)) || "Easy";
+    state.foundationsLevel = fallback;
+  }
   const levelIds = FOUNDATIONS.map((l) => l.id);
+  const unlockedChapterIds = levelIds.filter((_, i) => isFoundationQuizChapterUnlocked(i));
   const saved = localStorage.getItem("firmwareMathFoundSession");
   let resumeHtml = "";
   if (saved) {
@@ -1882,16 +1916,16 @@ function renderFoundationsQuizSetup() {
     } catch {}
   }
   $("foundationsSubContent").innerHTML = `
-    <p class="section-intro">Test your maths foundations knowledge across multiple levels. Choose scope and length, then start a quiz.</p>
+    <p class="section-intro">Progress through Easy → Intermediate → Advanced per chapter, then unlock the next chapter.</p>
     ${resumeHtml}
     <div class="track-switch" aria-label="foundations difficulty">
       ${FOUNDATIONS_LEVELS.map((level) => {
-        const locked = !isFoundationDifficultyUnlocked(level);
+        const locked = currentId ? !isFoundationQuizDifficultyUnlocked(currentId, level) : !isFoundationDifficultyUnlocked(level);
         return `<button class="track-button ${state.foundationsLevel === level ? "active" : ""} ${locked ? "locked" : ""}" data-fqtrack="${level}" ${locked ? "disabled" : ""}>${level}${locked ? " locked" : ""}</button>`;
       }).join("")}
     </div>
     <div class="filter-panel">
-      <div><div class="filter-title">TOPIC</div><div class="filter-buttons">${["All", ...levelIds].map((id) => {
+      <div><div class="filter-title">TOPIC</div><div class="filter-buttons">${["All", ...unlockedChapterIds].map((id) => {
         const label = id === "All" ? "All" : FOUNDATIONS.find((l) => l.id === id).title;
         return `<button class="filter-button ${state.foundationsQuizTopic === id ? "active" : ""}" data-fqtopic="${id}">${esc(label)}</button>`;
       }).join("")}</div></div>
@@ -1909,7 +1943,9 @@ function renderFoundationsQuizSetup() {
     });
   }
   document.querySelectorAll("[data-fqtrack]").forEach((btn) => {
-    if (!isFoundationDifficultyUnlocked(btn.dataset.fqtrack)) return;
+    const onAll = state.foundationsQuizTopic === "All";
+    const chk = onAll ? isFoundationDifficultyUnlocked(btn.dataset.fqtrack) : isFoundationQuizDifficultyUnlocked(state.foundationsQuizTopic, btn.dataset.fqtrack);
+    if (!chk) return;
     btn.addEventListener("click", () => {
       state.foundationsLevel = btn.dataset.fqtrack;
       renderFoundationsQuizSetup();
@@ -1930,11 +1966,11 @@ function startFoundationsQuiz() {
   let pool = [];
   if (state.foundationsQuizTopic === "All") {
     for (let i = 0; i < FOUNDATIONS.length; i++) {
-      if (isFoundationLevelUnlocked(i)) pool = pool.concat(getFoundationPool(i, 999));
+      if (isFoundationQuizChapterUnlocked(i)) pool = pool.concat(getFoundationPool(i, 999));
     }
   } else {
     const idx = FOUNDATIONS.findIndex((l) => l.id === state.foundationsQuizTopic);
-    if (idx >= 0 && isFoundationLevelUnlocked(idx)) pool = getFoundationPool(idx, 999);
+    if (idx >= 0) pool = getFoundationPool(idx, 999);
   }
   if (!pool.length) { renderFoundationsQuizSetup(); return; }
   state.fQueue = shuffle(pool).slice(0, Math.min(state.foundationsQuizLength, pool.length));
@@ -2273,7 +2309,17 @@ function renderCS50Weeks() {
 }
 
 function renderCS50QuizSetup() {
+  const onAll = state.cs50QuizTopic === "All";
+  const currentId = onAll ? null : state.cs50QuizTopic;
+  if (currentId && !isCS50QuizDifficultyUnlocked(currentId, state.cs50Level)) {
+    const fallback = CS50_LEVELS.find((l) => isCS50QuizDifficultyUnlocked(currentId, l)) || "Easy";
+    state.cs50Level = fallback;
+  } else if (onAll && !isCS50DifficultyUnlocked(state.cs50Level)) {
+    const fallback = CS50_LEVELS.find((l) => isCS50DifficultyUnlocked(l)) || "Easy";
+    state.cs50Level = fallback;
+  }
   const weekIds = CS50_WEEKS.map((w) => w.id);
+  const unlockedWeekIds = weekIds.filter((_, i) => isCS50QuizWeekUnlocked(i));
   const saved = localStorage.getItem("firmwareMathCS50Session");
   let resumeHtml = "";
   if (saved) {
@@ -2286,16 +2332,16 @@ function renderCS50QuizSetup() {
     } catch {}
   }
   $("cs50SubContent").innerHTML = `
-    <p class="section-intro">Test your CS50x knowledge across multiple weeks. Choose scope and length, then start a quiz.</p>
+    <p class="section-intro">Progress through Easy → Intermediate → Advanced per week, then unlock the next week.</p>
     ${resumeHtml}
     <div class="track-switch" aria-label="cs50 difficulty">
       ${CS50_LEVELS.map((level) => {
-        const locked = !isCS50DifficultyUnlocked(level);
+        const locked = currentId ? !isCS50QuizDifficultyUnlocked(currentId, level) : !isCS50DifficultyUnlocked(level);
         return `<button class="track-button ${state.cs50Level === level ? "active" : ""} ${locked ? "locked" : ""}" data-cqtrack="${level}" ${locked ? "disabled" : ""}>${level}${locked ? " locked" : ""}</button>`;
       }).join("")}
     </div>
     <div class="filter-panel">
-      <div><div class="filter-title">TOPIC</div><div class="filter-buttons">${["All", ...weekIds].map((id) => {
+      <div><div class="filter-title">TOPIC</div><div class="filter-buttons">${["All", ...unlockedWeekIds].map((id) => {
         const label = id === "All" ? "All" : CS50_WEEKS.find((w) => w.id === id).title;
         return `<button class="filter-button ${state.cs50QuizTopic === id ? "active" : ""}" data-cqtopic="${id}">${esc(label)}</button>`;
       }).join("")}</div></div>
@@ -2313,7 +2359,8 @@ function renderCS50QuizSetup() {
     });
   }
   document.querySelectorAll("[data-cqtrack]").forEach((btn) => {
-    if (!isCS50DifficultyUnlocked(btn.dataset.cqtrack)) return;
+    const chk = onAll ? isCS50DifficultyUnlocked(btn.dataset.cqtrack) : isCS50QuizDifficultyUnlocked(state.cs50QuizTopic, btn.dataset.cqtrack);
+    if (!chk) return;
     btn.addEventListener("click", () => {
       state.cs50Level = btn.dataset.cqtrack;
       renderCS50QuizSetup();
@@ -2336,13 +2383,13 @@ function startCS50QuizFromSetup() {
   if (state.cs50QuizTopic === "All") {
     for (const week of CS50_WEEKS) {
       const idx = CS50_WEEKS.indexOf(week);
-      if (isCS50WeekUnlocked(idx)) {
+      if (isCS50QuizWeekUnlocked(idx)) {
         pool = pool.concat(getCS50Quiz(week.id, difficulty));
       }
     }
   } else {
     const idx = CS50_WEEKS.findIndex((w) => w.id === state.cs50QuizTopic);
-    if (idx >= 0 && isCS50WeekUnlocked(idx)) {
+    if (idx >= 0) {
       pool = getCS50Quiz(state.cs50QuizTopic, difficulty);
     }
   }
