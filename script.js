@@ -1420,7 +1420,7 @@ function renderQuizSetup() {
       if (session.queue && session.queue.length) {
         const total = session.queue.length;
         const cur = (session.qIdx ?? 0) + 1;
-        resumeHtml = `<div class="resume-card"><span>Unfinished ${session.quizLevel} quiz · Q${cur}/${total} · ${session.score ?? 0} correct</span><div><button class="primary" id="resumeQuizBtn">Resume</button><button class="secondary" id="discardQuizBtn" style="margin-left:8px">Discard</button></div></div>`;
+        resumeHtml = `<div class="resume-card"><span>Unfinished ${session.quizLevel} quiz · Q${cur}/${total} · ${session.score ?? 0} correct</span><div><button class="primary" id="resumeQuizBtn">Resume</button><button class="secondary" id="discardQuizBtn" style="margin-left:8px">Start from first</button></div></div>`;
       }
     } catch {}
   }
