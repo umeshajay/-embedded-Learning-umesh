@@ -2479,6 +2479,7 @@ function renderFoundationLevel(index) {
 }
 
 function makeFoundationQuestion(id, levelIndex, n, difficulty) {
+  n = Math.floor(n);
   const diffShift = difficulty === "Advanced" ? 3 : difficulty === "Intermediate" ? 1 : 0;
   const kn = n + diffShift * 7;
   const a = ((kn % 9) + 2);
