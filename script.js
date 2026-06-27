@@ -2849,7 +2849,7 @@ function submitFoundationAnswer() {
   const q = state.fQueue[state.fIdx];
   const correct = Math.abs(Number.parseFloat(state.fInput) - q.a) < 0.001;
   state.fFeedback = correct ? "correct" : "wrong";
-  if (correct) state.fScore += 1;
+  if (correct) { state.fScore += 1; } else if (!q._retries) { q._retries = 1; state.fQueue.splice(state.fIdx + 4, 0, q); }
   saveFoundationSession();
   renderFoundationQuestion();
   window.setTimeout(() => {
