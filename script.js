@@ -1495,6 +1495,7 @@ const RESOURCES = [
 const TOPICS = ["All", ...new Set(QUIZ_BANK.map((q) => q.topic))];
 const LEVELS = ["Easy", "Intermediate", "Advanced"];
 const EXAM_LENGTHS = [25, 50, 75, 100, 250, 500, 1000];
+if (location.search.includes("reset=1")) { Object.keys(localStorage).filter(k => k.startsWith("firmwareMath")).forEach(k => localStorage.removeItem(k)); history.replace(null, "", location.pathname); }
 const state = {
   tab: "study",
   guideTopic: null,
@@ -3275,6 +3276,11 @@ $("themeToggle").addEventListener("click", () => {
   applyTheme(state.theme);
   saveProgress();
 });
+
+if (location.search.includes("reset")) {
+  for (const k of Object.keys(localStorage).filter(k => k.startsWith("firmwareMath"))) localStorage.removeItem(k);
+  location.replace(location.pathname);
+}
 
 applyTheme(state.theme);
 
