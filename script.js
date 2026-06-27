@@ -1967,7 +1967,7 @@ function renderQuestion() {
 function submitAnswer() {
   if (state.feedback || state.input === "") return;
   const q = state.quizQueue[state.qIdx];
-  const correct = Number.parseInt(state.input, 10) === q.a;
+  const correct = Math.abs(Number.parseFloat(state.input) - q.a) < 0.001;
   state.feedback = correct ? "correct" : "wrong";
   if (correct) state.score += 1;
   state.allResults[q.id] = correct;
@@ -2615,7 +2615,7 @@ function getFoundationPool(levelIndex, count) {
   if (count <= core.length) return shuffle(core).slice(0, count);
   const generated = [];
   for (let i = 1; generated.length + core.length < count; i++) {
-    generated.push(makeFoundationQuestion(20000 + i, levelIndex, i));
+    generated.push(makeFoundationQuestion(Date.now() + i * 997, levelIndex, i));
   }
   return shuffle([...core, ...generated]);
 }
@@ -2674,7 +2674,7 @@ function renderFoundationQuestion() {
 function submitFoundationAnswer() {
   if (state.fFeedback || state.fInput === "") return;
   const q = state.fQueue[state.fIdx];
-  const correct = Number.parseInt(state.fInput, 10) === q.a;
+  const correct = Math.abs(Number.parseFloat(state.fInput) - q.a) < 0.001;
   state.fFeedback = correct ? "correct" : "wrong";
   if (correct) state.fScore += 1;
   saveFoundationSession();
@@ -3031,7 +3031,7 @@ function renderCS50Question() {
 function submitCS50Answer() {
   if (state.cs50Feedback || state.cs50Input === "") return;
   const q = state.cs50Queue[state.cs50QIdx];
-  const correct = Number.parseInt(state.cs50Input, 10) === q.a;
+  const correct = Math.abs(Number.parseFloat(state.cs50Input) - q.a) < 0.001;
   state.cs50Feedback = correct ? "correct" : "wrong";
   if (correct) state.cs50Score += 1;
   saveCS50Session();
