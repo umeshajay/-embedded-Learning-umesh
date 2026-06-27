@@ -17,9 +17,9 @@
   --font-heading: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace;
   --max-width: 720px;
-  --glass-bg: rgba(12, 12, 16, 0.6);
-  --glass-card: rgba(25, 25, 29, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(12, 12, 16, 0.5);
+  --glass-card: rgba(25, 25, 29, 0.3);
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,7 +29,7 @@ html { font-size: 16px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%;
 body {
   font-family: var(--font-body);
   background: var(--bg);
-  background-image: radial-gradient(ellipse at 20% 50%, rgba(118,139,171,.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(209,173,90,.06) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(118,139,171,.05) 0%, transparent 50%);
+  background-image: radial-gradient(ellipse at 25% 50%, rgba(118,139,171,.15) 0%, transparent 55%), radial-gradient(ellipse at 75% 15%, rgba(209,173,90,.12) 0%, transparent 55%), radial-gradient(ellipse at 50% 85%, rgba(118,139,171,.1) 0%, transparent 55%);
   color: var(--text);
   line-height: 1.8;
   -webkit-font-smoothing: antialiased;
@@ -831,9 +831,9 @@ footer nav a:hover { border-color: var(--border-light); color: var(--text); }
     --amber-dim: #a88844;
     --steel: #4a5a6e;
     --steel-dim: #6b7b90;
-    --glass-bg: rgba(245, 242, 236, 0.7);
-    --glass-card: rgba(255, 255, 255, 0.55);
-    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-bg: rgba(245, 242, 236, 0.6);
+    --glass-card: rgba(255, 255, 255, 0.4);
+    --glass-border: rgba(0, 0, 0, 0.1);
   }
   .primary { color: #fff; }
   .track-button.selected { color: #fff; }
@@ -841,7 +841,7 @@ footer nav a:hover { border-color: var(--border-light); color: var(--text); }
 
 body.light {
   --bg: #f5f2ec;
-  background-image: radial-gradient(ellipse at 20% 50%, rgba(118,139,171,.06) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(138,108,46,.04) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(118,139,171,.04) 0%, transparent 50%);
+  background-image: radial-gradient(ellipse at 25% 50%, rgba(118,139,171,.1) 0%, transparent 55%), radial-gradient(ellipse at 75% 15%, rgba(138,108,46,.08) 0%, transparent 55%), radial-gradient(ellipse at 50% 85%, rgba(118,139,171,.07) 0%, transparent 55%);
   --bg-alt: #ede9e2;
   --bg-card: #ffffff;
   --text: #1a1610;
@@ -853,9 +853,9 @@ body.light {
   --amber-dim: #a88844;
   --steel: #4a5a6e;
   --steel-dim: #6b7b90;
-  --glass-bg: rgba(245, 242, 236, 0.7);
-  --glass-card: rgba(255, 255, 255, 0.55);
-  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-bg: rgba(245, 242, 236, 0.6);
+  --glass-card: rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(0, 0, 0, 0.1);
 }
 
 body.light .primary { color: #fff; }
