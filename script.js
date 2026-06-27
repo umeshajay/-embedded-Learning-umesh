@@ -2070,7 +2070,8 @@ function renderProgress() {
     <div class="label">MATHS FOUNDATIONS SCORES (Easy shown, per-difficulty saved)</div>
     ${FOUNDATIONS.map((level, index) => {
       const score = getFoundationScore(level.id, "Easy");
-      const unlocked = index === 0 || (state.foundationsScores[`Easy::found::${FOUNDATIONS[index - 1].id}`] || 0) >= 80;
+      const prevLevel = FOUNDATIONS[index - 1];
+      const unlocked = index === 0 || (prevLevel && (state.foundationsScores[`Intermediate::found::${prevLevel.id}`] || 0) >= 80);
       return `<div class="topic-progress-row"><strong>${esc(level.title)}</strong><div class="bar"><div class="bar-fill" style="width:${score}%"></div></div><span>${unlocked ? (score > 0 ? score + "%" : "Not started") : "Locked"}</span></div>`;
     }).join("")}`;
 }
@@ -2156,22 +2157,65 @@ const FOUNDATIONS_LEVELS = ["Easy", "Intermediate", "Advanced"];
 function isFoundationDifficultyUnlocked(difficulty) {
   if (difficulty === "Easy") return true;
   const prevLevel = difficulty === "Advanced" ? "Intermediate" : "Easy";
-  return FOUNDATIONS.every((level) => {
+  return FOUNDATIONS.some((level) => {
     const key = `${prevLevel}::found::${level.id}`;
     return (state.foundationsScores[key] || 0) >= 80;
   });
 }
 
 function isFoundationLevelUnlocked(index) {
-  if (index <= 0) return true;
-  const prevId = FOUNDATIONS[index - 1].id;
-  const key = `${state.foundationsLevel}::found::${prevId}`;
-  return (state.foundationsScores[key] || 0) >= 80;
+  const d = state.foundationsLevel;
+  const currentId = FOUNDATIONS[index].id;
+  if (d === "Easy") {
+    if (index === 0) return true;
+    const prevId = FOUNDATIONS[index - 1].id;
+    return getFoundationScore(prevId, "Intermediate") >= 80;
+  }
+  if (d === "Intermediate") {
+    return getFoundationScore(currentId, "Easy") >= 80;
+  }
+  if (d === "Advanced") {
+    return getFoundationScore(currentId, "Intermediate") >= 80;
+  }
+  return false;
 }
 
 function getFoundationScore(levelId, difficulty) {
   const lvl = difficulty || state.foundationsLevel;
   return state.foundationsScores[`${lvl}::found::${levelId}`] || 0;
+}
+
+function getFoundationLevelLockMsg(index) {
+  const d = state.foundationsLevel;
+  const level = FOUNDATIONS[index];
+  if (d === "Easy") {
+    const prev = FOUNDATIONS[index - 1];
+    return `Score 80% on \u201c${esc(prev.title)}\u201d in Intermediate to unlock`;
+  }
+  if (d === "Intermediate") {
+    return `Score 80% on \u201c${esc(level.title)}\u201d in Easy to unlock`;
+  }
+  return `Score 80% on \u201c${esc(level.title)}\u201d in Intermediate to unlock`;
+}
+
+function getFoundationUnlockNote(index, passed) {
+  const d = state.foundationsLevel;
+  if (!passed) {
+    if (d === "Easy") return '<p class="foundation-unlock-note">Score 80% to unlock Intermediate for this chapter.</p>';
+    if (d === "Intermediate") return '<p class="foundation-unlock-note">Score 80% to unlock the next chapter.</p>';
+    return '<p class="foundation-unlock-note">Score 80% to master this chapter at Advanced.</p>';
+  }
+  if (d === "Easy") {
+    return '<p class="foundation-unlock-note" style="color:var(--green)">Intermediate for this chapter unlocked! \u2191</p>';
+  }
+  if (d === "Intermediate") {
+    if (index >= FOUNDATIONS.length - 1) return '<p class="foundation-unlock-note" style="color:var(--green)">All chapters completed at Intermediate!</p>';
+    const next = FOUNDATIONS[index + 1];
+    return `<p class="foundation-unlock-note" style="color:var(--green)">\u201c${esc(next.title)}\u201d unlocked at Easy! \u2192</p>`;
+  }
+  if (index >= FOUNDATIONS.length - 1) return '<p class="foundation-unlock-note" style="color:var(--green)">All chapters mastered!</p>';
+  const next = FOUNDATIONS[index + 1];
+  return `<p class="foundation-unlock-note" style="color:var(--green)">\u201c${esc(next.title)}\u201d unlocked at Advanced!</p>`;
 }
 
 function isFoundationQuizDifficultyUnlocked(levelId, difficulty) {
@@ -2183,7 +2227,7 @@ function isFoundationQuizDifficultyUnlocked(levelId, difficulty) {
 function isFoundationQuizChapterUnlocked(index) {
   if (index <= 0) return true;
   const prevId = FOUNDATIONS[index - 1].id;
-  return (state.foundationsScores[`Advanced::found::${prevId}`] || 0) >= 80;
+  return (state.foundationsScores[`Intermediate::found::${prevId}`] || 0) >= 80;
 }
 
 function isCS50QuizDifficultyUnlocked(weekId, difficulty) {
@@ -2217,7 +2261,7 @@ function renderFoundations() {
 function renderFoundationsLevels() {
   state.foundationsView = "overview";
   $("foundationsSubContent").innerHTML = `
-    <p class="section-intro">A progressive maths foundation from basic arithmetic to calculus, built for the embedded TinyML engineer. Each level unlocks after scoring 80% or higher on its checkpoint quiz. Easy opens first; Intermediate after all Easy levels; Advanced after all Intermediate levels.</p>
+    <p class="section-intro">Each chapter has Easy \u2192 Intermediate \u2192 Advanced. Pass Easy at 80% to unlock Intermediate for that chapter. Pass Intermediate at 80% to unlock the next chapter at Easy.</p>
     <div class="track-switch" aria-label="foundations difficulty">
       ${FOUNDATIONS_LEVELS.map((level) => {
         const locked = !isFoundationDifficultyUnlocked(level);
@@ -2239,7 +2283,7 @@ function renderFoundationsLevels() {
               ? (attempted
                 ? `<span class="foundation-score" style="color:${score >= 80 ? "var(--green)" : "var(--amber)"}">Best: ${score}%</span><span class="foundation-cta">Open \u2192</span>`
                 : `<span class="foundation-cta">Start checkpoint \u2192</span>`)
-              : `<span class="foundation-locked-msg">Score 80% on Level ${index} to unlock</span>`}
+              : `<span class="foundation-locked-msg">${getFoundationLevelLockMsg(index)}</span>`}
           </div>
         </div>`;
       }).join("")}
@@ -2392,7 +2436,7 @@ function renderFoundationLevel(index) {
           ${score > 0 ? "Retry checkpoint \u2192" : "Take checkpoint \u2192"}
         </button>
         ${index < FOUNDATIONS.length - 1
-          ? `<p class="foundation-unlock-note">${passed ? (isFoundationLevelUnlocked(index + 1) ? "Next level already unlocked." : "") : "Score 80% to unlock Level " + (index + 2)}</p>`
+          ? `${getFoundationUnlockNote(index, passed)}`
           : '<p class="foundation-unlock-note">Final level -- you completed the foundations path.</p>'}
       </div>
     </article>`;
@@ -2670,11 +2714,22 @@ function finishFoundationCheckpoint() {
   clearFoundationSession();
   const pct = Math.round((state.fScore / state.fQueue.length) * 100);
   const title = fromQuiz ? "Foundations Quiz" : esc(FOUNDATIONS[state.foundationsCurrentLevel].title);
+  const index = state.foundationsCurrentLevel;
+  const level = FOUNDATIONS[index];
+  const d = state.foundationsLevel;
+  let unlockMsg = "";
+  if (!fromQuiz && pct >= 80) {
+    if (d === "Easy") unlockMsg = `<p style="margin-top:12px;color:var(--green)">Intermediate unlocked for \u201c${esc(level.title)}\u201d!</p>`;
+    else if (d === "Intermediate" && index < FOUNDATIONS.length - 1) unlockMsg = `<p style="margin-top:12px;color:var(--green)">\u201c${esc(FOUNDATIONS[index + 1].title)}\u201d unlocked at Easy!</p>`;
+    else if (d === "Intermediate") unlockMsg = '<p style="margin-top:12px;color:var(--green)">All chapters completed at Intermediate!</p>';
+    else if (d === "Advanced") unlockMsg = '<p style="margin-top:12px;color:var(--green)">Chapter mastered at Advanced!</p>';
+  }
   $("foundationsView").innerHTML = `
     <div class="result-card">
       <h2>${pct >= 80 ? "Great job!" : "Keep studying."}</h2>
       <div class="result-score">${state.fScore}<span style="font-size:2rem;color:var(--dim)"> / ${state.fQueue.length}</span></div>
       <p class="section-intro">${pct}% score on ${title}.</p>
+      ${unlockMsg}
       <div class="result-actions">
         <button class="primary" id="fBackQuizHome">${fromQuiz ? "Back to quiz setup" : "Back to level"}</button>
         <button class="secondary" id="fBackQuizAll">${fromQuiz ? "All levels" : "All levels"}</button>
