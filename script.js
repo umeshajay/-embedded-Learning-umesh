@@ -2602,7 +2602,7 @@ function makeFoundationQuestion(id, levelIndex, n) {
       if (n % 16 === 11) return { id, q: `Integral of ${a} from 0 to ${a} = ?`, a: a * a, hint: "Area = height x width = a x a." };
       if (n % 16 === 12) return { id, q: `Limit as x->∞ of ${a}x / (x + ${b}) = ?`, a: a, hint: "As x grows, b becomes negligible." };
       if (n % 16 === 13) return { id, q: `f(x) = ${a}x^2. f'(${b}) = 2*${a}*${b} = ?`, a: 2 * a * b, hint: "Derivative of ax^2 is 2ax." };
-      if (n % 16 === 14) return { id, q: `Exponential decay: value halved ${a} times from ${b * 16} = ?`, a: b, hint: `${b * 16} / 2^${a}`. };
+      if (n % 16 === 14) return { id, q: `Exponential decay: value halved ${a} times from ${b * 16} = ?`, a: b, hint: `${b * 16} / 2^${a}` };
       return { id, q: `Rate of change: distance ${a * 10} over ${a} seconds = ?`, a: 10, hint: "Distance / time = rate." };
     default:
       return { id, q: `${a} + ${b} = ?`, a: a + b, hint: "Add the two numbers." };
