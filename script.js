@@ -2481,135 +2481,304 @@ function renderFoundationLevel(index) {
 
 function makeFoundationQuestion(id, levelIndex, n, difficulty) {
   n = Math.floor(n);
-  const diffShift = difficulty === "Advanced" ? 3 : difficulty === "Intermediate" ? 1 : 0;
-  const kn = n + diffShift * 7;
-  const a = ((kn % 9) + 2);
-  const b = (((kn * 3) % 11) + 1);
-  const c = (((kn * 5) % 13) + 2);
-  const d = (((kn * 7) % 15) + 1);
-  const e = ((n * 11) % 17) + 1;
-  switch (levelIndex) {
-    case 0:
-      if (n % 16 === 0) return { id, q: `${a * 10} + ${b * 10} = ?`, a: a * 10 + b * 10, hint: "Add the tens." };
-      if (n % 16 === 1) return { id, q: `${a} x ${b} = ?`, a: a * b, hint: "Multiply the numbers." };
-      if (n % 16 === 2) return { id, q: `${a * 5} percent of ${b * 20} = ?`, a: a * b, hint: "Percent means per hundred." };
-      if (n % 16 === 3) return { id, q: `${a} + ${b} x ${c} = ?`, a: a + b * c, hint: "Multiply before adding." };
-      if (n % 16 === 4) return { id, q: `${a * b * 2} / ${b * 2} = ?`, a: a, hint: "Division cancels multiplication." };
-      if (n % 16 === 5) return { id, q: `${a * 10} - ${b * 3} = ?`, a: a * 10 - b * 3, hint: "Subtract normally." };
-      if (n % 16 === 6) return { id, q: `Round ${a}.${b} to nearest integer.`, a: a + (b >= 5 ? 1 : 0), hint: "Round up if decimal >= 0.5." };
-      if (n % 16 === 7) return { id, q: `${a * 3} / ${a} + ${b} = ?`, a: 3 + b, hint: "Divide first, then add." };
-      if (n % 16 === 8) return { id, q: `Average of ${a * 2}, ${a * 4}, ${a * 6} = ?`, a: a * 4, hint: "Sum divided by count." };
-      if (n % 16 === 9) return { id, q: `${a * 3} + ${b * 2} - ${c} = ?`, a: a * 3 + b * 2 - c, hint: "Add and subtract left to right." };
-      if (n % 16 === 10) return { id, q: `${a}/${b} of ${b * c} = ?`, a: a * c, hint: `(${a}/${b}) x ${b * c} = ${a} x ${c}.` };
-      if (n % 16 === 11) return { id, q: `0.${a} + 0.${b} = ? (enter decimal)`, a: (a + b) / 10, hint: `Treat as ${a} + ${b} = ${a + b}, then divide by 10.` };
-      if (n % 16 === 12) return { id, q: `${a} - ${a + b} = ?`, a: -b, hint: "Smaller minus larger gives negative." };
-      if (n % 16 === 13) return { id, q: `sqrt(${a * a}) = ?`, a: a, hint: `What number squared is ${a * a}?` };
-      if (n % 16 === 14) return { id, q: `${a}^2 = ?`, a: a * a, hint: `${a} x ${a}.` };
-      return { id, q: `(${a} + ${b}) x ${c} = ?`, a: (a + b) * c, hint: "Parentheses first." };
-    case 1:
-      if (n % 16 === 0) return { id, q: `x + ${a} = ${a + b}, x = ?`, a: b, hint: `Subtract ${a} from both sides.` };
-      if (n % 16 === 1) return { id, q: `${a}x = ${a * b}, x = ?`, a: b, hint: `Divide both sides by ${a}.` };
-      if (n % 16 === 2) return { id, q: `${a}(x + ${b}) = ${a * (b + 1)}, x = ?`, a: 1, hint: `Divide by ${a} first, then subtract ${b}.` };
-      if (n % 16 === 3) return { id, q: `y = ${a}x + ${b}, if x = ${c}, y = ?`, a: a * c + b, hint: `Substitute: y = ${a}(${c}) + ${b}.` };
-      if (n % 16 === 4) return { id, q: `${a}x - ${b} = ${a * (b + 1) - b}, x = ?`, a: b + 1, hint: `Add ${b} first, then divide by ${a}.` };
-      if (n % 16 === 5) return { id, q: `x / ${a} = ${b}, x = ?`, a: a * b, hint: `Multiply both sides by ${a}.` };
-      if (n % 16 === 6) return { id, q: `${a}x + ${b} = ${b * 2}, x = ?`, a: (b * 2 - b) / a, hint: `Subtract ${b}, then divide by ${a}.` };
-      if (n % 16 === 7) return { id, q: `Ratio ${a}:${b} = ${a * d}:?`, a: b * d, hint: `Multiply ${b} by ${d}.` };
-      if (n % 16 === 8) return { id, q: `${a * 10}% of ${b * 10} = ?`, a: a * b, hint: `${a * 10}/100 x ${b * 10}.` };
-      if (n % 16 === 9) return { id, q: `x - ${a} = ${b} - ${a % 2}, x = ?`, a: b - (a % 2) + a, hint: `Add ${a} to both sides.` };
-      if (n % 16 === 10) return { id, q: `${a}(x - ${b}) = ${a}, x = ?`, a: b + 1, hint: `Divide by ${a}, then add ${b}.` };
-      if (n % 16 === 11) return { id, q: `y = ${a}x + ${b}, y-intercept = ?`, a: b, hint: "y-intercept is the constant term when x=0." };
-      if (n % 16 === 12) return { id, q: `${a}/x = ${a}/${b}, x = ?`, a: b, hint: "Cross-multiply to solve." };
-      if (n % 16 === 13) return { id, q: `x/2 + ${a} = ${a + 3}, x = ?`, a: 6, hint: `Subtract ${a} first, then multiply by 2.` };
-      if (n % 16 === 14) return { id, q: `${a}x + ${b} = ${b}, x = ?`, a: 0, hint: `Subtract ${b} from both sides.` };
-      return { id, q: `If f(x) = ${a}x + ${b}, find f(${c}) - f(${d}) = ?`, a: a * (c - d), hint: `f(${c}) - f(${d}) = ${a}(${c} - ${d}).` };
-    case 2:
-      if (n % 16 === 0) return { id, q: `Slope (0,0) to (${a}, ${a * b}) = ?`, a: b, hint: `Slope = (${a*b})/(${a}).` };
-      if (n % 16 === 1) return { id, q: `f(x) = ${a}x^2, f(${b}) = ?`, a: a * b * b, hint: `f(${b}) = ${a} x ${b}^2.` };
-      if (n % 16 === 2) return { id, q: `x^2 = ${(a + 2) * (a + 2)}, positive x = ?`, a: a + 2, hint: "What positive number squared?" };
-      if (n % 16 === 3) return { id, q: `y-intercept of y = ${a}x + ${b} = ?`, a: b, hint: "y-intercept is the constant term." };
-      if (n % 16 === 4) return { id, q: `${a}x + ${b} = ${a * c + b}, x = ?`, a: c, hint: `Subtract ${b}, then divide by ${a}.` };
-      if (n % 16 === 5) return { id, q: `f(x) = ${a}x + ${b}, f(${c}) = ?`, a: a * c + b, hint: `Plug in x = ${c}.` };
-      if (n % 16 === 6) return { id, q: `x^2 - ${(a + 1) * (a + 1)} = 0, positive x = ?`, a: a + 1, hint: "Difference of squares." };
-      if (n % 16 === 7) return { id, q: `Line through (0,${b}) with slope ${a}: y = ?x + ?`, a: a * 100 + b, hint: "y = mx + b." };
-      if (n % 16 === 8) return { id, q: `${a}x - ${a * c} = 0, x = ?`, a: c, hint: `Add ${a * c}, then divide by ${a}.` };
-      if (n % 16 === 9) return { id, q: `f(x) = ${a}x, f(${b}) + f(${c}) = ?`, a: a * (b + c), hint: `f(${b}) + f(${c}) = ${a}${b} + ${a}${c}.` };
-      if (n % 16 === 10) return { id, q: `Slope of line through (0,${b}) and (${a}, ${a + b}) = ?`, a: 1, hint: `Slope = (${a + b} - ${b}) / (${a} - 0).` };
-      if (n % 16 === 11) return { id, q: `f(g(x)) where f(x)=2x, g(x)=${a}x. f(g(${b})) = ?`, a: 2 * a * b, hint: `g(${b}) = ${a} x ${b}, then f(...) = 2 x that.` };
-      if (n % 16 === 12) return { id, q: `Parallel slope to y = ${a}x + ${b} is ?`, a: a, hint: "Parallel lines have the same slope." };
-      if (n % 16 === 13) return { id, q: `Perpendicular slope to y = ${a}x + ${b} = ?`, a: -1 / a, hint: "Perpendicular slopes multiply to -1." };
-      if (n % 16 === 14) return { id, q: `Solve: x + y = ${a + b}, x - y = ${a - b}. x = ?`, a: a, hint: "Add the two equations to eliminate y." };
-      return { id, q: `Vertex x-coordinate of y = x^2 - ${2 * a}x + ${b}`, a: a, hint: "Vertex x = -b/(2a) for ax^2 + bx + c." };
-    case 3:
-      if (n % 16 === 0) return { id, q: `Area of ${a} x ${b} rectangle = ?`, a: a * b, hint: "Area = length x width." };
-      if (n % 16 === 1) return { id, q: `Perimeter of ${a} x ${a} square = ?`, a: a * 4, hint: "Perimeter = 4 x side." };
-      if (n % 16 === 2) return { id, q: `Volume of ${a} x ${a} x ${a} cube = ?`, a: a * a * a, hint: "Volume = side^3." };
-      if (n % 16 === 3) return { id, q: `${a} meters = ? centimeters`, a: a * 100, hint: "1 meter = 100 cm." };
-      if (n % 16 === 4) return { id, q: `Area of ${a * 2} x ${b} rectangle = ?`, a: a * 2 * b, hint: "Area = length x width." };
-      if (n % 16 === 5) return { id, q: `Circumference of circle radius ${a}, pi=3: ?`, a: 6 * a, hint: "C = 2 x pi x r." };
-      if (n % 16 === 6) return { id, q: `Area of triangle base ${b} height ${a} = ?`, a: (b * a) / 2, hint: "Area = 1/2 x base x height." };
-      if (n % 16 === 7) return { id, q: `${a} km = ? meters`, a: a * 1000, hint: "1 km = 1000 meters." };
-      if (n % 16 === 8) return { id, q: `Surface area of ${a} cube (6 faces) = ?`, a: 6 * a * a, hint: "SA = 6 x side^2." };
-      if (n % 16 === 9) return { id, q: `Pythagorean: 3-4-5 triangle, if legs ${a*3} and ${a*4}, hypotenuse = ?`, a: a * 5, hint: `a^2 + b^2 = c^2.` };
-      if (n % 16 === 10) return { id, q: `Area of circle radius ${a}, pi=3: ?`, a: 3 * a * a, hint: "A = pi x r^2." };
-      if (n % 16 === 11) return { id, q: `Volume of cylinder radius ${a} height ${b}, pi=3: ?`, a: 3 * a * a * b, hint: "V = pi x r^2 x h." };
-      if (n % 16 === 12) return { id, q: `${a} inches = ? feet (12 inches / foot)`, a: Math.floor(a / 12), hint: "Divide inches by 12." };
-      if (n % 16 === 13) return { id, q: `Area of trapezoid: bases ${a} and ${b}, height ${c}, /2 = ?`, a: ((a + b) * c) / 2, hint: "A = (b1 + b2) x h / 2." };
-      if (n % 16 === 14) return { id, q: `Perimeter of ${a} x ${b} rectangle = ?`, a: 2 * (a + b), hint: "P = 2 x (length + width)." };
-      return { id, q: `Pythagorean: leg ${a}, hypotenuse ${a + 1}, other leg = ? (use 3-4-5 pattern)`, a: Math.sqrt((a + 1) ** 2 - a ** 2) === Math.floor(Math.sqrt((a + 1) ** 2 - a ** 2)) ? Math.sqrt((a + 1) ** 2 - a ** 2) : (a * 2 + 1), hint: "c^2 - a^2 = b^2." };
-    case 4:
-      if (n % 16 === 0) return { id, q: `sin(0 degrees) = ?`, a: 0, hint: "Sine starts at zero." };
-      if (n % 16 === 1) return { id, q: `cos(0 degrees) = ?`, a: 1, hint: "Cosine at 0 is maximum." };
-      if (n % 16 === 2) return { id, q: `A right angle measures how many degrees?`, a: 90, hint: "Right angle = 90 degrees." };
-      if (n % 16 === 3) return { id, q: `sin(90 degrees) = ?`, a: 1, hint: "Sine peaks at 90 degrees." };
-      if (n % 16 === 4) return { id, q: `cos(90 degrees) = ?`, a: 0, hint: "Cosine crosses zero at 90 degrees." };
-      if (n % 16 === 5) return { id, q: `sin(30 degrees) = ? (type 0.5 for 1/2)`, a: 0.5, hint: "sin(30) = 1/2." };
-      if (n % 16 === 6) return { id, q: `cos(60 degrees) = ? (type 0.5 for 1/2)`, a: 0.5, hint: "cos(60) = 1/2." };
-      if (n % 16 === 7) return { id, q: `sin(45 degrees) = ? (type 0.71 for sqrt(2)/2)`, a: 0.71, hint: "sin(45) = sqrt(2)/2 ≈ 0.71." };
-      if (n % 16 === 8) return { id, q: `cos(45 degrees) = ? (type 0.71 for sqrt(2)/2)`, a: 0.71, hint: "cos(45) = sqrt(2)/2 ≈ 0.71." };
-      if (n % 16 === 9) return { id, q: `tan(45 degrees) = ?`, a: 1, hint: "tan = sin/cos, both equal at 45." };
-      if (n % 16 === 10) return { id, q: `180 degrees = ? radians (enter as constant)`, a: Math.PI, hint: "180 degrees = pi radians. Enter 3.1416." };
-      if (n % 16 === 11) return { id, q: `sin(180 degrees) = ?`, a: 0, hint: "Sine crosses zero at 180." };
-      if (n % 16 === 12) return { id, q: `cos(180 degrees) = ?`, a: -1, hint: "Cosine reaches -1 at 180." };
-      if (n % 16 === 13) return { id, q: `sin(-90 degrees) = ?`, a: -1, hint: "Sine is odd: sin(-x) = -sin(x)." };
-      if (n % 16 === 14) return { id, q: `A full sine wave cycle is how many degrees?`, a: 360, hint: "One cycle = 360 degrees." };
-      return { id, q: `sin(0) + cos(0) = ?`, a: 1, hint: "sin(0)=0, cos(0)=1." };
-    case 5:
-      if (n % 16 === 0) return { id, q: `2^${a} = ?`, a: 2 ** a, hint: `2 to the power ${a}.` };
-      if (n % 16 === 1) return { id, q: `log2(${2 ** a}) = ?`, a: a, hint: `2^${a} = ${2 ** a}.` };
-      if (n % 16 === 2) return { id, q: `10^${a} = ?`, a: 10 ** a, hint: `10 to the power ${a}.` };
-      if (n % 16 === 3) return { id, q: `Next: ${a}, ${a * 2}, ${a * 4}, ${a * 8}, ?`, a: a * 16, hint: "Each term doubles." };
-      if (n % 16 === 4) return { id, q: `2^${a} x 2^${b} = 2^?`, a: a + b, hint: "Add exponents." };
-      if (n % 16 === 5) return { id, q: `log10(${10 ** a}) = ?`, a: a, hint: `10^${a} = ${10 ** a}.` };
-      if (n % 16 === 6) return { id, q: `Sequence: ${a}, ${a + b}, ${a + 2 * b}, ${a + 3 * b}, next = ?`, a: a + 4 * b, hint: "Adds by b each step." };
-      if (n % 16 === 7) return { id, q: `2^${a} / 2^${b} = 2^?`, a: a - b, hint: "Subtract exponents when dividing." };
-      if (n % 16 === 8) return { id, q: `(2^${a})^${b} = 2^?`, a: a * b, hint: "Multiply exponents." };
-      if (n % 16 === 9) return { id, q: `Sum 1 to ${a} = ? (formula: n(n+1)/2)`, a: (a * (a + 1)) / 2, hint: `n(n+1)/2 with n=${a}.` };
-      if (n % 16 === 10) return { id, q: `log2(${2 ** (a + b)}) = ?`, a: a + b, hint: `2^${a + b} = ${2 ** (a + b)}.` };
-      if (n % 16 === 11) return { id, q: `3^${a} = ?`, a: 3 ** a, hint: `3 to the power ${a}.` };
-      if (n % 16 === 12) return { id, q: `Sequence: ${a * b}, ${a * b * 2}, ${a * b * 3}, next = ?`, a: a * b * 4, hint: "Multiples of a constant." };
-      if (n % 16 === 13) return { id, q: `10^${a} / 10^${b} = 10^?`, a: a - b, hint: "Subtract exponents." };
-      if (n % 16 === 14) return { id, q: `log10(${10 ** (a + 1)}) - log10(${10 ** a}) = ?`, a: 1, hint: "log(10^(a+1)) - log(10^a) = (a+1) - a." };
-      return { id, q: `2^${a} + 2^${a} = 2^?`, a: a + 1, hint: "Two copies of 2^a = 2 x 2^a = 2^(a+1)." };
-    case 6:
-      if (n % 16 === 0) return { id, q: `Value ${a} to ${a * 6} in ${a}s. Avg rate = ?`, a: 5, hint: `Rate = (${a * 6} - ${a}) / ${a}.` };
-      if (n % 16 === 1) return { id, q: `Area of ${a} x ${b} rectangle = ?`, a: a * b, hint: "Area = base x height." };
-      if (n % 16 === 2) return { id, q: `A ${a * 10} Hz signal period in ms = ?`, a: Math.round(1000 / (a * 10)), hint: "Period = 1000/f." };
-      if (n % 16 === 3) return { id, q: `f(t) = ${a}t, f(${b}) = ?`, a: a * b, hint: `f(${b}) = ${a} x ${b}.` };
-      if (n % 16 === 4) return { id, q: `Slope of y = ${a}x + ${b} = ?`, a: a, hint: "Slope is the coefficient of x." };
-      if (n % 16 === 5) return { id, q: `Derivative of ${a}x^2 at x=${b}: slope = ${2*a}*${b} = ?`, a: 2 * a * b, hint: "d/dx ax^2 = 2ax." };
-      if (n % 16 === 6) return { id, q: `Limit: as x->0, ${a}x / x = ?`, a: a, hint: "x cancels out." };
-      if (n % 16 === 7) return { id, q: `Integral of ${a} from 0 to ${b} = ?`, a: a * b, hint: "Area under constant = height x width." };
-      if (n % 16 === 8) return { id, q: `f(x) = ${a}x + ${b}, f(x+${c}) - f(x) = ?`, a: a * c, hint: "Difference is slope x change in x." };
-      if (n % 16 === 9) return { id, q: `A ${a * 5} Hz signal period in ms = ?`, a: Math.round(1000 / (a * 5)), hint: "Period = 1000/f ms." };
-      if (n % 16 === 10) return { id, q: `Derivative of ${a}x at x = ${b} is always?`, a: a, hint: "d/dx of ax is just a (constant slope)." };
-      if (n % 16 === 11) return { id, q: `Integral of ${a} from 0 to ${a} = ?`, a: a * a, hint: "Area = height x width = a x a." };
-      if (n % 16 === 12) return { id, q: `Limit as x->∞ of ${a}x / (x + ${b}) = ?`, a: a, hint: "As x grows, b becomes negligible." };
-      if (n % 16 === 13) return { id, q: `f(x) = ${a}x^2. f'(${b}) = 2*${a}*${b} = ?`, a: 2 * a * b, hint: "Derivative of ax^2 is 2ax." };
-      if (n % 16 === 14) return { id, q: `Exponential decay: value halved ${a} times from ${b * 16} = ?`, a: b, hint: `${b * 16} / 2^${a}` };
-      return { id, q: `Rate of change: distance ${a * 10} over ${a} seconds = ?`, a: 10, hint: "Distance / time = rate." };
-    default:
-      return { id, q: `${a} + ${b} = ?`, a: a + b, hint: "Add the two numbers." };
+  const a = (n % 9) + 2;
+  const b = ((n * 3) % 11) + 1;
+  const c = ((n * 5) % 13) + 2;
+  const d = ((n * 7) % 15) + 1;
+  const m = (a, b, c) => a * b * c;
+  const easy = difficulty === "Easy";
+  const advanced = difficulty === "Advanced";
+  const r = (n % 12);
+  const fallback = (q, ans, hint) => ({ id, q, a: ans, hint });
+
+  if (easy) {
+    switch (levelIndex) {
+      case 0:
+        if (r === 0) return fallback(`${a} + ${b} = ?`, a + b, "Add the numbers.");
+        if (r === 1) return fallback(`${a} x ${b} = ?`, a * b, "Multiply.");
+        if (r === 2) return fallback(`${a * 10} - ${b} = ?`, a * 10 - b, "Subtract.");
+        if (r === 3) return fallback(`${a * b} / ${a} = ?`, b, "Divide.");
+        if (r === 4) return fallback(`${a} + ${b} + ${c} = ?`, a + b + c, "Add all three.");
+        if (r === 5) return fallback(`${a} x ${10} = ?`, a * 10, "Multiply by 10.");
+        if (r === 6) return fallback(`${a * b} - ${a} = ?`, a * b - a, "Subtract.");
+        if (r === 7) return fallback(`${a}0 + ${b} = ?`, a * 10 + b, "Tens plus ones.");
+        if (r === 8) return fallback(`${b} x ${a} = ?`, a * b, "Multiply (commutative).");
+        if (r === 9) return fallback(`${a + b} - ${a} = ?`, b, "Subtract the first number.");
+        if (r === 10) return fallback(`${a} x ${a} = ?`, a * a, "Square it.");
+        return fallback(`${a * 2} / 2 = ?`, a, "Divide by 2.");
+      case 1:
+        if (r === 0) return fallback(`x + ${a} = ${a + b}, x = ?`, b, `Subtract ${a}.`);
+        if (r === 1) return fallback(`${a}x = ${a * b}, x = ?`, b, `Divide by ${a}.`);
+        if (r === 2) return fallback(`x - ${a} = ${b}, x = ?`, a + b, `Add ${a}.`);
+        if (r === 3) return fallback(`x / ${a} = ${b}, x = ?`, a * b, `Multiply by ${a}.`);
+        if (r === 4) return fallback(`${a} + x = ${a + b}, x = ?`, b, `Subtract ${a}.`);
+        if (r === 5) return fallback(`y = ${a}x, x = ${b}, y = ?`, a * b, `Multiply ${a} x ${b}.`);
+        if (r === 6) return fallback(`${a}x - ${a} = 0, x = ?`, 1, `Add ${a}, then divide by ${a}.`);
+        if (r === 7) return fallback(`x + ${a} = ${b + a}, x = ?`, b, `Subtract ${a}.`);
+        if (r === 8) return fallback(`x - ${b} = ${a}, x = ?`, a + b, `Add ${b}.`);
+        if (r === 9) return fallback(`${a} = ${b} - x, x = ?`, b - a, `Rearrange: x = ${b} - ${a}.`);
+        if (r === 10) return fallback(`y = ${a}x + 0, x = ${b}, y = ?`, a * b, `Substitute ${b}.`);
+        return fallback(`x / ${b} = ${a}, x = ?`, a * b, `Multiply by ${b}.`);
+      case 2:
+        if (r === 0) return fallback(`Slope (0,0) to (${a},${a * b}) = ?`, b, `Slope = ${a * b}/${a}.`);
+        if (r === 1) return fallback(`f(x) = ${a}x, f(${b}) = ?`, a * b, `Plug in ${b}.`);
+        if (r === 2) return fallback(`y-intercept of y = ${a}x + ${b} = ?`, b, "Constant term.");
+        if (r === 3) return fallback(`x^2 = ${a * a}, positive x = ?`, a, `${a} x ${a}.`);
+        if (r === 4) return fallback(`f(x)=${a}x+${b}, f(${c}) = ?`, a * c + b, `Plug ${c} into x.`);
+        if (r === 5) return fallback(`${a}x = ${a * b}, x = ?`, b, `Divide by ${a}.`);
+        if (r === 6) return fallback(`Slope of y = ${a}x is ?`, a, "Coefficient of x.");
+        if (r === 7) return fallback(`Line y = ${a}x + ${b}: slope = ?`, a, "Coefficient of x.");
+        if (r === 8) return fallback(`f(x) = ${a}x, f(1) + f(2) = ?`, a * 3, `f(1)+f(2) = ${a}+${2*a}.`);
+        if (r === 9) return fallback(`x + ${a} = ${a + b}, x = ?`, b, `Subtract ${a}.`);
+        if (r === 10) return fallback(`x - ${b} = ${a}, x = ?`, a + b, `Add ${b}.`);
+        return fallback(`Slope horizontal line y = ${a} = ?`, 0, "Horizontal = zero slope.");
+      case 3:
+        if (r === 0) return fallback(`Area of ${a} x ${b} rectangle = ?`, a * b, "l x w.");
+        if (r === 1) return fallback(`Perimeter of ${a} square = ?`, a * 4, "4 x side.");
+        if (r === 2) return fallback(`Area of ${a} x ${a} square = ?`, a * a, "side^2.");
+        if (r === 3) return fallback(`${a} m = ? cm`, a * 100, "1 m = 100 cm.");
+        if (r === 4) return fallback(`${a} km = ? m`, a * 1000, "1 km = 1000 m.");
+        if (r === 5) return fallback(`1 kg = ? g`, 1000, "kilo = 1000.");
+        if (r === 6) return fallback(`Triangle area base ${a} height ${b} = ?`, (a * b) / 2, "1/2 x b x h.");
+        if (r === 7) return fallback(`Circle radius ${a}, pi=3. Area = ?`, 3 * a * a, "pi x r^2.");
+        if (r === 8) return fallback(`Circle radius ${a}, pi=3. Circum = ?`, 6 * a, "2 x pi x r.");
+        if (r === 9) return fallback(`Volume ${a} cube = ?`, a * a * a, "side^3.");
+        if (r === 10) return fallback(`${a} cm = ? mm`, a * 10, "1 cm = 10 mm.");
+        return fallback(`Perimeter ${a} x ${b} rect = ?`, 2 * (a + b), "2(l + w).");
+      case 4:
+        if (r === 0) return fallback(`A full circle = ? degrees`, 360, "360 degrees.");
+        if (r === 1) return fallback(`Right angle = ? degrees`, 90, "90 degrees.");
+        if (r === 2) return fallback(`sin(0) = ?`, 0, "Sine starts at 0.");
+        if (r === 3) return fallback(`cos(0) = ?`, 1, "Cosine max at 0.");
+        if (r === 4) return fallback(`sin(90) = ?`, 1, "Sine peaks at 90.");
+        if (r === 5) return fallback(`cos(90) = ?`, 0, "Cosine zero at 90.");
+        if (r === 6) return fallback(`Triangle angles sum to ?`, 180, "180 degrees.");
+        if (r === 7) return fallback(`sin(180) = ?`, 0, "Sine zero crossing.");
+        if (r === 8) return fallback(`cos(180) = ?`, -1, "Cosine minimum.");
+        if (r === 9) return fallback(`Acute angle < ? degrees`, 90, "Acute < 90.");
+        if (r === 10) return fallback(`Obtuse angle > ? degrees`, 90, "Obtuse > 90.");
+        return fallback(`sin(0) + cos(0) = ?`, 1, "0 + 1.");
+      case 5:
+        if (r === 0) return fallback(`2^${a} = ?`, 2 ** a, `2 to power ${a}.`);
+        if (r === 1) return fallback(`10^${b} = ?`, 10 ** b, `10^${b}.`);
+        if (r === 2) return fallback(`2^${a} x 2 = 2^?`, a + 1, "Add exponent 1.");
+        if (r === 3) return fallback(`Next: ${a}, ${a * 2}, ${a * 4}, ?`, a * 8, "Doubles each time.");
+        if (r === 4) return fallback(`3^2 = ?`, 9, "3 x 3.");
+        if (r === 5) return fallback(`2^0 = ?`, 1, "Anything to 0 = 1.");
+        if (r === 6) return fallback(`10^3 = ?`, 1000, "1 followed by 3 zeros.");
+        if (r === 7) return fallback(`Next: ${b}, ${b + a}, ${b + 2 * a}, ?`, b + 3 * a, `Adds by ${a}.`);
+        if (r === 8) return fallback(`2^1 = ?`, 2, "2.");
+        if (r === 9) return fallback(`10^1 = ?`, 10, "10.");
+        if (r === 10) return fallback(`2^3 = ?`, 8, "2 x 2 x 2.");
+        return fallback(`10^0 = ?`, 1, "Anything to 0 = 1.");
+      case 6:
+        if (r === 0) return fallback(`Change ${a} to ${a + b}: diff = ?`, b, `${a + b} - ${a}.`);
+        if (r === 1) return fallback(`Area ${a} x ${b} rect = ?`, a * b, "l x w.");
+        if (r === 2) return fallback(`Slope y = ${a}x + ${b} = ?`, a, "Coefficient of x.");
+        if (r === 3) return fallback(`f(t)=${a}t, f(${b}) = ?`, a * b, `Multiply ${a} x ${b}.`);
+        if (r === 4) return fallback(`Rate: ${a * 5} units / ${a} sec = ?`, 5, "Divide.");
+        if (r === 5) return fallback(`Const ${a} slope = ?`, 0, "Constant = zero slope.");
+        if (r === 6) return fallback(`f(x) = ${a}x, f(3) = ?`, a * 3, `Multiply ${a} x 3.`);
+        if (r === 7) return fallback(`f(x) = ${a}x, f(2) + f(1) = ?`, a * 3, `${2*a} + ${a}.`);
+        if (r === 8) return fallback(`${a} m in ${a} sec: avg speed = ?`, 1, "1 m/s.");
+        if (r === 9) return fallback(`f(x) = ${a}x, f(0) = ?`, 0, "Anything x 0 = 0.");
+        if (r === 10) return fallback(`Distance ${a * 10} in ${a}s: rate = ?`, 10, "Divide.");
+        return fallback(`Value ${a} to ${a * 2}: factor = ?`, 2, "Doubled.");
+      default:
+        return fallback(`${a} + ${b} = ?`, a + b, "Add.");
+    }
+  } else if (advanced) {
+    switch (levelIndex) {
+      case 0:
+        if (r === 0) return fallback(`(${a} + ${b}) x ${c} - ${d} = ?`, (a + b) * c - d, "PEMDAS: parens, multiply, subtract.");
+        if (r === 1) return fallback(`${a}/${b} + ${c}/${b} = ? (enter fraction num/den)`, (a + c) / b, `Add numerators: ${a + c}/${b}.`);
+        if (r === 2) return fallback(`${a * b} percent of ${c * 10} = ?`, (a * b / 100) * (c * 10), `${a*b}/100 x ${c*10}.`);
+        if (r === 3) return fallback(`${a}^2 + ${b}^2 = ?`, a * a + b * b, "Square each, then add.");
+        if (r === 4) return fallback(`${a * b} / ${a} + ${c} x ${d} = ?`, b + c * d, "Divide, multiply, then add.");
+        if (r === 5) return fallback(`(${a} + ${b}) x (${c} - ${d}) = ?`, (a + b) * (c - d), "Parens first.");
+        if (r === 6) return fallback(`${a * c} / ${c} + ${b * d} / ${d} = ?`, a + b, "Simplify each fraction.");
+        if (r === 7) return fallback(`sqrt(${a * a}) + sqrt(${b * b}) = ?`, a + b, `sqrt = ${a} + ${b}.`);
+        if (r === 8) return fallback(`${a}^3 = ?`, a * a * a, `${a} x ${a} x ${a}.`);
+        if (r === 9) return fallback(`${a * 10} - ${b * 5} + ${c * 2} = ?`, a * 10 - b * 5 + c * 2, "Left to right.");
+        if (r === 10) return fallback(`${a} + ${b} x ${c} - ${d} = ?`, a + b * c - d, "Multiply before add/sub.");
+        return fallback(`(${a}.${b % 10} + ${c}.${d % 10}) rounded = ?`, Math.round(a + c + (b % 10 + d % 10) / 10), "Add then round.");
+      case 1:
+        if (r === 0) return fallback(`${a}(x + ${b}) = ${a * (c + b)}, x = ?`, c, `Divide by ${a}, subtract ${b}.`);
+        if (r === 1) return fallback(`${a}x/${b} = ${c}, x = ?`, c * b / a, `Multiply by ${b}, divide by ${a}.`);
+        if (r === 2) return fallback(`y = ${a}x + ${b}, x = ${c} -> y = ?`, a * c + b, `Substitute ${c}.`);
+        if (r === 3) return fallback(`${a}x + ${b}x = ${(a + b) * c}, x = ?`, c, `Combine: ${a + b}x = ${(a + b) * c}.`);
+        if (r === 4) return fallback(`y = ${a}x^2, x = ${b}, y = ?`, a * b * b, `${a} x ${b}^2.`);
+        if (r === 5) return fallback(`V = IR, I = ${a}, R = ${b}, V = ?`, a * b, "Ohm's Law.");
+        if (r === 6) return fallback(`P = IV, I = ${a}, V = ${b}, P = ?`, a * b, "Power = current x voltage.");
+        if (r === 7) return fallback(`f = ${a}/${b}, g = ${c}/${d}, f + g = ? (enter decimal)`, a / b + c / d, "Add fractions as decimals.");
+        if (r === 8) return fallback(`${a}x - ${b} = ${a * c - b}, x = ?`, c, `Add ${b}, then divide by ${a}.`);
+        if (r === 9) return fallback(`f(x) = ${a}x + ${b}. f(${c}) - f(${d}) = ?`, a * (c - d), `f(${c}) - f(${d}) = ${a}(${c} - ${d}).`);
+        if (r === 10) return fallback(`${a} / x = ${a} / ${b}, x = ?`, b, "Cross multiply.");
+        return fallback(`x / ${a} + ${b} = ${b + 1}, x = ?`, a, `Subtract ${b}, multiply by ${a}.`);
+      case 2:
+        if (r === 0) return fallback(`Perp slope to y = ${a}x + ${b} = ?`, -1 / a, "Negative reciprocal.");
+        if (r === 1) return fallback(`f(g(x)), f(x)=2x, g(x)=${a}x. f(g(${b})) = ?`, 2 * a * b, `g(${b}) = ${a * b}, then f = 2x.`);
+        if (r === 2) return fallback(`x^2 - ${(a + 1) * (a + 1)} = 0, positive x = ?`, a + 1, `x = sqrt(${(a + 1) ** 2}).`);
+        if (r === 3) return fallback(`Vertex x of y = x^2 - ${2 * a}x + ${b} = ?`, a, "Vertex = -b/(2a).");
+        if (r === 4) return fallback(`x + y = ${a + b}, x - y = ${a - b}. x = ?`, a, "Add equations.");
+        if (r === 5) return fallback(`f(x) = ${a}x + ${b}, g(x) = ${c}x + ${d}. f(${e}) + g(${e}) = ?`, (a + c) * e + b + d, `Add then plug ${e}.`);
+        if (r === 6) return fallback(`Line through (0,${b}) with slope ${a}: eqn?`, a * 1000 + b, "y = mx + b.");
+        if (r === 7) return fallback(`Slope through (${a},${a * b}) and (${a * 2},${a * b * 2}) = ?`, b, `Rise/run = (${a*b*2}-${a*b})/(${2*a}-${a}).`);
+        if (r === 8) return fallback(`x^2 = ${c * c}, x = +/-?`, c, `+/-${c}.`);
+        if (r === 9) return fallback(`f(x) = ${a}x + ${b}. f(${c} + ${d}) = ?`, a * (c + d) + b, `Plug ${c + d} for x.`);
+        if (r === 10) return fallback(`x-intercept of y = ${a}x + ${b} = ?`, -b / a, `Set y=0: ${a}x + ${b} = 0.`);
+        return fallback(`3x + ${a} = ${a + 3}, x = ?`, 1, `Subtract ${a}, divide by 3.`);
+      case 3:
+        if (r === 0) return fallback(`Cylinder vol r=${a}, h=${b}, pi=3: ?`, 3 * a * a * b, "pi x r^2 x h.");
+        if (r === 1) return fallback(`SA of ${a} cube = ?`, 6 * a * a, "6 x side^2.");
+        if (r === 2) return fallback(`Trap area b1=${a}, b2=${b}, h=${c}: ?`, ((a + b) * c) / 2, "(b1+b2) x h / 2.");
+        if (r === 3) return fallback(`Pythag: legs ${a * 3}, ${a * 4}: hyp = ?`, a * 5, "3-4-5 triple scaled.");
+        if (r === 4) return fallback(`Pythag: leg ${a}, hyp ${a + 2}, other leg = ?`, Math.sqrt((a + 2) ** 2 - a ** 2) > 0 ? Math.round(Math.sqrt((a + 2) ** 2 - a ** 2)) : 2 * a + 2, "c^2 - a^2 = b^2.");
+        if (r === 5) return fallback(`${a} gal = ? qt (4 qt/gal)`, a * 4, "4 quarts per gallon.");
+        if (r === 6) return fallback(`${a} yd = ? ft (3 ft/yd)`, a * 3, "3 feet per yard.");
+        if (r === 7) return fallback(`Sphere vol r=${a}, pi=3: ?`, 4 * a * a * a, "4/3 pi r^3 => 4r^3 when pi=3.");
+        if (r === 8) return fallback(`Arc length 60deg r=${a}, pi=3: ?`, a, "60/360 x 2 x pi x r = a.");
+        if (r === 9) return fallback(`Rect prism ${a}x${b}x${c} vol = ?`, a * b * c, "l x w x h.");
+        if (r === 10) return fallback(`${a} L = ? mL`, a * 1000, "1 L = 1000 mL.");
+        return fallback(`Pythag: legs ${a} and ${b}, hyp = ? (nearest int)`, Math.round(Math.sqrt(a * a + b * b)), "sqrt(a^2 + b^2).");
+      case 4:
+        if (r === 0) return fallback(`sin(30) = ? (decimal)`, 0.5, "1/2.");
+        if (r === 1) return fallback(`cos(60) = ? (decimal)`, 0.5, "1/2.");
+        if (r === 2) return fallback(`tan(45) = ?`, 1, "sin/cos = 1.");
+        if (r === 3) return fallback(`sin(45) approx = ?`, 0.71, "sqrt(2)/2.");
+        if (r === 4) return fallback(`cos(45) approx = ?`, 0.71, "sqrt(2)/2.");
+        if (r === 5) return fallback(`sin(-90) = ?`, -1, "sin is odd.");
+        if (r === 6) return fallback(`cos(-90) = ?`, 0, "cos is even.");
+        if (r === 7) return fallback(`sin^2(0) + cos^2(0) = ?`, 1, "Pythagorean identity.");
+        if (r === 8) return fallback(`sin(360) = ?`, 0, "Full cycle returns to 0.");
+        if (r === 9) return fallback(`cos(360) = ?`, 1, "Full cycle returns to 1.");
+        if (r === 10) return fallback(`tan(0) = ?`, 0, "sin(0)/cos(0) = 0/1.");
+        return fallback(`sin(90) - cos(180) = ?`, 2, "1 - (-1) = 2.");
+      case 5:
+        if (r === 0) return fallback(`log2(${2 ** (a + b)}) = ?`, a + b, `2^${a + b}.`);
+        if (r === 1) return fallback(`2^${a} x 2^${b} = 2^?`, a + b, "Add exponents.");
+        if (r === 2) return fallback(`(2^${a})^${b} = 2^?`, a * b, "Multiply exponents.");
+        if (r === 3) return fallback(`2^${a} / 2^${b} = 2^?`, a - b, "Subtract exponents.");
+        if (r === 4) return fallback(`log10(${10 ** a}) = ?`, a, `10^${a}.`);
+        if (r === 5) return fallback(`Sum 1 to ${a} = ?`, (a * (a + 1)) / 2, "n(n+1)/2.");
+        if (r === 6) return fallback(`Fib: 1,1,2,3,5,${a},${a + b} next = ?`, a + (a + b), "Add previous two.");
+        if (r === 7) return fallback(`3^${b} = ?`, 3 ** b, `3^${b}.`);
+        if (r === 8) return fallback(`2^${a} + 2^${a} = 2^?`, a + 1, "2 x 2^a = 2^(a+1).");
+        if (r === 9) return fallback(`10^${a} / 10^${b} = 10^?`, a - b, "Subtract exponents.");
+        if (r === 10) return fallback(`log2(${2 ** a}) + log2(${2 ** b}) = ?`, a + b, "log2(x) + log2(y) = log2(xy).");
+        return fallback(`log10(${10 ** a} x ${10 ** b}) = ?`, a + b, "log(xy) = log(x) + log(y).");
+      case 6:
+        if (r === 0) return fallback(`d/dx ${a}x^2 at x=${b}: slope = ?`, 2 * a * b, "d/dx ax^2 = 2ax.");
+        if (r === 1) return fallback(`Int ${a} from 0 to ${b}: area = ?`, a * b, "Height x width.");
+        if (r === 2) return fallback(`lim x->0 ${a}x / x = ?`, a, "x cancels.");
+        if (r === 3) return fallback(`f(x)=${a}x+${b}, f(x+${c})-f(x) = ?`, a * c, "Slope x delta x.");
+        if (r === 4) return fallback(`A ${a * 10}Hz period = ? ms`, Math.round(1000 / (a * 10)), "1000/f.");
+        if (r === 5) return fallback(`f(x) = ${a}x^2, f'(${b}) = 2*${a}*${b} = ?`, 2 * a * b, "Derivative is 2ax.");
+        if (r === 6) return fallback(`lim x->infty ${a}x / (x + ${b}) = ?`, a, "b becomes negligible.");
+        if (r === 7) return fallback(`f(x) = ${a}x. Integral 0 to ${b} area = ?`, a * b * b / 2, "Area = 1/2 x base x height.");
+        if (r === 8) return fallback(`Halved ${a}x from ${b * 16}: final = ?`, b, `${b * 16} / 2^${a}.`);
+        if (r === 9) return fallback(`f(x) = ${a}x. Avg rate ${a} to ${a * 2} = ?`, a, "f(2a)-f(a) / a = a.");
+        if (r === 10) return fallback(`d/dx ${a}x = ?`, a, "Derivative of ax is a.");
+        return fallback(`Int ${a}x from 0 to ${b}: area = ?`, a * b * b / 2, "Triangle area = 1/2 x base x height.");
+      default:
+        return fallback(`${a} + ${b} = ?`, a + b, "Add.");
+    }
+  } else {
+    switch (levelIndex) {
+      case 0:
+        if (r === 0) return fallback(`${a} + ${b} x ${c} = ?`, a + b * c, "Multiply first.");
+        if (r === 1) return fallback(`${a * 2} percent of ${b * 50} = ?`, a * b, "Percent = part/whole x 100.");
+        if (r === 2) return fallback(`(${a} + ${b}) x ${c} = ?`, (a + b) * c, "Parens first.");
+        if (r === 3) return fallback(`Average of ${a * 2}, ${a * 4}, ${a * 6} = ?`, a * 4, "Sum / count.");
+        if (r === 4) return fallback(`${a * 3} / ${a} + ${b} = ?`, 3 + b, "Divide first.");
+        if (r === 5) return fallback(`0.${a} + 0.${b} = ?`, (a + b) / 10, `(${a}+${b})/10.`);
+        if (r === 6) return fallback(`${a * b} / ${b} x ${c} = ?`, a * c, "Left to right.");
+        if (r === 7) return fallback(`${a}/${b} of ${b * c} = ?`, a * c, `(${a}/${b}) x ${b * c}.`);
+        if (r === 8) return fallback(`${a * 10} - ${b * 3} = ?`, a * 10 - b * 3, "Subtract.");
+        if (r === 9) return fallback(`Round ${a}.${b} to nearest int`, a + (b >= 5 ? 1 : 0), "Round up if >= 0.5.");
+        if (r === 10) return fallback(`${a} - ${a + b} = ?`, -b, "Negative result.");
+        return fallback(`${a} + ${b} + ${c} - ${d} = ?`, a + b + c - d, "Left to right.");
+      case 1:
+        if (r === 0) return fallback(`${a}x + ${b} = ${a * c + b}, x = ?`, c, `Subtract ${b}, divide by ${a}.`);
+        if (r === 1) return fallback(`${a}(x - ${b}) = ${a}, x = ?`, b + 1, `Divide by ${a}, add ${b}.`);
+        if (r === 2) return fallback(`y = ${a}x + ${b}, y-intercept = ?`, b, "Constant term.");
+        if (r === 3) return fallback(`Ratio ${a}:${b} = ${a * d}:?`, b * d, `Scale by ${d}.`);
+        if (r === 4) return fallback(`${a * 10}% of ${b * 10} = ?`, a * b, "Percent x value.");
+        if (r === 5) return fallback(`x/2 + ${a} = ${a + 3}, x = ?`, 6, `Subtract ${a}, multiply by 2.`);
+        if (r === 6) return fallback(`${a}x + ${b} = ${b}, x = ?`, 0, `Subtract ${b}.`);
+        if (r === 7) return fallback(`y = ${a}x + ${b}, x=${c}, y = ?`, a * c + b, `Substitute ${c}.`);
+        if (r === 8) return fallback(`${a}/x = ${a}/${b}, x = ?`, b, "Cross multiply.");
+        if (r === 9) return fallback(`${a}x + ${b}x = ${(a + b) * c}, x = ?`, c, `Combine: ${a + b}x = ${(a + b) * c}.`);
+        if (r === 10) return fallback(`x / ${a} = ${b}, x = ?`, a * b, `Multiply by ${a}.`);
+        return fallback(`${a}x - ${b} = ${a * (b + 1) - b}, x = ?`, b + 1, `Add ${b}, divide by ${a}.`);
+      case 2:
+        if (r === 0) return fallback(`Slope (0,${b}) to (${a}, ${a + b}) = ?`, 1, "Rise/run = 1.");
+        if (r === 1) return fallback(`f(x) = ${a}x^2, f(${b}) = ?`, a * b * b, `${a} x ${b}^2.`);
+        if (r === 2) return fallback(`x^2 - ${(a + 1) * (a + 1)} = 0, x > 0 = ?`, a + 1, "Diff of squares.");
+        if (r === 3) return fallback(`// slope to y = ${a}x + ${b} = ?`, a, "Parallel => same slope.");
+        if (r === 4) return fallback(`Solve: x + y = ${a + b}, x - y = ${a - b}. x = ?`, a, "Add equations.");
+        if (r === 5) return fallback(`f(x) = ${a}x + ${b}, f(${c}) - f(${d}) = ?`, a * (c - d), `Simplify: ${a}(${c} - ${d}).`);
+        if (r === 6) return fallback(`Slope through (${a},${a*b}) and (${2*a},${2*a*b}) = ?`, b, `(${2*a*b}-${a*b})/(${2*a}-${a}).`);
+        if (r === 7) return fallback(`f(x) = ${a}x, f(${b}) + f(${c}) = ?`, a * (b + c), `f(${b})+f(${c}).`);
+        if (r === 8) return fallback(`x^2 = ${c * c}, x > 0 = ?`, c, `+${c}.`);
+        if (r === 9) return fallback(`x-intercept of y = ${a}x + ${b}`, -b / a, "Set y=0.");
+        if (r === 10) return fallback(`f(x) = ${a}x + ${b}, f(0) = ?`, b, "y-intercept.");
+        return fallback(`y = ${a}x - ${a * c}, x-intercept = ?`, c, "Set y=0.");
+      case 3:
+        if (r === 0) return fallback(`Circle area r=${a}, pi=3: ?`, 3 * a * a, "pi r^2.");
+        if (r === 1) return fallback(`Circum r=${a}, pi=3: ?`, 6 * a, "2 pi r.");
+        if (r === 2) return fallback(`Pythag: 3-4-5, legs ${a*3}, ${a*4}: hyp = ?`, a * 5, `3-4-5 scaled by ${a}.`);
+        if (r === 3) return fallback(`Vol cylinder r=${a}, h=${b}, pi=3: ?`, 3 * a * a * b, "pi r^2 h.");
+        if (r === 4) return fallback(`${a} L = ? mL`, a * 1000, "x1000.");
+        if (r === 5) return fallback(`Trap area b1=${a}, b2=${b}, h=${c}: ?`, ((a + b) * c) / 2, "(b1+b2)h/2.");
+        if (r === 6) return fallback(`Rect prism ${a}x${b}x${c} vol = ?`, a * b * c, "lwh.");
+        if (r === 7) return fallback(`SA cube side ${a} = ?`, 6 * a * a, "6s^2.");
+        if (r === 8) return fallback(`${a} ft = ? in`, a * 12, "12 in/ft.");
+        if (r === 9) return fallback(`Pythag: legs ${a}, ${b}, hyp? (nearest int)`, Math.round(Math.sqrt(a * a + b * b)), "sqrt(a^2+b^2).");
+        if (r === 10) return fallback(`Cylinder vol r=${a}, h=${a}, pi=3: ?`, 3 * a * a * a, "pi r^2 h = 3r^3.");
+        return fallback(`Sphere vol r=${a}, pi=3: ?`, 4 * a * a * a, "(4/3)pi r^3 = 4r^3.");
+      case 4:
+        if (r === 0) return fallback(`sin(30) = ?`, 0.5, "1/2.");
+        if (r === 1) return fallback(`cos(60) = ?`, 0.5, "1/2.");
+        if (r === 2) return fallback(`tan(45) = ?`, 1, "sin/cos = 1.");
+        if (r === 3) return fallback(`sin(45) approx = ?`, 0.71, "sqrt(2)/2.");
+        if (r === 4) return fallback(`cos(45) approx = ?`, 0.71, "sqrt(2)/2.");
+        if (r === 5) return fallback(`180 deg = ? rad (approx)`, 3.14, "pi rad.");
+        if (r === 6) return fallback(`sin(-90) = ?`, -1, "sin odd.");
+        if (r === 7) return fallback(`cos(-90) = ?`, 0, "cos even.");
+        if (r === 8) return fallback(`Triangle sum = ?`, 180, "180 deg.");
+        if (r === 9) return fallback(`Circle = ? deg`, 360, "360 deg.");
+        if (r === 10) return fallback(`sin(0) + cos(90) = ?`, 0, "0 + 0.");
+        return fallback(`cos(0) - sin(90) = ?`, 0, "1 - 1.");
+      case 5:
+        if (r === 0) return fallback(`log2(${2 ** a}) = ?`, a, `2^${a}.`);
+        if (r === 1) return fallback(`2^${a} x 2^${b} = 2^?`, a + b, "Add exponents.");
+        if (r === 2) return fallback(`10^${a} / 10^${b} = 10^?`, a - b, "Subtract exponents.");
+        if (r === 3) return fallback(`log10(${10 ** a}) = ?`, a, `10^${a}.`);
+        if (r === 4) return fallback(`Sum 1 to ${a} = ?`, (a * (a + 1)) / 2, "n(n+1)/2.");
+        if (r === 5) return fallback(`(2^${a})^${b} = 2^?`, a * b, "Multiply exponents.");
+        if (r === 6) return fallback(`3^${a} = ?`, 3 ** a, `3^${a}.`);
+        if (r === 7) return fallback(`Seq: ${a}, ${a + b}, ${a + 2*b}, next = ?`, a + 3 * b, `Add ${b}.`);
+        if (r === 8) return fallback(`2^${a} + 2^${a} = 2^?`, a + 1, "2 x 2^a.");
+        if (r === 9) return fallback(`10^3 = ? K (kilo)`, 1, "1000 = 1K.");
+        if (r === 10) return fallback(`2^10 = ?`, 1024, "1024.");
+        return fallback(`Seq: ${a*b}, ${a*b*2}, ${a*b*3}, next = ?`, a * b * 4, `Multiply by ${a*b}.`);
+      case 6:
+        if (r === 0) return fallback(`Rate: ${a * 5} to ${a * 10} in ${a}s: rate = ?`, 5, `(${a*10}-${a*5})/${a}.`);
+        if (r === 1) return fallback(`d/dx ${a}x^2 at x=${b} = ?`, 2 * a * b, "2ax.");
+        if (r === 2) return fallback(`Int ${a} from 0 to ${b} = ?`, a * b, "a x b.");
+        if (r === 3) return fallback(`f(t) = ${a}t, f(${b}) = ?`, a * b, `${a} x ${b}.`);
+        if (r === 4) return fallback(`Slope of y = ${a}x + ${b} = ?`, a, "Coeff of x.");
+        if (r === 5) return fallback(`A ${a * 10}Hz T = ? ms`, Math.round(1000 / (a * 10)), "1000/f.");
+        if (r === 6) return fallback(`d/dx ${a}x = ?`, a, "Derivative of ax.");
+        if (r === 7) return fallback(`Int ${a} from 0 to ${a} = ?`, a * a, "Area under constant.");
+        if (r === 8) return fallback(`f(x) = ${a}x + ${b}, f(x+${c}) - f(x) = ?`, a * c, "Slope x delta.");
+        if (r === 9) return fallback(`A ${a * 5}Hz T = ? ms`, Math.round(1000 / (a * 5)), "1000/f.");
+        if (r === 10) return fallback(`f(x)=${a}x, f(${b}) + f(${c}) = ?`, a * (b + c), `${a}(${b}+${c}).`);
+        return fallback(`Deriv ${a}x^2 at x=${b}: slope = 2*${a}*${b} = ?`, 2 * a * b, "2ax.");
+      default:
+        return fallback(`${a} + ${b} = ?`, a + b, "Add.");
+    }
   }
 }
 
