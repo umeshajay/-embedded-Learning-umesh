@@ -1494,7 +1494,7 @@ const RESOURCES = [
 
 const TOPICS = ["All", ...new Set(QUIZ_BANK.map((q) => q.topic))];
 const LEVELS = ["Easy", "Intermediate", "Advanced"];
-const EXAM_LENGTHS = [10, 25, 50, 75];
+const EXAM_LENGTHS = [25, 50, 75, 100, 250, 500, 1000];
 const state = {
   tab: "study",
   guideTopic: null,
@@ -1511,7 +1511,7 @@ const state = {
   allResults: JSON.parse(localStorage.getItem("firmwareMathProgress") || "{}"),
   topicScores: JSON.parse(localStorage.getItem("firmwareMathTopicScores") || "{}"),
   foundationsScores: JSON.parse(localStorage.getItem("firmwareMathFoundationsScores") || "{}"),
-  foundationsQuizLength: Number(localStorage.getItem("firmwareMathFoundationsLength") || 25),
+  foundationsQuizLength: Number(localStorage.getItem("firmwareMathFoundationsLength") || 100),
   cs50Progress: JSON.parse(localStorage.getItem("firmwareMathCS50Progress") || "{}"),
   foundationsView: "overview",
   foundationsSubTab: "levels",
@@ -1539,7 +1539,7 @@ const state = {
   theme: localStorage.getItem("firmwareMathTheme") || "dark",
 };
 
-if (![25, 50, 75].includes(state.foundationsQuizLength)) state.foundationsQuizLength = 25;
+if (![25, 50, 75, 100, 250, 500, 1000].includes(state.foundationsQuizLength)) state.foundationsQuizLength = 100;
 
 for (const key of Object.keys(state.topicScores)) {
   if (!key.includes("::")) delete state.topicScores[key];
@@ -2485,7 +2485,7 @@ function makeFoundationQuestion(id, levelIndex, n, difficulty) {
   const b = ((n * 3) % 11) + 1;
   const c = ((n * 5) % 13) + 2;
   const d = ((n * 7) % 15) + 1;
-  const m = (a, b, c) => a * b * c;
+  const e = ((n * 11) % 17) + 1;
   const easy = difficulty === "Easy";
   const advanced = difficulty === "Advanced";
   const r = (n % 12);
@@ -2787,7 +2787,7 @@ function getFoundationPool(levelIndex, count, difficulty) {
   const seed1 = Date.now() + Math.random() * 99999;
   const seed2 = Math.random() * 99999;
   const pool = [];
-  for (let i = 0; i < 120; i++) {
+  for (let i = 0; i < 2000; i++) {
     pool.push(makeFoundationQuestion(seed1 + i * 971 + seed2, levelIndex, (i + seed2 * 7) % 99999 + 1, difficulty));
   }
   return shuffle(pool).slice(0, count);
