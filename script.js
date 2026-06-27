@@ -2613,14 +2613,13 @@ function makeFoundationQuestion(id, levelIndex, n, difficulty) {
 
 function getFoundationPool(levelIndex, count, difficulty) {
   difficulty = difficulty || "Easy";
-  const level = FOUNDATIONS[levelIndex];
-  const core = level.checkpoint.map((q, i) => ({ ...q, id: `f-core-${levelIndex}-${i}` }));
-  if (count <= core.length) return shuffle(core).slice(0, count);
-  const generated = [];
-  for (let i = 1; generated.length + core.length < count; i++) {
-    generated.push(makeFoundationQuestion(Date.now() + i * 997, levelIndex, i, difficulty));
+  const seed1 = Date.now() + Math.random() * 99999;
+  const seed2 = Math.random() * 99999;
+  const pool = [];
+  for (let i = 0; i < 120; i++) {
+    pool.push(makeFoundationQuestion(seed1 + i * 971 + seed2, levelIndex, (i + seed2 * 7) % 99999 + 1, difficulty));
   }
-  return shuffle([...core, ...generated]);
+  return shuffle(pool).slice(0, count);
 }
 
 function startFoundationCheckpoint() {
