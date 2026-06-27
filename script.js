@@ -3090,16 +3090,6 @@ function finishCS50Quiz() {
 }
 
 document.querySelectorAll(".tab").forEach((button) => button.addEventListener("click", () => switchTab(button.dataset.tab)));
-$("resetProgress").addEventListener("click", () => {
-  if (!confirm("Reset saved quiz progress?")) return;
-  state.allResults = {};
-  state.topicScores = {};
-  state.quizTopic = "All";
-  saveProgress();
-  state.studySubTab = "guide";
-  switchTab("study");
-  renderProgress();
-});
 
 function applyTheme(theme) {
   document.body.classList.toggle("light", theme === "light");
