@@ -457,7 +457,7 @@ h3 { font-size: 1rem; margin-bottom: 6px; }
   transition: background .15s;
 }
 
-.track-button.selected { background: var(--steel); color: var(--bg); }
+.track-button.active { background: var(--steel); color: var(--bg); }
 
 .length-buttons { display: flex; gap: 4px; }
 .length-button {
@@ -472,7 +472,7 @@ h3 { font-size: 1rem; margin-bottom: 6px; }
   transition: background .15s;
 }
 
-.length-button.selected { background: rgba(212,176,92,.12); color: var(--amber); }
+.length-button.active { background: rgba(212,176,92,.12); color: var(--amber); }
 
 .tag {
   display: inline-block;
@@ -836,7 +836,7 @@ footer nav a:hover { border-color: var(--border-light); color: var(--text); }
     --glass-border: rgba(0, 0, 0, 0.1);
   }
   .primary { color: #fff; }
-  .track-button.selected { color: #fff; }
+  .track-button.active { color: #fff; }
 }
 
 body.light {
@@ -859,7 +859,7 @@ body.light {
 }
 
 body.light .primary { color: #fff; }
-body.light .track-button.selected { color: #fff; }
+body.light .track-button.active { color: #fff; }
 
 @media (hover: hover) {
   .tab:hover { color: var(--text); }
