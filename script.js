@@ -2374,11 +2374,11 @@ function startFoundationsQuiz() {
   let pool = [];
   if (state.foundationsQuizTopic === "All") {
     for (let i = 0; i < FOUNDATIONS.length; i++) {
-      if (isFoundationQuizChapterUnlocked(i)) pool = pool.concat(getFoundationPool(i, 999));
+      if (isFoundationQuizChapterUnlocked(i)) pool = pool.concat(getFoundationPool(i, 999, state.foundationsLevel));
     }
   } else {
     const idx = FOUNDATIONS.findIndex((l) => l.id === state.foundationsQuizTopic);
-    if (idx >= 0) pool = getFoundationPool(idx, 999);
+    if (idx >= 0) pool = getFoundationPool(idx, 999, state.foundationsLevel);
   }
   if (!pool.length) { renderFoundationsQuizSetup(); return; }
   state.fQueue = shuffle(pool).slice(0, Math.min(state.foundationsQuizLength, pool.length));
@@ -2478,11 +2478,13 @@ function renderFoundationLevel(index) {
   });
 }
 
-function makeFoundationQuestion(id, levelIndex, n) {
-  const a = (n % 9) + 2;
-  const b = ((n * 3) % 11) + 1;
-  const c = ((n * 5) % 13) + 2;
-  const d = ((n * 7) % 15) + 1;
+function makeFoundationQuestion(id, levelIndex, n, difficulty) {
+  const diffShift = difficulty === "Advanced" ? 3 : difficulty === "Intermediate" ? 1 : 0;
+  const kn = n + diffShift * 7;
+  const a = ((kn % 9) + 2);
+  const b = (((kn * 3) % 11) + 1);
+  const c = (((kn * 5) % 13) + 2);
+  const d = (((kn * 7) % 15) + 1);
   const e = ((n * 11) % 17) + 1;
   switch (levelIndex) {
     case 0:
@@ -2609,20 +2611,21 @@ function makeFoundationQuestion(id, levelIndex, n) {
   }
 }
 
-function getFoundationPool(levelIndex, count) {
+function getFoundationPool(levelIndex, count, difficulty) {
+  difficulty = difficulty || "Easy";
   const level = FOUNDATIONS[levelIndex];
   const core = level.checkpoint.map((q, i) => ({ ...q, id: `f-core-${levelIndex}-${i}` }));
   if (count <= core.length) return shuffle(core).slice(0, count);
   const generated = [];
   for (let i = 1; generated.length + core.length < count; i++) {
-    generated.push(makeFoundationQuestion(Date.now() + i * 997, levelIndex, i));
+    generated.push(makeFoundationQuestion(Date.now() + i * 997, levelIndex, i, difficulty));
   }
   return shuffle([...core, ...generated]);
 }
 
 function startFoundationCheckpoint() {
   clearFoundationSession();
-  state.fQueue = getFoundationPool(state.foundationsCurrentLevel, state.foundationsQuizLength);
+  state.fQueue = getFoundationPool(state.foundationsCurrentLevel, state.foundationsQuizLength, state.foundationsLevel);
   state.fIdx = 0;
   state.fInput = "";
   state.fFeedback = null;
