@@ -2169,7 +2169,7 @@ function isFoundationLevelUnlocked(index) {
   if (d === "Easy") {
     if (index === 0) return true;
     const prevId = FOUNDATIONS[index - 1].id;
-    return getFoundationScore(prevId, "Intermediate") >= 80;
+    return getFoundationScore(prevId, "Advanced") >= 80;
   }
   if (d === "Intermediate") {
     return getFoundationScore(currentId, "Easy") >= 80;
@@ -2190,7 +2190,7 @@ function getFoundationLevelLockMsg(index) {
   const level = FOUNDATIONS[index];
   if (d === "Easy") {
     const prev = FOUNDATIONS[index - 1];
-    return `Score 80% on \u201c${esc(prev.title)}\u201d in Intermediate to unlock`;
+    return `Score 80% on \u201c${esc(prev.title)}\u201d in Advanced to unlock`;
   }
   if (d === "Intermediate") {
     return `Score 80% on \u201c${esc(level.title)}\u201d in Easy to unlock`;
@@ -2202,20 +2202,21 @@ function getFoundationUnlockNote(index, passed) {
   const d = state.foundationsLevel;
   if (!passed) {
     if (d === "Easy") return '<p class="foundation-unlock-note">Score 80% to unlock Intermediate for this chapter.</p>';
-    if (d === "Intermediate") return '<p class="foundation-unlock-note">Score 80% to unlock the next chapter.</p>';
+    if (d === "Intermediate") return '<p class="foundation-unlock-note">Score 80% to unlock Advanced for this chapter.</p>';
     return '<p class="foundation-unlock-note">Score 80% to master this chapter at Advanced.</p>';
   }
   if (d === "Easy") {
     return '<p class="foundation-unlock-note" style="color:var(--green)">Intermediate for this chapter unlocked! \u2191</p>';
   }
   if (d === "Intermediate") {
-    if (index >= FOUNDATIONS.length - 1) return '<p class="foundation-unlock-note" style="color:var(--green)">All chapters completed at Intermediate!</p>';
+    return '<p class="foundation-unlock-note" style="color:var(--green)">Advanced for this chapter unlocked! \u2191</p>';
+  }
+  if (index >= FOUNDATIONS.length - 1) return '<p class="foundation-unlock-note" style="color:var(--green)">All chapters mastered!</p>';
+  if (d === "Advanced") {
     const next = FOUNDATIONS[index + 1];
     return `<p class="foundation-unlock-note" style="color:var(--green)">\u201c${esc(next.title)}\u201d unlocked at Easy! \u2192</p>`;
   }
-  if (index >= FOUNDATIONS.length - 1) return '<p class="foundation-unlock-note" style="color:var(--green)">All chapters mastered!</p>';
-  const next = FOUNDATIONS[index + 1];
-  return `<p class="foundation-unlock-note" style="color:var(--green)">\u201c${esc(next.title)}\u201d unlocked at Advanced!</p>`;
+  return '';
 }
 
 function isFoundationQuizDifficultyUnlocked(levelId, difficulty) {
@@ -2227,7 +2228,7 @@ function isFoundationQuizDifficultyUnlocked(levelId, difficulty) {
 function isFoundationQuizChapterUnlocked(index) {
   if (index <= 0) return true;
   const prevId = FOUNDATIONS[index - 1].id;
-  return (state.foundationsScores[`Intermediate::found::${prevId}`] || 0) >= 80;
+  return (state.foundationsScores[`Advanced::found::${prevId}`] || 0) >= 80;
 }
 
 function isCS50QuizDifficultyUnlocked(weekId, difficulty) {
